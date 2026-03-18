@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPusula | Akıllı Sağlık Asistanı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { primary: '#3b82f6', darkBg: '#0f172a', darkSurface: '#1e293b' }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .active-tab { color: #3b82f6; border-bottom: 3px solid #3b82f6; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300">
+
+    <header class="bg-white dark:bg-darkSurface border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <h1 class="text-xl font-bold tracking-tight">MedPusula</h1>
+                </div>
+                <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <i id="dark-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+            <nav class="flex justify-between overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('uzman')" id="btn-uzman" class="tab-btn px-4 py-3 text-sm font-semibold border-b-3 border-transparent active-tab text-primary">Uzman Bulucu</button>
+                <button onclick="switchTab('rehber')" id="btn-rehber" class="tab-btn px-4 py-3 text-sm font-semibold border-b-3 border-transparent text-slate-500">İlaç & Alternatifler</button>
+                <button onclick="switchTab('etkilesim')" id="btn-etkilesim" class="tab-btn px-4 py-3 text-sm font-semibold border-b-3 border-transparent text-slate-500">Etkileşim</button>
+                <button onclick="switchTab('hesaplar')" id="btn-hesaplar" class="tab-btn px-4 py-3 text-sm font-semibold border-b-3 border-transparent text-slate-500">Hesaplar</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 pb-20">
+        <section id="tab-uzman" class="tab-content active">
+            <div class="space-y-6 pt-4">
+                <div class="relative">
+                    <input type="text" id="symptom-search" oninput="liveFilter('symptom')" class="w-full p-4 pl-12 rounded-2xl bg-white dark:bg-darkSurface border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Semptom yazın (Örn: b, mide, göz)...">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-slate-400"></i>
+                </div>
+                <div id="symptom-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+        </section>
+
+        <section id="tab-rehber" class="tab-content">
+            <div class="space-y-6 pt-4">
+                <div class="relative">
+                    <input type="text" id="disease-search" oninput="liveFilter('disease')" class="w-full p-4 pl-12 rounded-2xl bg-white dark:bg-darkSurface border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Hastalık ara (Örn: m, reflü, diyabet)...">
+                    <i class="fa-solid fa-virus absolute left-4 top-5 text-slate-400"></i>
+                </div>
+                <div id="disease-list" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <section id="tab-etkilesim" class="tab-content">
+            <div class="max-w-xl mx-auto py-6 space-y-4 text-center">
+                <h2 class="text-xl font-bold">İlaç Etkileşimi</h2>
+                <input type="text" id="drug-1" class="w-full p-4 rounded-xl dark:bg-darkSurface border border-slate-200 dark:border-slate-700 outline-none" placeholder="1. İlaç (Örn: Aspirin)">
+                <input type="text" id="drug-2" class="w-full p-4 rounded-xl dark:bg-darkSurface border border-slate-200 dark:border-slate-700 outline-none" placeholder="2. İlaç (Örn: Alkol)">
+                <button onclick="checkInteractions()" class="w-full py-4 bg-primary text-white font-bold rounded-xl">Analiz Et</button>
+                <div id="interaction-res"></div>
+            </div>
+        </section>
+
+        <section id="tab-hesaplar" class="tab-content">
+            <div class="max-w-xl mx-auto py-6 bg-white dark:bg-darkSurface p-6 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                <h3 class="font-bold text-lg">Vücut Analizi</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" id="h-age" placeholder="Yaş" class="p-3 rounded-lg dark:bg-darkBg border border-slate-200 dark:border-slate-700">
+                    <select id="h-gender" class="p-3 rounded-lg dark:bg-darkBg border border-slate-200 dark:border-slate-700">
+                        <option value="male">Erkek</option><option value="female">Kadın</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" id="h-height" placeholder="Boy (cm)" class="p-3 rounded-lg dark:bg-darkBg border border-slate-200 dark:border-slate-700">
+                    <input type="number" id="h-weight" placeholder="Kilo (kg)" class="p-3 rounded-lg dark:bg-darkBg border border-slate-200 dark:border-slate-700">
+                </div>
+                <button onclick="calcHealth()" class="w-full py-3 bg-primary text-white font-bold rounded-lg">Hesapla</button>
+                <div id="h-res" class="mt-4 hidden text-center"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const db = {
+            symptoms: [
+                { n: "Baş Ağrısı", d: "Nöroloji", desc: "Zonklama veya baskı hissi. Migren veya tansiyon olabilir." },
+                { n: "Baş Dönmesi (Vertigo)", d: "KBB / Nöroloji", desc: "Etrafın dönmesi, denge kaybı." },
+                { n: "Bel Ağrısı", d: "Fizik Tedavi", desc: "Kas spazmı veya fıtık belirtisi." },
+                { n: "Boyun Ağrısı", d: "Fizik Tedavi", desc: "Duruş bozukluğu veya kireçlenme." },
+                { n: "Mide Yanması / Ekşimesi", d: "Gastroenteroloji", desc: "Reflü veya gastrit belirtisi." },
+                { n: "Mide Bulantısı", d: "Dahiliye", desc: "Zehirlenme veya mide üşütmesi." },
+                { n: "Göz Seğirmesi", d: "Göz Hastalıkları", desc: "Stres veya vitamin eksikliği." },
+                { n: "Göz Ağrısı", d: "Göz Hastalıkları", desc: "Göz tansiyonu veya yorgunluk." },
+                { n: "Çarpıntı", d: "Kardiyoloji", desc: "Hızlı kalp atışı veya anksiyete." },
+                { n: "Nefes Darlığı", d: "Göğüs Hastalıkları", desc: "Astım veya koah belirtisi." },
+                { n: "Uyuşma / Karıncalanma", d: "Nöroloji", desc: "Sinir sıkışması veya B12 eksikliği." },
+                { n: "Boğaz Ağrısı", d: "KBB", desc: "Enfeksiyon veya faranjit." }
+            ],
+            diseases: [
+                { n: "Migren", meds: "Naproksen, Avmigran.", alt: "Karanlık oda, sessizlik, magnezyum." },
+                { n: "Reflü", meds: "Gaviscon, Nexium.", alt: "Az az sık sık ye, yatmadan yeme." },
+                { n: "Hipertansiyon", meds: "Delix, Beloc.", alt: "Tuzu kes, limonlu su, sarımsak." },
+                { n: "Diyabet", meds: "Glifor, İnsülin.", alt: "Şekeri kes, her gün yürüyüş." },
+                { n: "Gastrit", meds: "Pantpas, Rennie.", alt: "Kefir iç, baharatı ve asidi bırak." },
+                { n: "Anksiyete", meds: "Passiflora, Lustral.", alt: "Nefes egzersizi, kafeini azalt." }
+            ],
+            interactions: [
+                { a: "aspirin", b: "ibuprofen", r: "Yüksek", t: "Mide kanaması riski." },
+                { a: "parasetamol", b: "alkol", r: "Kritik", t: "Karaciğer hasarı." }
+            ]
+        };
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            document.getElementById('dark-icon').className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active-tab', 'text-primary'));
+            document.getElementById('tab-' + id).classList.add('active');
+            document.getElementById('btn-' + id).classList.add('active-tab', 'text-primary');
+            document.querySelectorAll('.tab-btn:not(.active-tab)').forEach(el => el.classList.add('text-slate-500'));
+        }
+
+        function liveFilter(type) {
+            const input = document.getElementById(type + '-search').value.toLowerCase();
+            const list = document.getElementById(type + '-list');
+            list.innerHTML = "";
+            if (input.length < 1) return;
+
+            const items = type === 'symptom' ? db.symptoms : db.diseases;
+            const res = items.filter(i => i.n.toLowerCase().includes(input));
+            
+            res.forEach(i => {
+                list.innerHTML += type === 'symptom' ? `
+                    <div class="bg-white dark:bg-darkSurface p-4 rounded-xl border border-slate-200 dark:border-slate-700 animate-fadeIn">
+                        <div class="text-[10px] text-primary font-bold uppercase">${i.d}</div>
+                        <div class="font-bold text-lg">${i.n}</div>
+                        <p class="text-xs text-slate-500">${i.desc}</p>
+                    </div>` : `
+                    <div class="bg-white dark:bg-darkSurface p-5 rounded-2xl border border-slate-200 dark:border-slate-700 animate-fadeIn space-y-2">
+                        <h4 class="font-bold text-xl text-primary">${i.n}</h4>
+                        <p class="text-sm"><b>İlaçlar:</b> ${i.meds}</p>
+                        <p class="text-sm text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20 p-2 rounded"><b>Alternatif:</b> ${i.alt}</p>
+                    </div>`;
+            });
+        }
+
+        function checkInteractions() {
+            const d1 = document.getElementById('drug-1').value.toLowerCase();
+            const d2 = document.getElementById('drug-2').value.toLowerCase();
+            const res = document.getElementById('interaction-res');
+            const match = db.interactions.find(i => (i.a === d1 && i.b === d2) || (i.a === d2 && i.b === d1));
+            res.innerHTML = match ? `<div class="p-4 bg-red-100 text-red-700 rounded-xl">⚠️ ${match.r} Risk: ${match.t}</div>` : `<div class="p-4 bg-blue-100 text-blue-700 rounded-xl">Risk bulunamadı.</div>`;
+        }
+
+        function calcHealth() {
+            const h = document.getElementById('h-height').value, w = document.getElementById('h-weight').value;
+            const res = document.getElementById('h-res');
+            if(!h || !w) return;
+            const bmi = (w / ((h/100)**2)).toFixed(1);
+            res.classList.remove('hidden');
+            res.innerHTML = `<div class="text-3xl font-bold text-primary">${bmi}</div><div class="text-xs text-slate-400 font-bold uppercase">VKİ (BMI)</div>`;
+        }
+    </script>
+</body>
+</html>
