@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedPusula | Akıllı Sağlık Rehberi</title>
+    <title>MedPusula | Akıllı Klinik Rehber</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,6 +27,8 @@
         .dark .suggestion-box { background: #1e293b; border-color: #334155; }
         .suggestion-item { padding: 0.75rem 1rem; cursor: pointer; font-size: 0.875rem; }
         .suggestion-item:hover { background-color: #f1f5f9; color: #3b82f6; }
+        /* BMI Grafik İğnesi İçin */
+        #bmi-pointer { transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300">
@@ -36,7 +38,7 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-2">
                     <div class="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                        <i class="fa-solid fa-house-medical"></i>
+                        <i class="fa-solid fa-staff-snake text-lg"></i>
                     </div>
                     <h1 class="text-xl font-extrabold tracking-tight">MedPusula</h1>
                 </div>
@@ -99,21 +101,43 @@
                 <h3 class="text-2xl font-bold text-center">Klinik Vücut Analizi</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="col-span-2 flex gap-4">
-                        <button onclick="setGender('E')" id="male-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-bold transition-all">Erkek</button>
-                        <button onclick="setGender('K')" id="female-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-bold transition-all">Kadın</button>
+                        <button onclick="setGender('E')" id="male-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-bold transition-all text-slate-400">Erkek</button>
+                        <button onclick="setGender('K')" id="female-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-bold transition-all text-slate-400">Kadın</button>
                     </div>
+                    <input type="number" id="h-age" placeholder="Yaşınız" class="p-4 rounded-xl dark:bg-darkBg border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-primary">
                     <input type="number" id="h-height" placeholder="Boy (cm)" class="p-4 rounded-xl dark:bg-darkBg border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-primary">
-                    <input type="number" id="h-weight" placeholder="Kilo (kg)" class="p-4 rounded-xl dark:bg-darkBg border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-primary">
+                    <input type="number" id="h-weight" placeholder="Kilo (kg)" class="p-4 rounded-xl dark:bg-darkBg border border-slate-200 dark:border-slate-700 outline-none focus:ring-2 focus:ring-primary col-span-2">
                 </div>
-                <button onclick="calcHealth()" class="w-full py-5 bg-primary text-white font-bold rounded-2xl shadow-xl transition-all">Sonuçları Gör</button>
-                <div id="h-res" class="hidden pt-8 space-y-6 border-t border-slate-100 dark:border-slate-800 animate-fadeIn">
+                <button onclick="calcHealth()" class="w-full py-5 bg-primary text-white font-bold rounded-2xl shadow-xl transition-all">Hesapla ve Grafiklendir</button>
+                
+                <div id="h-res" class="hidden pt-8 space-y-8 border-t border-slate-100 dark:border-slate-800 animate-fadeIn">
                     <div class="flex justify-around items-center">
                         <div class="text-center">
-                            <div id="bmi-val" class="text-5xl font-black text-primary">--</div>
+                            <div id="bmi-val" class="text-6xl font-black text-primary italic">--</div>
                             <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">Vücut Kitle Endeksi</div>
                         </div>
-                        <div id="bmi-status-box" class="p-4 px-6 rounded-2xl bg-primary/10 text-primary font-bold text-sm">--</div>
+                        <div class="text-center">
+                            <div id="ideal-val" class="text-xl font-bold text-emerald-500">--</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2">İdeal Kilo Aralığı</div>
+                        </div>
                     </div>
+
+                    <div class="space-y-3">
+                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Klinik Durum Grafiği</div>
+                        <div class="relative h-4 rounded-full overflow-hidden flex shadow-inner border border-slate-100 dark:border-slate-800">
+                            <div class="w-[18.5%] bg-sky-400" title="Zayıf (<18.5)"></div>
+                            <div class="w-[24.9%] bg-emerald-500" title="Normal (18.5-24.9)"></div>
+                            <div class="w-[29.9%] bg-yellow-400" title="Fazla Kilolu (25-29.9)"></div>
+                            <div class="w-[34.9%] bg-orange-500" title="Obezite (30-34.9)"></div>
+                            <div class="w-[100%] bg-red-600" title="Ekstrem Obezite (>35)"></div>
+                            <div id="bmi-pointer" class="absolute top-0 bottom-0 w-1 bg-black dark:bg-white rounded-full shadow-lg" style="left: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-[9px] text-slate-400 font-bold px-1">
+                            <span>15</span><span>18.5</span><span>25</span><span>30</span><span>35</span><span>40+</span>
+                        </div>
+                    </div>
+
+                    <div id="bmi-status-box" class="p-6 rounded-[1.5rem] text-sm leading-relaxed transition-all">--</div>
                 </div>
             </div>
         </section>
@@ -142,40 +166,27 @@
                 { n: "Baş Ağrısı (Şiddetli)", d: "Nöroloji", desc: "Işığa duyarlılık veya kusma eşlik ediyorsa migren/tansiyon bakılmalı.", urgent: false },
                 { n: "Yüzde Uyuşma / Asimetri", d: "Nöroloji", desc: "Ani gelişen güç kaybı. İnme habercisi olabilir.", urgent: true },
                 { n: "Bulanık Görme", d: "Göz Hastalıkları", desc: "Ani kayıp varsa retina dekolmanı riski.", urgent: true },
-                { n: "Unutkanlık / Odak Kaybı", d: "Nöroloji", desc: "B12 eksikliği veya stres kaynaklı olabilir.", urgent: false },
-
                 // --- GÖĞÜS VE KALP ---
                 { n: "Göğüste Baskı / Çarpıntı", d: "Kardiyoloji / ACİL", desc: "Baskı hissi sol kola yayılan ağrı kalp krizi riski taşır.", urgent: true },
                 { n: "Nefes Darlığı", d: "Göğüs Hastalıkları", desc: "Yatınca artan darlık kalp veya akciğer sorunu olabilir.", urgent: true },
-                { n: "Sürekli Öksürük", d: "Göğüs Hastalıkları", desc: "3 haftadan uzun sürüyorsa akciğer filmi çekilmeli.", urgent: false },
-
                 // --- MİDE VE BAĞIRSAK ---
                 { n: "Mide Bulantısı / Kusma", d: "Dahiliye", desc: "Besin zehirlenmesi veya enfeksiyon belirtisidir.", urgent: false },
-                { n: "Mide Yanması / Ekşime", d: "Gastroenteroloji", desc: "Reflü veya gastrit şüphesi. Baharatlı gıdalardan kaçınılmalı.", urgent: false },
-                { n: "Melena (Siyah Dışkı)", d: "Gastroenteroloji", desc: "Üst sindirim sistemi kanaması belirtisidir.", urgent: true },
-                { n: "Karında Şişkinlik", d: "Dahiliye", desc: "İrritabl bağırsak sendromu veya gıda intoleransı olabilir.", urgent: false },
-
+                { n: "Mide Yanması / Ekşime", d: "Gastroenteroloji", desc: "Reflü veya gastrit şüphesi.", urgent: false },
                 // --- CİLT VE CERRAHİ ---
                 { n: "Saç Dökülmesi", d: "Dermatoloji", desc: "Mevsimsel veya hormonal dökülme. Demir değerlerine bakılmalı.", urgent: false },
-                { n: "Flepte Morarma / Soğukluk", d: "Cerrahi", desc: "Ameliyatlı bölgede kan dolaşımı bozukluğu.", urgent: true },
                 { n: "Keloid Skar", d: "Dermatoloji", desc: "Yara izinin aşırı büyümesi ve kabarması.", urgent: false },
-                { n: "Aşırı Terleme", d: "Endokrinoloji", desc: "Tiroid yüksekliği veya diyabet belirtisi olabilir.", urgent: false },
-
                 // --- DİĞER ---
-                { n: "Halsizlik / Yorgunluk", d: "Dahiliye", desc: "Kansızlık, D vitamini eksikliği veya uyku apnesi kaynaklıdır.", urgent: false },
-                { n: "Eklem Ağrıları", d: "Romatoloji", desc: "Sabah tutukluğu varsa romatizmal takip gerekir.", urgent: false }
+                { n: "Halsizlik / Yorgunluk", d: "Dahiliye", desc: "Kansızlık, D vitamini eksikliği veya uyku apnesi.", urgent: false }
             ],
             diseases: [
                 { n: "Demir Eksikliği (Anemi)", meds: "Demir preperatları, C Vitamini.", alt: "Çay/Kahve yemekten 2 saat sonra içilmeli." },
                 { n: "Reflü", meds: "Gaviscon, Proton Pompası İnhibitörleri.", alt: "Gece geç yemeyi bırakmak ve yüksek yastık." },
-                { n: "Hashimoto Tiroiditi", meds: "Levotiroksin.", alt: "Selenyum desteği ve düzenli TSH takibi." },
                 { n: "Diyabet (Tip 2)", meds: "Metformin, Antidiyabetikler.", alt: "Karbonhidrat kısıtlaması ve düzenli yürüyüş." }
             ],
             interactions: [
-                { a: "Aspirin", b: "Ginkgo Biloba", r: "Kritik", t: "Aşırı kanama riski. Ameliyat öncesi çok tehlikelidir." },
-                { a: "Demir Hapı", b: "Süt Ürünleri", r: "Orta", t: "Kalsiyum emilimi durdurur. 2 saat ara verilmeli." },
-                { a: "Greyfurt", b: "Kolesterol İlaçları", r: "Yüksek", t: "Karaciğer hasarı ve kas yıkımı yapabilir." },
-                { a: "Antibiyotik", b: "Alkol", r: "Kritik", t: "Karaciğer toksisitesi ve şiddetli kusma yapar." }
+                { a: "Aspirin", b: "Ginkgo Biloba", r: "Kritik", t: "Aşırı kanama riski. Cerrahiden önce kesilmelidir." },
+                { a: "Demir Hapı", b: "Süt Ürünleri", r: "Orta", t: "Kalsiyum emilimini durdurur. 2 saat ara verilmeli." },
+                { a: "Greyfurt", b: "Kolesterol İlaçları", r: "Yüksek", t: "Karaciğer hasarı ve kas yıkımı yapabilir." }
             ]
         };
 
@@ -240,15 +251,66 @@
             res.innerHTML = match ? `<div class="p-5 mt-6 bg-orange-100 text-orange-700 rounded-2xl border border-orange-200 text-sm font-bold">⚠️ ${match.t}</div>` : `<div class="p-5 mt-6 bg-slate-100 text-slate-500 rounded-2xl text-center text-sm">Ciddi bir etkileşim kaydı bulunamadı.</div>`;
         }
 
+        // --- BMI HESAPLAMA VE KLİNİK ÖNERME (YAŞ VE GRAFİK ENTEGRELİ) ---
         function calcHealth() {
-            const h = document.getElementById('h-height').value / 100, w = document.getElementById('h-weight').value;
-            if(!h || !w || !selectedGender) return alert('Lütfen boy, kilo ve cinsiyet bilgilerini girin.');
+            const age = document.getElementById('h-age').value;
+            const h = document.getElementById('h-height').value / 100;
+            const w = document.getElementById('h-weight').value;
+            const resDiv = document.getElementById('h-res');
+            const pointer = document.getElementById('bmi-pointer');
+            const statusBox = document.getElementById('bmi-status-box');
+
+            if(!age || !h || !w || !selectedGender) return alert('Lütfen yaş, boy, kilo ve cinsiyet bilgilerini eksiksiz girin.');
+            if(age < 18) return alert('Bu analiz 18 yaş ve üzeri yetişkinler içindir. Çocuk/Ergen gelişimi için pediatrınıza danışın.');
+
             const bmi = (w / (h*h)).toFixed(1);
-            document.getElementById('h-res').classList.remove('hidden');
+            resDiv.classList.remove('hidden');
             document.getElementById('bmi-val').innerText = bmi;
-            let status = bmi < 18.5 ? "Zayıf" : bmi < 25 ? "Normal" : bmi < 30 ? "Fazla Kilolu" : "Obezite";
-            document.getElementById('bmi-status-box').innerText = status;
+            document.getElementById('ideal-val').innerText = `${(18.5*h*h).toFixed(0)}-${(24.9*h*h).toFixed(0)} kg`;
+
+            // Grafik İğnesini Hareket Ettir (15-40 arası ölçeklendirme)
+            let pointerPos = ((bmi - 15) / (40 - 15)) * 100;
+            if(pointerPos < 0) pointerPos = 0;
+            if(pointerPos > 100) pointerPos = 100;
+            pointer.style.left = `${pointerPos}%`;
+
+            // Klinik Önerme ve Renklendirme
+            let status = "", color = "", desc = "";
+            
+            if(bmi < 18.5) {
+                status = "Zayıf"; color = "bg-sky-50 dark:bg-sky-950 text-sky-700 dark:text-sky-300 border-sky-200";
+                desc = "Vücut kitle endeksiniz düşük. Bağışıklık sistemini güçlendirmek ve kas kütlesini artırmak için bir beslenme uzmanı (diyetisyen) eşliğinde sağlıklı kilo alımı planlanmalıdır. Dahiliye uzmanına görünüp altında yatan bir sebep (tiroid, emilim sorunu vb.) olup olmadığı araştırılabilir.";
+            } else if(bmi < 25) {
+                status = "Normal (Sağlıklı)"; color = "bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border-emerald-200";
+                desc = "Tebrikler! Vücut kitle endeksiniz ideal aralıkta. Bu durumu korumak için dengeli beslenmeye ve haftada en az 150 dakika orta şiddette fiziksel aktiviteye (yürüyüş, yüzme vb.) devam etmelisiniz.";
+            } else if(bmi < 30) {
+                status = "Fazla Kilolu"; color = "bg-yellow-50 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300 border-yellow-200";
+                desc = "Vücut ağırlığınız boyunuza göre fazla. Bu durum, ileride tip 2 diyabet ve hipertansiyon riskini artırabilir. Şekerli içecekleri kesmek, porsiyon kontrolü yapmak ve hareketliliği artırmak faydalı olacaktır. Bir diyetisyenle görüşmek kilo yönetimini kolaylaştırır.";
+            } else if(bmi < 35) {
+                status = "Obezite (Sınıf I)"; color = "bg-orange-50 dark:bg-orange-950 text-orange-700 dark:text-orange-300 border-orange-200";
+                desc = "Vücudunuzda aşırı yağ birikimi mevcut. Obezite; kalp hastalıkları, uyku apnesi ve eklem sorunları için ciddi bir risk faktörüdür. Mutlaka bir Dahiliye veya Endokrinoloji uzmanı kontrolünde, diyetisyen desteğiyle profesyonel bir kilo verme sürecine başlamalısınız.";
+            } else {
+                status = "Ekstrem Obezite (Sınıf II/III)"; color = "bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300 border-red-200";
+                desc = "Vücut kitle endeksiniz çok yüksek. Bu durum hayati riskler taşır. Metabolik sendrom, kalp yetmezliği ve belirli kanser türleri riski çok artmıştır. Vakit kaybetmeden bir Endokrinoloji uzmanına ve Obezite Cerrahisi (Bariatrik Cerrahi) birimine başvurarak tedavi seçeneklerini değerlendirmelisiniz.";
+            }
+
+            statusBox.className = `p-6 rounded-[1.5rem] text-sm leading-relaxed border animate-fadeIn ${color}`;
+            statusBox.innerHTML = `
+                <div class="flex justify-between items-center mb-3">
+                    <div class="font-bold uppercase tracking-widest text-[11px]">Klinik Önerme</div>
+                    <div class="font-bold text-lg">${status}</div>
+                </div>
+                <p>${desc}</p>
+                <p class="text-[11px] mt-4 opacity-70"> Not: Bu analiz ${age} yaşındaki bir ${selectedGender==='E'?'erkek':'kadın'} için genel referans değerlerdir. Kişisel sağlık durumunuz için doktorunuza danışın.</p>
+            `;
         }
+
+        // Tıklama dışı öneri kapatma
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.relative')) {
+                document.querySelectorAll('.suggestion-box').forEach(el => el.classList.add('hidden'));
+            }
+        });
     </script>
 </body>
 </html>
