@@ -3,271 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedPusula | Klinik Bilgi Sistemi</title>
+    <title>MedPusula Pro | Kapsamlı Klinik Matris</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { primary: '#3b82f6', darkBg: '#0f172a', darkSurface: '#1e293b' }
+                }
+            }
+        }
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; line-height: 1.6; }
-        .bolum-basliği { border-bottom: 2px solid #e2e8f0; margin-bottom: 2rem; padding-bottom: 0.5rem; }
-        .semptom-liste { list-style-type: none; padding-left: 0; }
-        .semptom-liste li::before { content: "• "; color: #2563eb; font-weight: bold; }
-        .acil-uyari { color: #dc2626; font-weight: 700; text-transform: uppercase; }
-        /* Sayfa yapısını uzun tutmak için özel boşluklar */
-        section { padding: 4rem 0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .active-tab { color: #3b82f6 !important; border-bottom: 3px solid #3b82f6 !important; background-color: rgba(59, 130, 246, 0.08); font-weight: 800; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-white text-slate-800">
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-500">
 
-    <header class="border-b border-slate-100 py-6">
-        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight text-blue-700">MEDPUSULA <span class="text-slate-400 font-light">| 2026</span></h1>
-            <div class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Klinik Karar Destek Modülü</div>
+    <header class="bg-white/90 dark:bg-darkSurface/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/30">
+                        <i class="fa-solid fa-staff-snake text-lg"></i>
+                    </div>
+                    <h1 class="text-xl font-extrabold tracking-tighter uppercase italic">MedPusula</h1>
+                </div>
+                <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800">
+                    <i id="dark-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+            <nav class="flex gap-4 overflow-x-auto no-scrollbar border-t dark:border-slate-800">
+                <button onclick="switchTab('uzman')" id="btn-uzman" class="tab-btn px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] border-b-2 border-transparent active-tab shrink-0">Semptom Rehberi</button>
+                <button onclick="switchTab('hesaplar')" id="btn-hesaplar" class="tab-btn px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] border-b-2 border-transparent text-slate-500 shrink-0">Vücut Endeksleri</button>
+            </nav>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-6">
-
-        <section class="prose max-w-none border-b border-slate-100">
-            <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Sistem Kullanım Kılavuzu</h2>
-            <p class="text-lg text-slate-600">
-                Aşağıdaki liste, klinik branşlara göre kategorize edilmiş en yaygın semptom ve hastalık veritabanını içermektedir. 
-                Bu sistem, hızlı başvuru ve genel bilgilendirme amacıyla tasarlanmıştır. Lütfen acil durumlarda en yakın sağlık 
-                kuruluşuna başvurun.
-            </p>
-        </section>
-
-        <section id="noroloji">
-            <div class="bolum-basliği">
-                <h3 class="text-2xl font-bold text-blue-800">1. Nöroloji ve Sinir Bilimleri</h3>
-            </div>
-            
-            <div class="space-y-10">
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">1.1. Migren ve Vasküler Baş Ağrıları</h4>
-                    <p class="text-slate-600 mb-4">Tek taraflı, zonklayıcı ve genellikle 4-72 saat süren ataklar bütünüdür.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Fotofobi (Işığa duyarlılık)</li>
-                        <li>Fonofobi (Sese duyarlılık)</li>
-                        <li>Bulantı ve kusma atakları</li>
-                        <li>Görsel auralar (zikzak çizgiler)</li>
-                    </ul>
+    <main class="flex-grow max-w-4xl mx-auto w-full p-4 pb-16">
+        
+        <section id="tab-uzman" class="tab-content active">
+            <div class="space-y-6 pt-4">
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                    <button onclick="filterCategory('Tümü')" class="cat-btn shrink-0 px-6 py-2 rounded-full bg-primary text-white text-[9px] font-black uppercase tracking-widest shadow-lg">Tümü</button>
+                    <button onclick="filterCategory('Kafa & Saç')" class="cat-btn shrink-0 px-6 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-slate-800">Kafa & Saç</button>
+                    <button onclick="filterCategory('Göz & Kulak')" class="cat-btn shrink-0 px-6 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-slate-800">Göz & Kulak</button>
+                    <button onclick="filterCategory('Gövde')" class="cat-btn shrink-0 px-6 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-slate-800">Gövde & Organlar</button>
+                    <button onclick="filterCategory('Kollar & Bacaklar')" class="cat-btn shrink-0 px-6 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-slate-800">Kollar & Bacaklar</button>
+                    <button onclick="filterCategory('Cilt')" class="cat-btn shrink-0 px-6 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-slate-800">Cilt & Estetik</button>
                 </div>
 
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">1.2. İskemik ve Hemorajik İnme <span class="acil-uyari">(Acil Müdahale)</span></h4>
-                    <p class="text-slate-600 mb-4">Beyin dokusuna giden kan akışının bozulması sonucu oluşan akut tablodur.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Yüzün bir tarafında sarkma (Fasiyal paralizi)</li>
-                        <li>Konuşmada peltekleşme veya anlama güçlüğü</li>
-                        <li>Vücudun yarısında ani güç kaybı veya uyuşma</li>
-                        <li>Şiddetli ve ani başlayan "hayatın en kötü" baş ağrısı</li>
-                    </ul>
+                <div class="relative">
+                    <input type="text" id="symptom-search" oninput="renderSymptoms()" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg transition-all" placeholder="Şikayet arayın (Örn: Saç dökülmesi, Karın ağrısı)...">
+                    <i class="fa-solid fa-magnifying-glass absolute left-6 top-7 text-slate-300"></i>
                 </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">1.3. Epileptik Nöbet Bozuklukları</h4>
-                    <p class="text-slate-600 mb-4">Beyindeki elektriksel aktivitenin geçici olarak bozulmasıdır.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Kontrolsüz kas kasılmaları (Tonik-klonik)</li>
-                        <li>Bilinç bulanıklığı veya tam kayıp</li>
-                        <li>Bakışların bir noktaya sabitlenmesi (Absans nöbet)</li>
-                        <li>Otomatizmalar (Yalanma, çiğneme hareketleri)</li>
-                    </ul>
-                </div>
+                
+                <div id="symptom-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </section>
 
-        <section id="kardiyo">
-            <div class="bolum-basliği">
-                <h3 class="text-2xl font-bold text-blue-800">2. Kardiyovasküler ve Torasik Sistem</h3>
-            </div>
-            
-            <div class="space-y-10">
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">2.1. Miyokard Enfarktüsü <span class="acil-uyari">(Kritik Durum)</span></h4>
-                    <p class="text-slate-600 mb-4">Kalp kasını besleyen koroner damarların tıkanmasıdır.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Göğüs kemiği arkasında baskı, sıkışma hissi</li>
-                        <li>Sol kola, boyna veya çeneye yansıyan ağrı</li>
-                        <li>Nefes darlığı ve yoğun ölüm korkusu</li>
-                        <li>Dinlenmekle geçmeyen göğüs ağrısı</li>
-                    </ul>
+        <section id="tab-hesaplar" class="tab-content">
+            <div class="max-w-xl mx-auto py-6 bg-white dark:bg-darkSurface p-8 rounded-[2.5rem] shadow-2xl space-y-8 border border-slate-100 dark:border-slate-800">
+                <h3 class="text-2xl font-black text-center italic uppercase tracking-tighter">Vücut Kompozisyonu</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2 flex gap-4">
+                        <button onclick="setGender('E')" id="male-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]">Erkek</button>
+                        <button onclick="setGender('K')" id="female-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]">Kadın</button>
+                    </div>
+                    <div class="space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Yaş</label><input type="number" id="h-age" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
+                    <div class="space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Boy (cm)</label><input type="number" id="h-height" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
+                    <div class="col-span-2 space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Kilo (kg)</label><input type="number" id="h-weight" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
                 </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">2.2. Akut ve Kronik Kalp Yetmezliği</h4>
-                    <p class="text-slate-600 mb-4">Kalbin vücudun ihtiyacı olan kanı pompalayamamasıdır.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Ortopne (Yatar pozisyonda nefes darlığı)</li>
-                        <li>Ayak bileklerinde ve bacaklarda ödem (şişlik)</li>
-                        <li>Efor sırasında çabuk yorulma</li>
-                        <li>Geceleri artan öksürük nöbetleri</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">2.3. Akciğer Pnömonisi (Zatürre)</h4>
-                    <p class="text-slate-600 mb-4">Akciğer dokusunun enfeksiyon kaynaklı iltihaplanmasıdır.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Yüksek ateş ve titreme nöbetleri</li>
-                        <li>Öksürükle birlikte gelen pas rengi balgam</li>
-                        <li>Nefes alırken göğüste batma hissi</li>
-                        <li>Genel halsizlik ve iştah kaybı</li>
-                    </ul>
+                <button onclick="calcHealth()" class="w-full py-5 bg-primary text-white font-black rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-widest">Analizi Başlat</button>
+                <div id="h-res" class="hidden pt-10 space-y-8 border-t-2 border-slate-50 dark:border-slate-800 animate-fadeIn text-center">
+                    <div><div id="bmi-val" class="text-6xl font-black text-primary italic">--</div><div class="text-[9px] font-bold text-slate-400 mt-2 uppercase">VKE</div></div>
+                    <div id="bmi-status-box" class="p-6 rounded-2xl text-[11px] border shadow-sm">--</div>
                 </div>
             </div>
         </section>
-
-        <section id="gastro">
-            <div class="bolum-basliği">
-                <h3 class="text-2xl font-bold text-blue-800">3. Sindirim Sistemi ve Batın Cerrahisi</h3>
-            </div>
-            
-            <div class="space-y-10">
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">3.1. Peptik Ülser ve Gastrit</h4>
-                    <p class="text-slate-600 mb-4">Mide mukozasının asit etkisiyle hasar görmesidir.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Epigastrik bölgede (mide üstü) yanma</li>
-                        <li>Yemeklerden sonra artan şişkinlik ve hazımsızlık</li>
-                        <li>Gece uyandıran mide ağrıları</li>
-                        <li>Erken doyma hissi</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">3.2. Akut Apandisit <span class="acil-uyari">(Cerrahi Acil)</span></h4>
-                    <p class="text-slate-600 mb-4">Apandis uzvunun iltihaplanması sonucu oluşan tablodur.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Göbek çevresinden başlayıp sağ alt karına yerleşen ağrı</li>
-                        <li>Yürürken veya öksürürken artan karın hassasiyeti</li>
-                        <li>Bulantı ve düşük dereceli ateş</li>
-                        <li>Rebound hassasiyeti (Bastırıp çekince artan ağrı)</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">3.3. Safra Kesesi Taşları (Kolelitiazis)</h4>
-                    <p class="text-slate-600 mb-4">Safra sıvısının kristalleşerek taş oluşturmasıdır.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Yağlı yemeklerden sonra sağ üst karın ağrısı</li>
-                        <li>Sırta ve sağ kürek kemiğine yansıyan ağrı</li>
-                        <li>Şişkinlik ve gaz problemleri</li>
-                        <li>Şiddetli durumlarda sarılık başlangıcı</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="plastik">
-            <div class="bolum-basliği">
-                <h3 class="text-2xl font-bold text-blue-800">4. Plastik, Rekonstrüktif ve Estetik Cerrahi</h3>
-            </div>
-            
-            <div class="space-y-10">
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">4.1. Rinoplasti ve Septoplasti</h4>
-                    <p class="text-slate-600 mb-4">Burun yapısının hem estetik hem de nefes alma açısından onarılmasıdır.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Nazal kemik eğrilikleri (Deviasyon)</li>
-                        <li>Burun ucunda düşüklük veya asimetri</li>
-                        <li>Konka hipertrofisine bağlı nefes darlığı</li>
-                        <li>Travma sonrası şekil bozuklukları</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">4.2. Dermatoşalazi ve Blefaroplasti</h4>
-                    <p class="text-slate-600 mb-4">Göz kapağı derisinin sarkması ve torbalanması durumudur.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Üst göz kapağında görme alanını kısıtlayan sarkma</li>
-                        <li>Göz altlarında yorgun ifade veren torbalanmalar</li>
-                        <li>Kas zayıflığına bağlı kapak düşüklüğü (Ptozis)</li>
-                        <li>Cilt elastikiyetinin kaybı</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xl font-semibold mb-2">4.3. Yanık Yaraları ve Skar Onarımı</h4>
-                    <p class="text-slate-600 mb-4">Isı veya kimyasal kaynaklı doku hasarlarının tedavisi.</p>
-                    <ul class="semptom-liste space-y-1">
-                        <li>Birinci, ikinci ve üçüncü derece yanık dokuları</li>
-                        <li>Keloid ve hipertrofik skar (aşırı yara izi) gelişimi</li>
-                        <li>Doku kayıplarının greft veya flep ile kapatılması</li>
-                        <li>Kontraktür (yara çekmesi) sonucu hareket kısıtlılığı</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="pb-20">
-            <div class="bolum-basliği">
-                <h3 class="text-2xl font-bold text-slate-900 italic">Kapsamlı Klinik Sözlük</h3>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left border-collapse">
-                    <thead class="bg-slate-50 border-b border-slate-200">
-                        <tr>
-                            <th class="px-4 py-3 font-semibold">Tıbbi Terim</th>
-                            <th class="px-4 py-3 font-semibold">Basit Açıklama</th>
-                            <th class="px-4 py-3 font-semibold">Klinik Branş</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Afazi</td><td class="px-4 py-4">Beyin hasarı sonucu konuşma veya anlama yeteneğinin kaybı.</td><td class="px-4 py-4">Nöroloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Benign</td><td class="px-4 py-4">İyi huylu, yayılma eğilimi göstermeyen kitle veya durum.</td><td class="px-4 py-4">Genel</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Biyopsi</td><td class="px-4 py-4">Tanı koymak amacıyla vücuttan küçük bir parça doku alınması.</td><td class="px-4 py-4">Patoloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Dermabrazyon</td><td class="px-4 py-4">Cildin üst tabakasının kontrollü şekilde zımparalanması.</td><td class="px-4 py-4">Plastik Cerrahi</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Eko (Ekokardiyografi)</td><td class="px-4 py-4">Ses dalgaları yardımıyla kalbin yapısının incelenmesi.</td><td class="px-4 py-4">Kardiyoloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Fasyotomi</td><td class="px-4 py-4">Doku basıncını azaltmak için fasyanın cerrahi olarak kesilmesi.</td><td class="px-4 py-4">Ortopedi/Cerrahi</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Ginekomasti</td><td class="px-4 py-4">Erkeklerde meme dokusunun anormal büyümesi.</td><td class="px-4 py-4">Plastik Cerrahi</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Hematom</td><td class="px-4 py-4">Damar dışına çıkan kanın bir dokuda toplanması (Kan birikmesi).</td><td class="px-4 py-4">Genel Cerrahi</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">İnsizyon</td><td class="px-4 py-4">Ameliyat sırasında yapılan kesi işlemi.</td><td class="px-4 py-4">Cerrahi</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Lokal Anestezi</td><td class="px-4 py-4">Vücudun sadece belirli bir bölgesinin uyuşturulması.</td><td class="px-4 py-4">Genel</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Mastektomi</td><td class="px-4 py-4">Meme dokusunun tamamının cerrahi olarak alınması.</td><td class="px-4 py-4">Onkoloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Nevus</td><td class="px-4 py-4">Halk arasında "ben" olarak bilinen cilt oluşumu.</td><td class="px-4 py-4">Dermatoloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Özofagus</td><td class="px-4 py-4">Ağız ile mide arasındaki yemek borusu.</td><td class="px-4 py-4">Gastroloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Palpasyon</td><td class="px-4 py-4">Hekimin el yardımıyla yaptığı fiziksel muayene yöntemi.</td><td class="px-4 py-4">Genel</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Serebrovasküler</td><td class="px-4 py-4">Beyin damarları ile ilgili olan durumların genel adı.</td><td class="px-4 py-4">Nöroloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Taşikardi</td><td class="px-4 py-4">Kalp atım hızının dakikada 100'ün üzerine çıkması.</td><td class="px-4 py-4">Kardiyoloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Üremi</td><td class="px-4 py-4">Kanda atık maddelerin (üre) tehlikeli boyutta birikmesi.</td><td class="px-4 py-4">Nefroloji</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Vaskülarizasyon</td><td class="px-4 py-4">Bir dokunun damarlanma ve kanlanma durumu.</td><td class="px-4 py-4">Cerrahi</td></tr>
-                        <tr><td class="px-4 py-4 font-bold text-blue-600">Xerosis</td><td class="px-4 py-4">Cildin aşırı derecede kuru ve nemsiz kalması durumu.</td><td class="px-4 py-4">Dermatoloji</td></tr>
-                        </tbody>
-                </table>
-            </div>
-        </section>
-
     </main>
 
-    <footer class="bg-slate-50 border-t border-slate-200 py-12 mt-20">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">MedPusula Klinik Rehberi</p>
-            <p class="text-slate-500 text-sm italic mb-6">Bu sayfa 2026 yılı güncel tıbbi verileri temel alınarak hazırlanmıştır.</p>
-            <div class="flex justify-center space-x-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                <span>Ana Sayfa</span>
-                <span>Hastalıklar</span>
-                <span>Terimler</span>
-                <span>Yasal Uyarı</span>
-            </div>
-        </div>
+    <footer class="mt-auto py-8 bg-slate-900 text-slate-500 text-center border-t border-slate-800">
+        <p class="text-[10px] font-bold uppercase tracking-[0.4em]">© 2026 Klinik Karar Destek Sistemi</p>
     </footer>
 
     <script>
-        // Sayfa içi gezinme kontrolü
-        const basliklar = document.querySelectorAll('h3');
-        console.log("Sistem hazır. Toplam bölüm sayısı:", basliklar.length);
+        let currentCategory = 'Tümü';
+        let selectedGender = '';
 
-        function veriyiGuncelle() {
-            // Gelecekteki dinamik veriler için yer tutucu
-            return true;
+        const db = {
+            symptoms: [
+                // KAFA & SAÇ
+                { n: "Aşırı Saç Dökülmesi", c: "Kafa & Saç", d: "Dermatoloji", desc: "Günde 100 telden fazla kayıp; hormonal veya vitamin kaynaklı olabilir.", urgent: false },
+                { n: "Saç Kıran", c: "Kafa & Saç", d: "Dermatoloji", desc: "Saçta dairesel boşluklar; bağışıklık sistemi tepkisidir.", urgent: false },
+                { n: "Baş Dönmesi (Vertigo)", c: "Kafa & Saç", d: "KBB / Nöroloji", desc: "Etrafın dönmesi hissi, denge kaybı; iç kulak kristalleri kaynaklı olabilir.", urgent: false },
+                { n: "Ani Şiddetli Baş Ağrısı", c: "Kafa & Saç", d: "Nöroloji / ACİL", desc: "Çok şiddetli ve ani başlayan ağrı; tansiyon veya beyin kanaması riski.", urgent: true },
+                { n: "Unutkanlık ve Dalgınlık", c: "Kafa & Saç", d: "Nöroloji", desc: "Günlük işleri unutma; vitamin eksikliği veya stres kaynaklı olabilir.", urgent: false },
+
+                // GÖZ & KULAK
+                { n: "Gözde Kanlanma", c: "Göz & Kulak", d: "Göz Hastalıkları", desc: "Enfeksiyon (Konjonktivit) veya göz tansiyonu belirtisi olabilir.", urgent: false },
+                { n: "Göz Kararması", c: "Göz & Kulak", d: "Kardiyoloji", desc: "Özellikle ani ayağa kalkışta oluşuyorsa düşük tansiyon belirtisidir.", urgent: false },
+                { n: "Kulak Çınlaması", c: "Göz & Kulak", d: "KBB", desc: "Sürekli veya kesik çınlama; yüksek ses maruziyeti veya kulak kiri.", urgent: false },
+                { n: "Göz Seğirmesi", c: "Göz & Kulak", d: "Göz / Nöroloji", desc: "Göz kapağının istemsiz hareketi; yorgunluk, stres veya magnezyum eksikliği.", urgent: false },
+
+                // GÖVDE & ORGANLAR
+                { n: "Sağ Alt Karın Ağrısı", c: "Gövde", d: "Genel Cerrahi / ACİL", desc: "Apandisit şüphesi; karın bölgesine basınca artan şiddetli ağrı.", urgent: true },
+                { n: "Göğüste Baskı ve Yanma", c: "Gövde", d: "Kardiyoloji / ACİL", desc: "Kalp krizi riski; sol kola veya çeneye vuran ağrı.", urgent: true },
+                { n: "Sırtta Keskin Ağrı", c: "Gövde", d: "Fizik Tedavi", desc: "Fıtık veya kas spazmı; nefes alırken batma yapıyorsa akciğer kontrolü.", urgent: false },
+                { n: "Mide Yanması (Reflü)", c: "Gövde", d: "Gastroenteroloji", desc: "Yemekten sonra göğüs arkasında yanma hissi; asitli gıda kısıtlanmalı.", urgent: false },
+                { n: "Sürekli Öksürük", c: "Gövde", d: "Göğüs Hastalıkları", desc: "3 haftadan uzun süren öksürük; akciğer filmi çekilmelidir.", urgent: false },
+
+                // KOLLAR & BACAKLAR
+                { n: "Bacaklarda Varis", c: "Kollar & Bacaklar", d: "Kalp Damar Cerrahi", desc: "Damarların belirginleşmesi ve ağrı; kan dolaşımı sorunudur.", urgent: false },
+                { n: "Dizlerde Çıtırdama", c: "Kollar & Bacaklar", d: "Ortopedi", desc: "Hareketle gelen ses; kıkırdak aşınması veya sıvı kaybı olabilir.", urgent: false },
+                { n: "Ayak Bileği Şişmesi", c: "Kollar & Bacaklar", d: "Dahiliye / Kardiyoloji", desc: "Ödem; kalp yetmezliği veya böbrek sorunları belirtisi olabilir.", urgent: false },
+                { n: "Topuk Dikeni", c: "Kollar & Bacaklar", d: "Ortopedi", desc: "Sabah ilk adımda topukta batma hissi; tabanlık kullanımı gerekebilir.", urgent: false },
+
+                // CİLT & ESTETİK (PLASTİK CERRAHİ ODAKLI)
+                { n: "Yara İzinde Kabarma (Keloid)", c: "Cilt", d: "Plastik Cerrahi", desc: "İyileşen yaranın aşırı büyüyerek sertleşmesi.", urgent: false },
+                { n: "Benlerde Renk Değişimi", c: "Cilt", d: "Dermatoloji", desc: "Asimetrik büyüyen benler; Cilt kanseri riski açısından kritiktir.", urgent: true },
+                { n: "Ciltte Kuruma ve Çatlama", c: "Cilt", d: "Dermatoloji", desc: "Egzama veya nemsizlik; bariyer koruyucu kremler önerilir.", urgent: false },
+                { n: "Yüzde Sivilce İzleri", c: "Cilt", d: "Estetik Cerrahi / Dermatoloji", desc: "Akne sonrası kalan skarlar; lazer veya peeling tedavisi gerekebilir.", urgent: false }
+            ]
+        };
+
+        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+
+        function switchTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => { el.classList.remove('active-tab'); el.classList.add('text-slate-500'); });
+            document.getElementById('tab-' + id).classList.add('active');
+            document.getElementById('btn-' + id).classList.add('active-tab');
         }
 
-        window.onload = function() {
-            veriyiGuncelle();
-            console.log("MedPusula Modülü Aktif.");
-        };
-    </script>
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = 'cat-btn shrink-0 px-6 py-2 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 dark:border-slate-800 dark:bg-darkSurface text-slate-500';
+                if(btn.innerText === cat.toUpperCase()) btn.className = 'cat-btn shrink-0 px-6 py-2 rounded-full bg-primary text-white text-[9px] font-black uppercase tracking-widest shadow-lg';
+            });
+            renderSymptoms();
+        }
 
+        function renderSymptoms() {
+            const val = document.getElementById('symptom-search').value.toLowerCase();
+            const list = document.getElementById('symptom-list');
+            list.innerHTML = "";
+            const filtered = db.symptoms.filter(s => (currentCategory === 'Tümü' || s.c === currentCategory) && (s.n.toLowerCase().includes(val) || s.desc.toLowerCase().includes(val)));
+            
+            filtered.forEach(s => {
+                const style = s.urgent ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'bg-white dark:bg-darkSurface border-slate-100 dark:border-slate-800 shadow-lg';
+                list.innerHTML += `<div class="${style} p-5 rounded-3xl border transition-all animate-fadeIn">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-[8px] bg-primary/10 text-primary px-2 py-0.5 rounded-lg font-black uppercase">${s.d}</span>
+                        ${s.urgent ? '<span class="text-[8px] bg-red-600 text-white px-2 py-0.5 rounded-lg font-black animate-pulse">ACİL</span>' : ''}
+                    </div>
+                    <div class="font-bold text-lg">${s.n}</div>
+                    <p class="text-[10px] text-slate-500 mt-2 font-medium leading-relaxed">${s.desc}</p>
+                </div>`;
+            });
+        }
+        renderSymptoms();
+
+        function setGender(g) { 
+            selectedGender = g;
+            document.getElementById('male-btn').className = g === 'E' ? 'flex-1 py-4 rounded-2xl border-2 border-primary bg-blue-500/10 text-primary font-black uppercase text-[10px]' : 'flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]';
+            document.getElementById('female-btn').className = g === 'K' ? 'flex-1 py-4 rounded-2xl border-2 border-primary bg-pink-500/10 text-primary font-black uppercase text-[10px]' : 'flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]';
+        }
+
+        function calcHealth() {
+            const h = document.getElementById('h-height').value / 100, w = document.getElementById('h-weight').value;
+            if(!h || !w || !selectedGender) return alert('Verileri girin.');
+            const bmi = (w / (h*h)).toFixed(1);
+            document.getElementById('h-res').classList.remove('hidden');
+            document.getElementById('bmi-val').innerText = bmi;
+            document.getElementById('bmi-status-box').className = `p-6 rounded-2xl text-[11px] border ${bmi < 25 && bmi >= 18.5 ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`;
+            document.getElementById('bmi-status-box').innerHTML = `Sonuç: <strong>${bmi < 25 ? 'Normal' : 'Risk'}</strong>. Klinik verilere göre analiz tamamlandı.`;
+        }
+    </script>
 </body>
 </html>
