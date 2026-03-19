@@ -184,58 +184,50 @@
 
         const db = {
 
+     const db = {
     symptoms: [
-        // --- SAÇ VE KAFA DERİSİ (YENİ EKLENENLER) ---
+        // --- SAÇ VE KAFA DERİSİ ---
         { n: "Saç Dökülmesi (Genel)", d: "Dermatoloji", desc: "Günlük 100 tel normaldir. Elde tutam tutam kalıyorsa kan değerlerine bakılmalı.", urgent: false },
-        { n: "Saçta Aşırı Yağlanma", d: "Dermatoloji", desc: "Hormonal değişimler veya yanlış şampuan kullanımı. Günlük yıkama tetikleyebilir.", urgent: false },
-        { n: "Kepeklenme", d: "Dermatoloji", desc: "Kuru kafa derisi veya mantar kaynaklı olabilir. Özel şampuan gerekebilir.", urgent: false },
-        { n: "Saçta Erken Beyazlama", d: "Dahiliye", desc: "Genetik faktörler başta gelir, ancak B12 eksikliği ve yoğun stres hızlandırır.", urgent: false },
-        { n: "Kafa Derisinde Kaşıntı", d: "Dermatoloji", desc: "Egzama, kuruluk veya ürün alerjisi belirtisi olabilir.", urgent: false },
-        { n: "Saç Kırılması ve Matlık", d: "Dermatoloji", desc: "Isıl işlem (fön/maşa) hasarı veya protein/keratin eksikliği.", urgent: false },
-        { n: "Saç Kıran (Bölgesel Dökülme)", d: "Dermatoloji", desc: "Bağışıklık sisteminin saç köküne saldırması. Genelde stres tetikler.", urgent: false },
-        { n: "Saç Diplerinde Sivilce", d: "Dermatoloji", desc: "Kıl kökü iltihabı (Folikülit). Hijyen ve uygun ürün kullanımı önemli.", urgent: false },
+        { n: "Saçta Aşırı Yağlanma", d: "Dermatoloji", desc: "Hormonal değişimler veya yanlış şampuan kullanımı.", urgent: false },
+        { n: "Kepeklenme", d: "Dermatoloji", desc: "Kuru kafa derisi veya mantar kaynaklı olabilir.", urgent: false },
+        { n: "Saçta Erken Beyazlama", d: "Dahiliye", desc: "Genetik faktörler, B12 eksikliği veya yoğun stres.", urgent: false },
+        { n: "Kafa Derisinde Kaşıntı", d: "Dermatoloji", desc: "Egzama, kuruluk veya ürün alerjisi.", urgent: false },
 
-        // --- BAŞ VE YÜZ ---
-        { n: "Baş Ağrısı (Zonklayıcı)", d: "Nöroloji", desc: "Işığa duyarlılık varsa migren olabilir. Su tüketimi azlığı da tetikler.", urgent: false },
-        { n: "Baş Dönmesi", d: "KBB / Nöroloji", desc: "Kalkınca oluyorsa tansiyon, sürekliyse iç kulak kristali olabilir.", urgent: false },
-        { n: "Göz Seğirmesi", d: "Göz", desc: "Genelde yorgunluk, uykusuzluk veya magnezyum eksikliği.", urgent: false },
-        { n: "Kulak Çınlaması", d: "KBB", desc: "Yüksek ses, stres veya kulak kiri kaynaklı olabilir.", urgent: false },
-        { n: "Ağızda Acı Tat", d: "Gastroenteroloji", desc: "Mide asidinin yukarı kaçması (Reflü) veya safra sorunu.", urgent: false },
-        { n: "Diş Eti Kanaması", d: "Diş Hekimi", desc: "Diş taşı veya C vitamini eksikliği belirtisidir.", urgent: false },
-        { n: "Burun Kanaması", d: "KBB", desc: "Kılcal damar çatlaması veya yüksek tansiyon kontrol edilmeli.", urgent: false },
-        { n: "Yüzde Uyuşma", d: "Nöroloji", desc: "Ani geliştiyse acil! Sinir sıkışması veya inme riski.", urgent: true },
+        // --- BAŞ, YÜZ VE NÖROLOJİ ---
+        { n: "Baş Ağrısı (Zonklayıcı)", d: "Nöroloji", desc: "Işığa duyarlılık varsa migren olabilir.", urgent: false },
+        { n: "Baş Dönmesi", d: "KBB / Nöroloji", desc: "Kalkınca oluyorsa tansiyon, sürekliyse iç kulak kristali.", urgent: false },
+        { n: "Yüzde Asimetri (Ani Gelişen)", d: "Plastik Cerrahi / Nöroloji", desc: "Fasiyal felç veya inme riski. Kaş kaldırma testi yapılmalı.", urgent: true },
+        { n: "Yüzde Uyuşma", d: "Nöroloji", desc: "Sinir sıkışması veya inme riski. Acil müdahale gerekebilir.", urgent: true },
+        { n: "Pitozis (Göz Kapağı Düşüklüğü)", d: "Plastik Cerrahi", desc: "Göz kapağını kaldıran kasın zayıflığı.", urgent: false },
+
+        // --- PLASTİK CERRAHİ ÖZEL ---
+        { n: "Post-op Hematom", d: "Plastik Cerrahi", desc: "Ameliyat sahasında kan birikimi. Acil drenaj gerekebilir.", urgent: true },
+        { n: "Flepte İskemi (Solukluk)", d: "Plastik Cerrahi", desc: "Dokunun kanlanamaması. Acil müdahale şarttır.", urgent: true },
+        { n: "Venöz Konjesyon (Morarma)", d: "Plastik Cerrahi", desc: "Kirli kanın uzaklaşamaması. Revizyon gerekebilir.", urgent: true },
+        { n: "Keloid Skar", d: "Plastik Cerrahi", desc: "Yara sınırlarını aşan aşırı bağ dokusu artışı.", urgent: false },
+        { n: "Jinekomasti", d: "Plastik Cerrahi", desc: "Erkeklerde kadın tipi meme büyümesi.", urgent: false },
 
         // --- GÖĞÜS VE KARIN ---
         { n: "Mide Yanması", d: "Gastroenteroloji", desc: "Yemekten sonra ekşime varsa reflü veya gastrit.", urgent: false },
-        { n: "Karın Şişkinliği", d: "Gastroenteroloji", desc: "Hızlı yemek, gaz yapan gıdalar veya huzursuz bağırsak.", urgent: false },
-        { n: "Çarpıntı", d: "Kardiyoloji", desc: "Kahve, stres veya ritim bozukluğu kontrol edilmeli.", urgent: false },
-        { n: "Nefes Darlığı", d: "Göğüs Hastalıkları", desc: "Merdiven çıkarken oluyorsa kalp/akciğer kapasitesi bakılmalı.", urgent: false },
-        { n: "Göğüste Sıkışma", d: "ACİL", desc: "Baskı hissi varsa kalp krizi riski! Hemen yardım isteyin.", urgent: true },
-        { n: "Sırt Ağrısı", d: "Fizik Tedavi", desc: "Duruş bozukluğu veya ağır kaldırma kaynaklı kas ağrısı.", urgent: false },
-
-        // --- ELLER VE AYAKLAR ---
-        { n: "Ellerde Titreme", d: "Nöroloji", desc: "Açlık, heyecan veya tiroid yüksekliği (Guatr) olabilir.", urgent: false },
-        { n: "Ayak Yanması", d: "Dahiliye / Nöroloji", desc: "B12 eksikliği veya şeker hastalığı (Diyabet) belirtisi.", urgent: false },
-        { n: "Diz Kapağı Ağrısı", d: "Ortopedi", desc: "Kıkırdak aşınması veya sıvı azalması olabilir.", urgent: false },
-        { n: "Bacak Krampları", d: "Dahiliye", desc: "Magnezyum ve potasyum eksikliği en yaygın sebeptir.", urgent: false },
-        { n: "Topuk Dikeni", d: "Ortopedi", desc: "Sabah ilk adımda şiddetli ağrı yapar.", urgent: false },
+        { n: "Göğüste Sıkışma", d: "ACİL", desc: "Baskı hissi varsa kalp krizi riski! Hemen 112.", urgent: true },
+        { n: "Melena (Zift Gibi Dışkı)", d: "Gastroenteroloji", desc: "Üst GİS kanaması belirtisi. Sindirilmiş kan.", urgent: true },
 
         // --- GENEL DURUMLAR ---
-        { n: "Sürekli Halsizlik", d: "Dahiliye", desc: "Uykuya rağmen geçmiyorsa kansızlık veya vitamin eksikliği.", urgent: false },
-        { n: "Aşırı Terleme", d: "Endokrinoloji", desc: "Tiroid hızı veya diyabet kontrol edilmeli.", urgent: false },
+        { n: "Sürekli Halsizlik", d: "Dahiliye", desc: "Kansızlık veya vitamin eksikliği kontrol edilmeli.", urgent: false },
         { n: "Unutkanlık", d: "Nöroloji", desc: "Odaklanma sorunu veya kronik uykusuzluk.", urgent: false }
     ],
     diseases: [
-        { n: "Kansızlık", meds: "Demir takviyesi, C vitamini.", alt: "Kırmızı et, pekmez, yeşil sebze. Çay yemekle içilmemeli." },
-        { n: "Reflü", meds: "Gaviscon, Nexium türevi ilaçlar.", alt: "Acı, ekşi ve yağlıdan kaçınmalı. Yatmadan önce yemeği kesmeli." },
-        { n: "B12 Eksikliği", meds: "B12 iğnesi veya dil altı tablet.", alt: "Hayvansal gıdalar (et, süt, yumurta) tüketimi artırılmalı." }
+        { n: "Kansızlık", meds: "Demir takviyesi, C vitamini.", alt: "Kırmızı et, pekmez, yeşil sebze." },
+        { n: "Reflü", meds: "Gaviscon, Nexium türevi ilaçlar.", alt: "Yatmadan önce yemeği kesmeli." },
+        { n: "Rinoplasti Sonrası Bakım", meds: "Arnica krem, Deniz suyu spreyi.", alt: "İlk 48 saat buz uygulaması." }
     ],
     interactions: [
         { a: "Demir Hapı", b: "Çay / Kahve", r: "Orta", t: "Emilimi %50'den fazla azaltır. 2 saat kuralı uygulanmalı." },
-        { a: "Aspirin", b: "Balık Yağı", r: "Hafif", t: "Her ikisi de kanı sulandırır, morarma riskini artırabilir." },
-        { a: "Antibiyotik", b: "Yoğurt", r: "Orta", t: "Bazı antibiyotiklerin emilimini azaltabilir, ayrı tüketmek daha iyi." }
+        { a: "Aspirin", b: "Ginkgo Biloba", r: "Kritik", t: "Cerrahi sırasında durdurulamayan kanama riski yaratır." },
+        { a: "Alkol", b: "Metronidazol", r: "Kritik", t: "Şiddetli kusma ve tansiyon düşüşü yapar." }
     ]
 };
+
 
     
         { 
