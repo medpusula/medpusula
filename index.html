@@ -6,128 +6,168 @@
 <title>MedPusula</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  body { background-color: #121212; color: #f0f0f0; transition: background 0.3s, color 0.3s; }
-  .tag { background-color: #1f1f1f; padding: 4px 8px; border-radius: 8px; margin: 2px; display: inline-flex; align-items: center; transition: background 0.2s; }
-  .tag:hover { background-color: #2a2a2a; }
-  .tag button { margin-left: 4px; color: #ff4d4d; }
-  input::placeholder { color: #888; }
-  .suggestion { padding: 4px 8px; cursor: pointer; background: #1f1f1f; margin: 1px; border-radius: 6px; transition: background 0.2s; }
-  .suggestion:hover { background: #2a2a2a; }
-  .fade { transition: all 0.3s ease; }
+/* -------------------- */
+/* BODY & FONT */
+body{margin:0;padding:0;display:flex;flex-direction:column;min-height:100vh;font-family:'Inter',sans-serif;background:#ffffff;color:#111827;transition:0.5s;}
+body.dark-mode{background:#1f2937;color:#f3f4f6;}
+
+/* -------------------- */
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem;border-bottom:1px solid #d1d5db;}
+.header-logo{height:60px;margin-right:1rem;transition:transform 0.3s;}
+.header-logo:hover{transform:scale(1.1);}
+
+/* -------------------- */
+/* TOGGLE */
+.toggle-btn{cursor:pointer;padding:0.5rem 1rem;border-radius:9999px;background:linear-gradient(90deg,#4f46e5,#6366f1);color:white;font-weight:bold;transition:all 0.3s;}
+.toggle-btn:hover{background:linear-gradient(90deg,#4338ca,#4f46e5);}
+
+/* -------------------- */
+/* MAIN */
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;}
+
+/* INPUT */
+input#symptom-input{width:100%;max-width:500px;padding:1rem;border-radius:0.5rem;box-shadow:0 2px 6px rgba(0,0,0,0.1);border:none;margin-bottom:1.5rem;transition:all 0.3s;background:#f3f4f6;color:#111827;}
+body.dark-mode input#symptom-input{background:#374151;color:#f3f4f6;}
+input#symptom-input:focus{outline:none;box-shadow:0 0 12px rgba(99,102,241,0.5);}
+
+/* -------------------- */
+/* RISK OUTPUT */
+#risk-output{width:100%;max-width:500px;min-height:120px;background:#e5e7eb;border-radius:1rem;padding:1.5rem;text-align:center;font-weight:bold;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:all 0.7s ease;}
+body.dark-mode #risk-output{background:#374151;color:#f3f4f6;}
+
+/* -------------------- */
+/* PROGRESS BAR */
+.progress-container{width:100%;background:#d1d5db;border-radius:14px;overflow:hidden;height:28px;margin-bottom:1rem;}
+.progress-bar{width:0%;height:100%;border-radius:14px;transition:width 0.8s ease;}
+
+/* -------------------- */
+/* ANIMATIONS */
+.glow{box-shadow:0 0 12px rgba(239,68,68,0.6);}
+.pulse{animation:pulseAnim 1s infinite alternate;}
+@keyframes pulseAnim{from{transform:scale(1);}to{transform:scale(1.05);}}
+
+/* -------------------- */
+/* TOOLTIP */
+.tooltip{position:relative;display:inline-block;cursor:pointer;}
+.tooltip .tooltiptext{visibility:hidden;width:180px;background:#555;color:#fff;text-align:center;border-radius:6px;padding:5px;position:absolute;z-index:1;bottom:125%;left:50%;margin-left:-90px;opacity:0;transition:opacity 0.3s;font-size:0.8rem;}
+.tooltip:hover .tooltiptext{visibility:visible;opacity:1;}
+
+/* -------------------- */
+/* EXTRA UX BOXES */
+.extra-container{margin-top:2rem;display:flex;flex-direction:column;gap:1rem;}
+.extra-box{padding:1rem;border-radius:0.75rem;background:#fef3c7;color:#92400e;transition:all 0.3s;}
+body.dark-mode .extra-box{background:#78350f;color:#fef3c7;}
+.extra-box:hover{transform:scale(1.02);}
+
+/* -------------------- */
+/* RESPONSIVE */
+@media(max-width:768px){input#symptom-input{max-width:100%;}#risk-output{max-width:100%;}}
 </style>
 </head>
-<body class="flex flex-col min-h-screen">
-
-<!-- Header -->
-<header class="flex items-center justify-center py-6 border-b border-gray-700">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Medical_symbol.svg" alt="Medical Logo" class="h-16 mr-4">
-  <h1 class="text-3xl font-bold">MedPusula</h1>
+<body>
+<header class="header">
+  <div class="flex items-center">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Medical_symbol.svg" alt="Medical Logo" class="header-logo">
+    <h1 class="text-3xl font-bold">MedPusula</h1>
+  </div>
+  <button id="mode-toggle" class="toggle-btn">Koyu Mod</button>
 </header>
 
-<!-- Main Content -->
-<main class="flex-1 flex flex-col items-center justify-center p-6 w-full">
-  <h2 class="text-xl mb-4">Semptom Risk Analizcisi</h2>
-  <p class="text-gray-400 mb-4 text-center">Semptomunuzu yazın, risk seviyenizi öğrenin.</p>
+<main>
+<h2 class="text-xl mb-4 text-center">Semptom Risk Analizcisi</h2>
+<input id="symptom-input" type="text" placeholder="Semptom yaz ve Enter..." />
+<div id="risk-output">Risk sonucu burada gösterilecek...</div>
 
-  <!-- Input ve tag container -->
-  <div class="w-full max-w-md relative">
-    <div class="flex mb-2 flex-wrap" id="symptom-tags"></div>
-    <input id="symptom-input" type="text" placeholder="Semptom ekle..." class="w-full p-3 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="off"/>
-    <div id="suggestion-box" class="absolute top-14 w-full bg-gray-900 rounded shadow-lg z-50 hidden"></div>
+<div class="extra-container">
+  <div class="extra-box tooltip">ℹ️ Genel Bilgi
+    <span class="tooltiptext">Risk yüzdesi semptom ve benzer hastalıklara göre hesaplanır.</span>
   </div>
-
-  <!-- Risk output -->
-  <div id="risk-output" class="mt-6 p-4 rounded bg-gray-900 w-full max-w-md text-center text-lg fade">
-    Risk skoru burada görünecek...
+  <div class="extra-box tooltip">📊 Progress
+    <span class="tooltiptext">Progress bar animasyonu risk seviyesini gösterir.</span>
   </div>
+  <div class="extra-box tooltip">⚠️ Uyarı
+    <span class="tooltiptext">High risk durumunda uyarıcı efektler devreye girer.</span>
+  </div>
+  <div class="extra-box tooltip">💡 Öneriler
+    <span class="tooltiptext">Düşük risk için genel öneriler.</span>
+  </div>
+  <div class="extra-box tooltip">🧪 Bilgi
+    <span class="tooltiptext">Semptomlar ve olası riskler hakkında ek bilgi.</span>
+  </div>
+</div>
 </main>
 
-<!-- Footer -->
-<footer class="mt-auto p-6 border-t border-gray-700 text-gray-400 text-sm text-center">
-  <p>© MedPusula</p>
-  <p>Sorumluluk reddi: Bu site yalnızca bilgi amaçlıdır ve profesyonel tıbbi tavsiye yerine geçmez.</p>
+<footer>
+<p>© MedPusula 2026</p>
+<p>Bu site yalnızca bilgi amaçlıdır ve profesyonel tıbbi teşhis veya tedavi yerine geçmez. Ciddi semptomlar veya acil durumlarda lütfen yetkili sağlık profesyoneline başvurun.</p>
 </footer>
 
-<!-- JS -->
 <script>
-const input = document.getElementById('symptom-input');
-const tagContainer = document.getElementById('symptom-tags');
-const riskOutput = document.getElementById('risk-output');
-const suggestionBox = document.getElementById('suggestion-box');
+// ELEMENTLER
+const input=document.getElementById('symptom-input');
+const riskOutput=document.getElementById('risk-output');
+const modeToggle=document.getElementById('mode-toggle');
+let darkMode=false;
 
-// Örnek veritabanı
-let database = ["Baş ağrısı","Ateş","Bulantı","Yorgunluk"];
-let symptoms = [...database];
+// VERİTABANI
+const diseaseDB=[
+{name:"Ateş",riskLow:5,riskHigh:30},
+{name:"Baş ağrısı",riskLow:2,riskHigh:25},
+{name:"Bulantı",riskLow:10,riskHigh:40},
+{name:"Yorgunluk",riskLow:5,riskHigh:35},
+{name:"Göğüs ağrısı",riskLow:20,riskHigh:80},
+{name:"Nefes darlığı",riskLow:30,riskHigh:90},
+{name:"Döküntü",riskLow:5,riskHigh:50},
+{name:"Karın ağrısı",riskLow:5,riskHigh:60},
+{name:"Boğaz ağrısı",riskLow:5,riskHigh:40},
+{name:"İshal",riskLow:10,riskHigh:55},
+{name:"Baş dönmesi",riskLow:5,riskHigh:35},
+{name:"Kas ağrısı",riskLow:5,riskHigh:40},
+{name:"Grip belirtileri",riskLow:15,riskHigh:70},
+{name:"Soğuk algınlığı",riskLow:5,riskHigh:30},
+{name:"Mide bulantısı",riskLow:5,riskHigh:45},
+{name:"Halsizlik",riskLow:5,riskHigh:35}
+];
 
-// Tag display ve fade
-function updateTags(){
-  tagContainer.innerHTML = '';
-  symptoms.forEach((symptom,index)=>{
-    const tag = document.createElement('div');
-    tag.className='tag fade';
-    tag.innerText=symptom;
-    const btn=document.createElement('button');
-    btn.innerText='x';
-    btn.onclick=()=>{
-      symptoms.splice(index,1);
-      updateTags();
-      updateRisk();
-    };
-    tag.appendChild(btn);
-    tagContainer.appendChild(tag);
-  });
+// ANALYTICS
+let analytics=JSON.parse(localStorage.getItem("analytics")||"{}");
+
+// DARK/LIGHT TOGGLE
+modeToggle.addEventListener('click',()=>{
+darkMode=!darkMode;
+document.body.classList.toggle('dark-mode',darkMode);
+modeToggle.innerText=darkMode?"Açık Mod":"Koyu Mod";
+});
+
+// RANDOM INT
+function randomInt(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+
+// RISK HESAP
+function updateRisk(symptom){
+  if(!symptom){riskOutput.innerHTML="Risk sonucu burada gösterilecek...";return;}
+  let record=diseaseDB.find(d=>d.name.toLowerCase()===symptom.toLowerCase());
+  let risk,level,color,tip,emoji,effect;
+  if(record){risk=randomInt(record.riskLow,record.riskHigh);}else{risk=randomInt(10,60);}
+  if(risk<30){level="Düşük";color="#22c55e";tip="Genellikle düşük risk.";emoji="✅";effect="";}
+  else if(risk<70){level="Orta";color="#eab308";tip="Orta risk, dikkat edin.";emoji="⚠️";effect="pulse";}
+  else{level="Yüksek";color="#ef4444";tip="Yüksek risk, profesyonel tavsiye önerilir.";emoji="🚨";effect="glow";}
+  riskOutput.innerHTML=`
+  <p class="text-lg mb-2 ${effect}">Tahmini Risk: <span style="color:${color}">${risk}% (${level}) ${emoji}</span></p>
+  <div class="progress-container">
+    <div class="progress-bar" style="width:0%; background:${color}"></div>
+  </div>
+  <p class="${effect}">${tip}</p>`;
+  setTimeout(()=>{riskOutput.querySelector('.progress-bar').style.width=risk+"%";},50);
+  analytics[symptom]=(analytics[symptom]||0)+1;
+  localStorage.setItem("analytics",JSON.stringify(analytics));
 }
 
-// Risk hesaplama + level + preventive tips
-function updateRisk(){
-  if(symptoms.length===0){ riskOutput.innerText='Risk skoru burada görünecek...'; return; }
-  let risk=symptoms.length*10;
-  risk=Math.min(risk,100);
-  let level=risk<30?'Low':(risk<70?'Medium':'High');
-  let tip=risk<30?'Genellikle düşük risk.':'';
-  if(level==='Medium'){ tip='Orta risk, dikkat edin.'; }
-  if(level==='High'){ tip='Yüksek risk, profesyonel tavsiye önerilir.'; }
-  riskOutput.innerText=`Tahmini risk: ${risk}% (${level})\n${tip}`;
-}
-
-// Auto-suggest
-function showSuggestions(text){
-  suggestionBox.innerHTML='';
-  if(!text){ suggestionBox.style.display='none'; return; }
-  const filtered=database.filter(s=>s.toLowerCase().includes(text.toLowerCase()) && !symptoms.includes(s));
-  if(filtered.length===0){ suggestionBox.style.display='none'; return; }
-  filtered.forEach(s=>{
-    const div=document.createElement('div');
-    div.className='suggestion fade';
-    div.innerText=s;
-    div.onclick=()=>{
-      if(!symptoms.includes(s)){ symptoms.push(s); updateTags(); updateRisk(); }
-      input.value=''; suggestionBox.style.display='none';
-    };
-    suggestionBox.appendChild(div);
-  });
-  suggestionBox.style.display='block';
-}
-
+// ENTER EVENT
 input.addEventListener('keyup',(e)=>{
   const val=input.value.trim();
-  showSuggestions(val);
-  if(e.key==='Enter' && val!==''){
-    if(!database.includes(val)){ database.push(val); }
-    if(!symptoms.includes(val)){ symptoms.push(val); }
-    updateTags(); updateRisk();
-    input.value=''; suggestionBox.style.display='none';
-  }
+  if(e.key==='Enter' && val!==''){updateRisk(val);input.value='';}
 });
-
-document.addEventListener('click',(e)=>{
-  if(!suggestionBox.contains(e.target) && e.target!==input){ suggestionBox.style.display='none'; }
-});
-
-// Başlangıç
-updateTags();
-updateRisk();
 </script>
-
 </body>
 </html>
