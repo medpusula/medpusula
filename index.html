@@ -262,69 +262,47 @@
         },
         { 
             n: "Pitozis (Göz Kapağı Düşüklüğü)", 
-            d: "Plastik Cerrahi", 
-            desc: "Üst göz kapağını kaldıran kasın zayıflığı veya sinir hasarı.", 
-            urgent: false 
-        },
-        { 
-            n: "Keloid Skar", 
-            d: "Plastik Cerrahi", 
-            desc: "Yara sınırlarını aşan aşırı bağ dokusu artışı. Koyu tenli bireylerde daha sıktır.", 
-            urgent: false 
-        },
-        { 
-            n: "Septal Deviasyon", 
-            d: "Plastik Cerrahi / KBB", 
-            desc: "Burun orta direğinin eğriliği. Nefes darlığı ve horlamaya neden olur.", 
-            urgent: false 
-        },
-        { 
-            n: "Jinekomasti", 
-            d: "Plastik Cerrahi", 
-            desc: "Erkeklerde kadın tipi meme büyümesi. Hormonal veya idiyopatik olabilir.", 
-            urgent: false 
-        },
-        { 
-            n: "Ekstremitede Bölmesel Ağrı", 
-            d: "Ortopedi / Cerrahi", 
-            desc: "Kompartman sendromu riski! Doku içi basınç artışı, acil fasiyotomi gerekebilir.", 
-            urgent: true 
-        },
-        { 
-            n: "Ani Görme Kaybı", 
-            d: "Göz Hastalıkları", 
-            desc: "Retinal arter tıkanıklığı veya dekolmanı. Dakikalar içinde müdahale gerekir.", 
-            urgent: true 
-        },
-        { 
-            n: "Melena (Zift Gibi Dışkı)", 
-            d: "Gastroenteroloji", 
-            desc: "Üst GİS kanaması belirtisi. Mide asidiyle sindirilmiş kan.", 
-            urgent: true 
-        },
-        { 
-            n: "Dizartri (Peltak Konuşma)", 
-            d: "Nöroloji", 
-            desc: "Konuşma kaslarının kontrol kaybı. Geçici iskemik atak veya inme habercisi.", 
-            urgent: true 
-        },
-        { 
-            n: "Ortopne", 
-            d: "Kardiyoloji", 
-            desc: "Düz yatınca gelen nefes darlığı. Sol kalp yetmezliği bulgusudur.", 
-            urgent: true 
-        },
-        { 
-            n: "Splenomegali", 
-            d: "Hematoloji / Dahiliye", 
-            desc: "Dalak büyümesi. Enfeksiyonlar veya malign süreçler araştırılmalı.", 
-            urgent: false 
-        },
-        { 
-            n: "Kladikasyo İntermittant", 
-            d: "Kalp Damar Cerrahi", 
-            desc: "Yürürken bacakta oluşan, dinlenince geçen ağrı. Damar tıkanıklığı (PAD) belirtisi.", 
-            urgent: false 
+const db = {
+    symptoms: [
+        // --- SAÇ VE KAFA DERİSİ ---
+        { n: "Saç Dökülmesi (Genel)", d: "Dermatoloji", desc: "Günlük 100 tel normaldir. Elde tutam tutam kalıyorsa kan değerlerine bakılmalı.", urgent: false },
+        { n: "Saçta Aşırı Yağlanma", d: "Dermatoloji", desc: "Hormonal değişimler veya yanlış şampuan kullanımı. Günlük yıkama tetikleyebilir.", urgent: false },
+        { n: "Kepeklenme", d: "Dermatoloji", desc: "Kuru kafa derisi veya mantar kaynaklı olabilir. Özel şampuan gerekebilir.", urgent: false },
+        { n: "Saçta Erken Beyazlama", d: "Dahiliye", desc: "Genetik faktörler başta gelir, ancak B12 eksikliği ve yoğun stres hızlandırır.", urgent: false },
+        { n: "Kafa Derisinde Kaşıntı", d: "Dermatoloji", desc: "Egzama, kuruluk veya ürün alerjisi belirtisi olabilir.", urgent: false },
+        { n: "Saç Kırılması ve Matlık", d: "Dermatoloji", desc: "Isıl işlem (fön/maşa) hasarı veya protein/keratin eksikliği.", urgent: false },
+        { n: "Saç Kıran (Bölgesel Dökülme)", d: "Dermatoloji", desc: "Bağışıklık sisteminin saç köküne saldırması. Genelde stres tetikler.", urgent: false },
+        { n: "Saç Diplerinde Sivilce", d: "Dermatoloji", desc: "Kıl kökü iltihabı (Folikülit). Hijyen ve uygun ürün kullanımı önemli.", urgent: false },
+
+        // --- PLASTİK CERRAHİ VE KRİTİK DURUMLAR ---
+        { n: "Yüzde Asimetri (Ani Gelişen)", d: "Plastik Cerrahi / Nöroloji", desc: "7. kafa siniri felci veya inme riski. Kaş kaldırma testi yapılmalı.", urgent: true },
+        { n: "Post-op Hematom", d: "Plastik Cerrahi", desc: "Ameliyat sahasında gergin kan birikimi. Acil drenaj gerekebilir.", urgent: true },
+        { n: "Flepte İskemi (Solukluk)", d: "Plastik Cerrahi", desc: "Dokunun kanlanamaması. Arteriyel tıkanıklık şüphesi, acil müdahale şarttır.", urgent: true },
+        { n: "Venöz Konjesyon (Morarma)", d: "Plastik Cerrahi", desc: "Kirli kanın dokudan uzaklaşamaması. Revizyon cerrahisi gerekebilir.", urgent: true },
+        { n: "Pitozis (Göz Kapağı Düşüklüğü)", d: "Plastik Cerrahi", desc: "Üst göz kapağını kaldıran kasın zayıflığı veya sinir hasarı.", urgent: false },
+        { n: "Keloid Skar", d: "Plastik Cerrahi", desc: "Yara sınırlarını aşan aşırı bağ dokusu artışı. Koyu tenli bireylerde daha sıktır.", urgent: false },
+        { n: "Jinekomasti", d: "Plastik Cerrahi", desc: "Erkeklerde kadın tipi meme büyümesi. Hormonal veya idiyopatik olabilir.", urgent: false },
+
+        // --- YAYGIN ŞİKAYETLER ---
+        { n: "Baş Ağrısı (Zonklayıcı)", d: "Nöroloji", desc: "Işığa duyarlılık varsa migren olabilir. Su tüketimi azlığı da tetikler.", urgent: false },
+        { n: "Baş Dönmesi", d: "KBB / Nöroloji", desc: "Kalkınca oluyorsa tansiyon, sürekliyse iç kulak kristali olabilir.", urgent: false },
+        { n: "Mide Yanması", d: "Gastroenteroloji", desc: "Yemekten sonra ekşime varsa reflü veya gastrit.", urgent: false },
+        { n: "Göğüste Sıkışma", d: "ACİL", desc: "Baskı hissi varsa kalp krizi riski! Hemen yardım isteyin.", urgent: true },
+        { n: "Melena (Zift Gibi Dışkı)", d: "Gastroenteroloji", desc: "Üst GİS kanaması belirtisi. Mide asidiyle sindirilmiş kan.", urgent: true },
+        { n: "Sürekli Halsizlik", d: "Dahiliye", desc: "Uykuya rağmen geçmiyorsa kansızlık veya vitamin eksikliği.", urgent: false }
+    ],
+    diseases: [
+        { n: "Rinoplasti Sonrası Bakım", meds: "Arnica krem, Deniz suyu spreyi.", alt: "İlk 48 saat buz uygulaması, yüksek yastıkla yatış." },
+        { n: "Kansızlık", meds: "Demir takviyesi, C vitamini.", alt: "Kırmızı et, pekmez, yeşil sebze. Çay yemekle içilmemeli." },
+        { n: "Tip 2 Diyabet", meds: "Metformin, SGLT2 İnhibitörleri.", alt: "Düşük glisemik indeksli diyet, tempolu yürüyüş." }
+    ],
+    interactions: [
+        { a: "Aspirin", b: "Ginkgo Biloba", r: "Kritik", t: "Her iki madde de kanı sulandırır. Cerrahi sırasında kanama riski yaratır." },
+        { a: "Demir Hapı", b: "Çay / Kahve", r: "Orta", t: "Emilimi %50'den fazla azaltır. 2 saat kuralı uygulanmalı." },
+        { a: "Alkol", b: "Metronidazol", r: "Kritik", t: "Şiddetli kusma, tansiyon düşüşü ve çarpıntı yapar." }
+    ]
+};
+
         }
     ],
     diseases: [
