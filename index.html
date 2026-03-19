@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedPusula Pro | Klinik Veri Matrisi</title>
+    <title>MedPusula | Klinik Karar Destek Sistemi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,10 +24,14 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .active-tab { color: #3b82f6 !important; border-bottom: 3px solid #3b82f6 !important; background-color: rgba(59, 130, 246, 0.08); font-weight: 800; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        .suggestion-box { position: absolute; width: 100%; background: white; border: 1px solid #e2e8f0; border-radius: 1rem; margin-top: 0.5rem; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .dark .suggestion-box { background: #1e293b; border-color: #334155; }
+        .suggestion-item { padding: 1rem; cursor: pointer; border-bottom: 1px solid #f1f5f9; transition: all 0.2s; font-size: 0.875rem; }
+        .suggestion-item:hover { background-color: #f8fafc; color: #3b82f6; padding-left: 1.5rem; }
         #bmi-pointer { transition: left 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-500">
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-500 flex flex-col">
 
     <header class="bg-white/90 dark:bg-darkSurface/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 shadow-sm">
         <div class="max-w-4xl mx-auto px-4">
@@ -36,15 +40,16 @@
                     <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/30">
                         <i class="fa-solid fa-staff-snake text-lg"></i>
                     </div>
-                    <h1 class="text-xl font-extrabold tracking-tighter">MedPusula <span class="text-primary italic">Pro</span></h1>
+                    <h1 class="text-xl font-extrabold tracking-tighter">MedPusula</h1>
                 </div>
-                <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800">
+                <button onclick="toggleDarkMode()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 transition-all">
                     <i id="dark-icon" class="fa-solid fa-moon text-sm"></i>
                 </button>
             </div>
             <nav class="flex justify-between overflow-x-auto no-scrollbar border-t dark:border-slate-800">
                 <button onclick="switchTab('uzman')" id="btn-uzman" class="tab-btn px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] border-b-2 border-transparent active-tab">Semptom Analizi</button>
                 <button onclick="switchTab('rehber')" id="btn-rehber" class="tab-btn px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] border-b-2 border-transparent text-slate-500">Hastalık Rehberi</button>
+                <button onclick="switchTab('etkilesim')" id="btn-etkilesim" class="tab-btn px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] border-b-2 border-transparent text-slate-500">İlaç Uyumu</button>
                 <button onclick="switchTab('hesaplar')" id="btn-hesaplar" class="tab-btn px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em] border-b-2 border-transparent text-slate-500">Vücut Endeksleri</button>
             </nav>
         </div>
@@ -54,45 +59,71 @@
         
         <section id="tab-uzman" class="tab-content active">
             <div class="space-y-6 pt-4">
-                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-                    <button onclick="filterCategory('Tümü')" class="cat-btn shrink-0 px-5 py-2 rounded-full bg-primary text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">Tümü</button>
-                    <button onclick="filterCategory('Baş & Saç')" class="cat-btn shrink-0 px-5 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[10px] font-bold uppercase tracking-widest border border-slate-100">Baş & Saç</button>
-                    <button onclick="filterCategory('Göğüs & Kalp')" class="cat-btn shrink-0 px-5 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[10px] font-bold uppercase tracking-widest border border-slate-100">Göğüs & Kalp</button>
-                    <button onclick="filterCategory('Karın & Sindirim')" class="cat-btn shrink-0 px-5 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[10px] font-bold uppercase tracking-widest border border-slate-100">Karın & Sindirim</button>
-                    <button onclick="filterCategory('Deri & Estetik')" class="cat-btn shrink-0 px-5 py-2 rounded-full bg-white dark:bg-darkSurface text-slate-500 text-[10px] font-bold uppercase tracking-widest border border-slate-100">Deri & Estetik</button>
+                <div class="flex flex-col md:flex-row gap-3">
+                    <div class="flex-1 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl border border-blue-100 dark:border-blue-800 flex gap-3">
+                        <i class="fa-solid fa-magnifying-glass-chart text-blue-500 mt-1"></i>
+                        <p class="text-[11px] text-blue-700 dark:text-blue-300 leading-relaxed font-medium">Şikayetinizi yazın, sistemimiz sizi klinik ciddiyete göre branşlara yönlendirsin.</p>
+                    </div>
+                    <div class="flex-1 bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800 flex gap-3">
+                        <i class="fa-solid fa-bolt text-emerald-500 mt-1"></i>
+                        <p class="text-[11px] text-emerald-700 dark:text-emerald-300 leading-relaxed font-medium">Kırmızı "ACİL" etiketi taşıyan bulgular hayati önem arz edebilir.</p>
+                    </div>
                 </div>
 
                 <div class="relative">
-                    <input type="text" id="symptom-search" oninput="renderSymptoms()" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg transition-all" placeholder="Şikayetinizi yazın (Örn: Saç dökülmesi, Baş dönmesi)...">
-                    <i class="fa-solid fa-magnifying-glass absolute left-6 top-7 text-slate-300"></i>
+                    <input type="text" id="symptom-search" oninput="liveFilter('symptom')" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg transition-all" placeholder="Şikayetinizi yazın (Örn: Baş dönmesi, Karın ağrısı)...">
+                    <i class="fa-solid fa-stethoscope absolute left-6 top-7 text-slate-300"></i>
                 </div>
-                
-                <div id="symptom-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    </div>
+                <div id="symptom-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
         </section>
 
         <section id="tab-rehber" class="tab-content">
-            <div id="disease-list" class="space-y-4 pt-6"></div>
+            <div class="space-y-6 pt-4">
+                <div class="bg-slate-100 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex gap-3">
+                    <i class="fa-solid fa-book-medical text-slate-500 mt-1"></i>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 font-medium">Yaygın hastalıklar ve tedavi yöntemleri hakkında bilgi alın.</p>
+                </div>
+                <div class="relative">
+                    <input type="text" id="disease-search" oninput="liveFilter('disease')" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg" placeholder="Hastalık arayın (Örn: Grip, Tansiyon)...">
+                    <i class="fa-solid fa-virus absolute left-6 top-7 text-slate-300"></i>
+                </div>
+                <div id="disease-list" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <section id="tab-etkilesim" class="tab-content">
+            <div class="max-w-xl mx-auto py-8 space-y-6 text-center">
+                <h2 class="text-2xl font-black italic tracking-tighter uppercase">Farmakolojik Analiz</h2>
+                <div class="relative text-left"><input type="text" id="drug-1" oninput="showSuggestions('drug-1')" class="w-full p-5 rounded-2xl dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-lg" placeholder="1. Madde (Örn: Aspirin)"><div id="suggestions-1" class="suggestion-box hidden"></div></div>
+                <div class="relative text-left"><input type="text" id="drug-2" oninput="showSuggestions('drug-2')" class="w-full p-5 rounded-2xl dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-lg" placeholder="2. Madde (Örn: Alkol)"><div id="suggestions-2" class="suggestion-box hidden"></div></div>
+                <button onclick="checkInteractions()" class="w-full py-5 bg-slate-900 text-white font-bold rounded-2xl shadow-xl hover:bg-primary transition-all uppercase tracking-widest text-xs">Etkileşimi Denetle</button>
+                <div id="interaction-res"></div>
+            </div>
         </section>
 
         <section id="tab-hesaplar" class="tab-content">
-            <div class="max-w-xl mx-auto py-6 bg-white dark:bg-darkSurface p-8 rounded-[2.5rem] shadow-2xl space-y-8 border border-slate-100 dark:border-slate-800">
-                <h3 class="text-2xl font-black text-center italic uppercase tracking-tighter">Vücut Kompozisyonu</h3>
+            <div class="max-w-xl mx-auto py-6 bg-white dark:bg-darkSurface p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl space-y-8">
+                <h3 class="text-2xl font-black text-center italic tracking-tighter uppercase">Vücut Kompozisyonu</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="col-span-2 flex gap-4">
-                        <button onclick="setGender('E')" id="male-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]">Erkek</button>
-                        <button onclick="setGender('K')" id="female-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]">Kadın</button>
+                        <button onclick="setGender('E')" id="male-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-black text-slate-400 uppercase text-[10px] tracking-widest">Erkek</button>
+                        <button onclick="setGender('K')" id="female-btn" class="flex-1 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 font-black text-slate-400 uppercase text-[10px] tracking-widest">Kadın</button>
                     </div>
                     <div class="space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Yaş</label><input type="number" id="h-age" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
                     <div class="space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Boy (cm)</label><input type="number" id="h-height" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
                     <div class="col-span-2 space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Kilo (kg)</label><input type="number" id="h-weight" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
                 </div>
                 <button onclick="calcHealth()" class="w-full py-5 bg-primary text-white font-black rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-widest">Analizi Başlat</button>
+                
                 <div id="h-res" class="hidden pt-10 space-y-8 border-t-2 border-slate-50 dark:border-slate-800 animate-fadeIn">
                     <div class="flex justify-around items-center text-center">
-                        <div><div id="bmi-val" class="text-6xl font-black text-primary italic">--</div><div class="text-[9px] font-bold text-slate-400 mt-2 uppercase">VKE</div></div>
-                        <div><div id="ideal-val" class="text-xl font-bold text-emerald-500">--</div><div class="text-[9px] font-bold text-slate-400 mt-2 uppercase">Klinik İdeal</div></div>
+                        <div><div id="bmi-val" class="text-6xl font-black text-primary italic">--</div><div class="text-[9px] font-bold text-slate-400 mt-2 uppercase tracking-widest">VKE</div></div>
+                        <div><div id="ideal-val" class="text-xl font-bold text-emerald-500">--</div><div class="text-[9px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Klinik İdeal</div></div>
+                    </div>
+                    <div class="relative h-4 rounded-full overflow-hidden flex bg-slate-100 dark:bg-slate-800 shadow-inner">
+                        <div class="w-[18.5%] bg-sky-300"></div><div class="w-[24.9%] bg-emerald-500"></div><div class="w-[29.9%] bg-yellow-400"></div><div class="w-[34.9%] bg-orange-500"></div><div class="w-[100%] bg-red-600"></div>
+                        <div id="bmi-pointer" class="absolute top-0 bottom-0 w-1.5 bg-black dark:bg-white rounded-full border border-white" style="left: 0%"></div>
                     </div>
                     <div id="bmi-status-box" class="p-6 rounded-2xl text-[11px] leading-relaxed border transition-all shadow-sm">--</div>
                 </div>
@@ -100,100 +131,135 @@
         </section>
     </main>
 
-    <footer class="mt-auto py-8 bg-slate-900 text-slate-500 text-center border-t border-slate-800">
-        <p class="text-[10px] font-bold uppercase tracking-[0.4em]">© 2026 Klinik Karar Destek Sistemi</p>
+    <footer class="mt-auto py-10 px-4 border-t border-slate-200 dark:border-slate-800 bg-slate-900 text-slate-400">
+        <div class="max-w-2xl mx-auto space-y-6">
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-2xl">
+                <div class="flex gap-4 items-start">
+                    <i class="fa-solid fa-shield-halved mt-1 text-slate-500 text-xl"></i>
+                    <div class="text-[10px] leading-relaxed">
+                        <strong class="block mb-2 uppercase tracking-widest font-black text-white">Sorumluluk Reddi Beyanı</strong>
+                        MedPusula bir klinik karar destek aracıdır ve profesyonel tıbbi teşhis veya tedavi yerine geçmez. Sunulan veriler genel bilgilendirme amaçlıdır. Her türlü sağlık şikayetinde derhal yetkili bir sağlık kuruluşuna başvurunuz. Acil durumlarda 112 Acil Yardım hattını arayınız.
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="flex items-center justify-center gap-2 mb-1">
+                    <i class="fa-solid fa-staff-snake text-primary text-sm"></i>
+                    <span class="text-sm font-black tracking-tighter text-white">MedPusula</span>
+                </div>
+                <p class="text-[9px] text-slate-500 font-bold tracking-[0.3em]">© 2026 KLİNİK KARAR DESTEK SİSTEMİ</p>
+            </div>
+        </div>
     </footer>
 
     <script>
-        let currentCategory = 'Tümü';
         let selectedGender = '';
+        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
+        function setGender(g) { 
+            selectedGender = g;
+            const btnM = document.getElementById('male-btn'), btnF = document.getElementById('female-btn');
+            btnM.className = g === 'E' ? 'flex-1 py-4 rounded-2xl border-2 border-primary bg-blue-500/10 text-primary font-black uppercase text-[10px] tracking-widest' : 'flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px] tracking-widest';
+            btnF.className = g === 'K' ? 'flex-1 py-4 rounded-2xl border-2 border-primary bg-pink-500/10 text-primary font-black uppercase text-[10px] tracking-widest' : 'flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px] tracking-widest';
+        }
 
         const db = {
             symptoms: [
-                // --- BAŞ & SAÇ (Vazgeçilmezler) ---
-                { n: "Aşırı Saç Dökülmesi", c: "Baş & Saç", d: "Dermatoloji", desc: "Günde 100 telden fazla dökülme; stres veya vitamin eksikliği olabilir.", urgent: false },
-                { n: "Saç Derisinde Kaşıntı ve Kepek", c: "Baş & Saç", d: "Dermatoloji", desc: "Egzama veya mantar enfeksiyonu belirtisi olabilir.", urgent: false },
-                { n: "Baş Dönmesi", c: "Baş & Saç", d: "KBB / Nöroloji", desc: "Denge kaybı ve etrafın dönmesi; tansiyon veya iç kulak kristal sorunu.", urgent: false },
-                { n: "Ani Baş Ağrısı (Çok Şiddetli)", c: "Baş & Saç", d: "ACİL", desc: "Hayatınızın en kötü ağrısıysa derhal acile başvurun (Beyin kanaması riski).", urgent: true },
-                { n: "Göz Kararması", c: "Baş & Saç", d: "Kardiyoloji", desc: "Özellikle ayağa kalkınca oluşan geçici görme kaybı; düşük tansiyon.", urgent: false },
+                // --- BAŞ VE SİNİR SİSTEMİ (FULLEME) ---
+                { n: "Baş Dönmesi (Vertigo)", d: "KBB / Nöroloji", desc: "Etrafın dönmesi hissi; iç kulak sorunları veya tansiyon kaynaklı olabilir.", urgent: false },
+                { n: "Şiddetli Baş Ağrısı", d: "Nöroloji / ACİL", desc: "Ani ve çok şiddetli ağrı; yüksek tansiyon veya beyin kanaması riski.", urgent: true },
+                { n: "Göz Kararması", d: "Dahiliye / Kardiyoloji", desc: "Ayağa kalkınca oluşan kararma; düşük tansiyon veya kansızlık belirtisidir.", urgent: false },
+                { n: "Yüzde Uyuşma ve Kayma", d: "Nöroloji / ACİL", desc: "Yüz asimetrisi ve konuşma güçlüğü; İnme (Felç) belirtisidir.", urgent: true },
+                
+                // --- KARIN VE SİNDİRİM ---
+                { n: "Sağ Alt Karın Ağrısı", d: "Genel Cerrahi / ACİL", desc: "Apandisit şüphesi; karın bölgesine bastırıp çekince ağrı artar.", urgent: true },
+                { n: "Mide Bulantısı ve Kusma", d: "Dahiliye / Gastroenteroloji", desc: "Gıda zehirlenmesi, mide gribi veya stres kaynaklı olabilir.", urgent: false },
+                { n: "Mide Yanması", d: "Gastroenteroloji", desc: "Yemekten sonra göğüste yanma; Reflü veya Gastrit belirtisidir.", urgent: false },
+                { n: "Şiddetli Bel Ağrısı", d: "Fizik Tedavi / Ortopedi", desc: "Ani hareket veya ağır kaldırma sonrası fıtık veya kas spazmı.", urgent: false },
 
-                // --- GÖĞÜS & KALP ---
-                { n: "Göğüste Sıkışma Hissi", c: "Göğüs & Kalp", d: "Kardiyoloji / ACİL", desc: "Sol kola vuran baskı tarzı ağrı; Kalp Krizi riski.", urgent: true },
-                { n: "Nefes Darlığı", c: "Göğüs & Kalp", d: "ACİL", desc: "Dinlenme halindeyken bile zor nefes alma; akciğer veya kalp yetmezliği.", urgent: true },
-                { n: "Çarpıntı", c: "Göğüs & Kalp", d: "Kardiyoloji", desc: "Kalp atışlarının düzensiz veya çok hızlı hissedilmesi.", urgent: false },
-
-                // --- KARIN & SİNDİRİM ---
-                { n: "Sağ Alt Karın Ağrısı", c: "Karın & Sindirim", d: "Genel Cerrahi / ACİL", desc: "Dokunulduğunda artan şiddetli ağrı; Apandisit şüphesi.", urgent: true },
-                { n: "Mide Yanması (Reflü)", c: "Karın & Sindirim", d: "Gastroenteroloji", desc: "Ağıza acı su gelmesi ve göğüs arkasında yanma.", urgent: false },
-                { n: "Şiddetli Mide Bulantısı", c: "Karın & Sindirim", d: "Dahiliye", desc: "Gıda zehirlenmesi veya mide gribi bulgusu.", urgent: false },
-
-                // --- DERİ & ESTETİK (Hedefin Plastik Cerrahi) ---
-                { n: "Yara İzinde Aşırı Büyüme", c: "Deri & Estetik", d: "Plastik Cerrahi", desc: "Ameliyat sonrası dokunun normalden fazla kabarması (Keloid).", urgent: false },
-                { n: "Benlerde Şekil Değişimi", c: "Deri & Estetik", d: "Dermatoloji", desc: "Kenarları düzensizleşen ve büyüyen benler; Cilt kanseri taraması.", urgent: true },
-                { n: "Ciltte Geçmeyen Kızarıklık", c: "Deri & Estetik", d: "Dermatoloji", desc: "Güneş hassasiyeti veya Rozasea (Gül hastalığı) olabilir.", urgent: false }
+                // --- KALP VE GÖĞÜS ---
+                { n: "Göğüste Sıkışma ve Baskı", d: "Kardiyoloji / ACİL", desc: "Kalp Krizi riski; ağrı sol kola veya çeneye vurabilir.", urgent: true },
+                { n: "Nefes Darlığı", d: "Göğüs Hastalıkları / ACİL", desc: "Dinlenirken bile nefes alamama; akciğer veya kalp sorunu.", urgent: true },
+                { n: "Öksürük ve Yüksek Ateş", d: "Dahiliye / Göğüs", desc: "Enfeksiyon veya Zatürre belirtisi olabilir.", urgent: false }
+            ],
+            diseases: [
+                { n: "Grip / Nezle", meds: "Dinlenme, Bol Sıvı, Vitamin.", alt: "Ateş 39 dereceyi geçerse doktora başvurulmalıdır." },
+                { n: "Gastrit", meds: "Mide Koruyucu, Antiasit Şurup.", alt: "Acı, ekşi ve baharatlı gıdalardan kaçınılmalıdır." },
+                { n: "Yüksek Tansiyon", meds: "Tansiyon İlacı (Hekim kontrolünde).", alt: "Tuz tüketimi azaltılmalı, düzenli ölçüm yapılmalıdır." },
+                { n: "Bel Fıtığı", meds: "Kas Gevşetici, Fizik Tedavi.", alt: "Ağır yük taşımaktan ve ters hareketlerden kaçınılmalıdır." }
+            ],
+            interactions: [
+                { a: "Aspirin", b: "Ginkgo Biloba", r: "Kritik", t: "Kan sulandırıcı etki artar, iç kanama riski oluşur." },
+                { a: "Antibiyotik", b: "Alkol", r: "Kritik", t: "Bulantı, kusma ve karaciğer üzerinde ağır yük oluşturur." },
+                { a: "Greyfurt", b: "Tansiyon İlacı", r: "Yüksek", t: "İlacın etkisini aşırı artırarak tansiyonu çok düşürebilir." }
             ]
         };
-
-        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
 
         function switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => { el.classList.remove('active-tab'); el.classList.add('text-slate-500'); });
             document.getElementById('tab-' + id).classList.add('active');
             document.getElementById('btn-' + id).classList.add('active-tab');
-            if(id === 'rehber') renderDiseases();
         }
 
-        function filterCategory(cat) {
-            currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = 'cat-btn shrink-0 px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border border-slate-100 dark:bg-darkSurface text-slate-500';
-                if(btn.innerText === cat.toUpperCase()) btn.className = 'cat-btn shrink-0 px-5 py-2 rounded-full bg-primary text-white text-[10px] font-bold uppercase tracking-widest shadow-lg';
-            });
-            renderSymptoms();
+        function liveFilter(type) {
+            const val = document.getElementById(type + '-search').value.toLowerCase().trim();
+            const list = document.getElementById(type + '-list');
+            list.innerHTML = ""; if (val.length < 1) return;
+            const items = type === 'symptom' ? db.symptoms : db.diseases;
+            const filtered = items.filter(i => i.n.toLowerCase().includes(val));
+            if (filtered.length > 0) {
+                filtered.forEach(i => {
+                    const style = i.urgent ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'bg-white dark:bg-darkSurface border-slate-100 dark:border-slate-800 shadow-lg';
+                    list.innerHTML += `<div class="${style} p-5 rounded-3xl border transition-all animate-fadeIn">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-lg font-black uppercase tracking-widest">${i.d || 'Tanı'}</span>
+                            ${i.urgent ? '<span class="text-[9px] bg-red-600 text-white px-2 py-0.5 rounded-lg font-black animate-pulse">ACİL</span>' : ''}
+                        </div>
+                        <div class="font-bold text-lg">${i.n}</div>
+                        <p class="text-[11px] text-slate-500 mt-2 leading-relaxed font-medium">${i.desc || i.meds}</p>
+                    </div>`;
+                });
+            } else {
+                list.innerHTML = `<div class="col-span-full p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl text-center text-[11px] font-bold text-slate-400">Aranan şikayet bulunamadı.</div>`;
+            }
         }
 
-        function renderSymptoms() {
-            const val = document.getElementById('symptom-search').value.toLowerCase();
-            const list = document.getElementById('symptom-list');
-            list.innerHTML = "";
-            
-            const filtered = db.symptoms.filter(s => 
-                (currentCategory === 'Tümü' || s.c === currentCategory) && 
-                (s.n.toLowerCase().includes(val) || s.desc.toLowerCase().includes(val))
-            );
-
-            filtered.forEach(s => {
-                const style = s.urgent ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'bg-white dark:bg-darkSurface border-slate-100 dark:border-slate-800 shadow-lg';
-                list.innerHTML += `<div class="${style} p-5 rounded-3xl border transition-all animate-fadeIn">
-                    <div class="flex justify-between mb-2">
-                        <span class="text-[8px] bg-primary/10 text-primary px-2 py-0.5 rounded-lg font-black uppercase">${s.d}</span>
-                        ${s.urgent ? '<span class="text-[8px] bg-red-600 text-white px-2 py-0.5 rounded-lg font-black animate-pulse">ACİL</span>' : ''}
-                    </div>
-                    <div class="font-bold text-lg leading-tight">${s.n}</div>
-                    <p class="text-[10px] text-slate-500 mt-2 font-medium leading-relaxed">${s.desc}</p>
-                </div>`;
-            });
+        function showSuggestions(id) {
+            const val = document.getElementById(id).value.toLowerCase();
+            const box = document.getElementById('suggestions-' + id.split('-')[1]);
+            if (val.length < 1) { box.classList.add('hidden'); return; }
+            const all = [...new Set(db.interactions.flatMap(i => [i.a, i.b]))];
+            const filtered = all.filter(item => item.toLowerCase().includes(val));
+            if (filtered.length > 0) {
+                box.innerHTML = filtered.map(i => `<div class="suggestion-item" onclick="selectSug('${id}', '${i}')">${i}</div>`).join('');
+                box.classList.remove('hidden');
+            } else box.classList.add('hidden');
         }
 
-        // Başlangıçta render et
-        renderSymptoms();
+        function selectSug(id, val) {
+            document.getElementById(id).value = val;
+            document.querySelectorAll('.suggestion-box').forEach(el => el.classList.add('hidden'));
+        }
 
-        function setGender(g) { 
-            selectedGender = g;
-            document.getElementById('male-btn').className = g === 'E' ? 'flex-1 py-4 rounded-2xl border-2 border-primary bg-blue-500/10 text-primary font-black uppercase text-[10px]' : 'flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]';
-            document.getElementById('female-btn').className = g === 'K' ? 'flex-1 py-4 rounded-2xl border-2 border-primary bg-pink-500/10 text-primary font-black uppercase text-[10px]' : 'flex-1 py-4 rounded-2xl border-2 border-slate-100 font-black text-slate-400 uppercase text-[10px]';
+        function checkInteractions() {
+            const d1 = document.getElementById('drug-1').value.toLowerCase();
+            const d2 = document.getElementById('drug-2').value.toLowerCase();
+            const match = db.interactions.find(i => (i.a.toLowerCase().includes(d1) && i.b.toLowerCase().includes(d2)) || (i.a.toLowerCase().includes(d2) && i.b.toLowerCase().includes(d1)));
+            document.getElementById('interaction-res').innerHTML = match ? `<div class="p-6 mt-6 bg-orange-100 text-orange-800 rounded-2xl font-bold text-[11px] border border-orange-200 animate-fadeIn">⚠️ ETKİLEŞİM: ${match.t}</div>` : `<div class="p-4 mt-6 bg-slate-100 text-slate-400 rounded-2xl text-[10px] italic">Büyük bir etkileşim kaydı bulunamadı.</div>`;
         }
 
         function calcHealth() {
-            const h = document.getElementById('h-height').value / 100, w = document.getElementById('h-weight').value;
-            if(!h || !w || !selectedGender) return alert('Verileri girin.');
+            const age = document.getElementById('h-age').value, h = document.getElementById('h-height').value / 100, w = document.getElementById('h-weight').value;
+            if(!age || !h || !w || !selectedGender) return alert('Verileri girin.');
             const bmi = (w / (h*h)).toFixed(1);
             document.getElementById('h-res').classList.remove('hidden');
             document.getElementById('bmi-val').innerText = bmi;
             document.getElementById('ideal-val').innerText = `${(18.5*h*h).toFixed(0)}-${(24.9*h*h).toFixed(0)} kg`;
+            let pointerPos = ((bmi - 15) / (45 - 15)) * 100;
+            document.getElementById('bmi-pointer').style.left = `${Math.min(Math.max(pointerPos, 0), 100)}%`;
+            let status = bmi < 18.5 ? "Zayıf" : bmi < 25 ? "Normal" : bmi < 30 ? "Kilolu" : "Obez";
             document.getElementById('bmi-status-box').className = `p-6 rounded-2xl text-[11px] border ${bmi < 25 && bmi >= 18.5 ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`;
-            document.getElementById('bmi-status-box').innerHTML = `Sonuç: <strong>${bmi < 25 ? 'Normal' : 'Riskli'}</strong>. Klinik verilerinize göre vücut endeksiniz hesaplanmıştır.`;
+            document.getElementById('bmi-status-box').innerHTML = `Sonuç: <strong>${status}</strong>. ${age} yaşındaki bir ${selectedGender==='E'?'erkek':'kadın'} için genel vücut kitle endeksi analizidir.`;
         }
     </script>
 </body>
