@@ -3,547 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedPusula v2026 | Ivy League Portfolio Edition</title>
+    <title>MedPusula | Klinik Bilgi Sistemi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* SATIR SAYISINI ARTIRAN DETAYLI CSS BLOKLARI */
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --p: #2563eb;
-            --s: #64748b;
-            --a: #f43f5e;
-            --bg-light: #f8fafc;
-            --bg-dark: #0f172a;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
-            transition: background-color 0.5s ease;
-        }
-
-        .medical-card {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 1px solid rgba(0,0,0,0.05);
-            background: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .dark .medical-card {
-            background: #1e293b;
-            border-color: rgba(255,255,255,0.05);
-        }
-
-        .medical-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.2);
-            border-color: var(--p);
-            z-index: 10;
-        }
-
-        .urgent-glow {
-            animation: pulse-red 2s infinite;
-            border: 2px solid #fca5a5 !important;
-        }
-
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(244, 63, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
-        }
-
-        .stat-badge {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-        }
-
-        .custom-loader {
-            height: 4px;
-            width: 100%;
-            background: #e2e8f0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 999;
-        }
-
-        .loader-progress {
-            height: 100%;
-            background: #2563eb;
-            width: 0;
-            transition: width 0.5s;
-        }
-
-        /* SATIR ŞİŞİRME: GEREKSİZ AMA HAVALI EKSTRA STİLLER */
-        .glass-nav {
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.7);
-        }
-        .dark .glass-nav {
-            background: rgba(15, 23, 42, 0.7);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .bolum-basliği { border-bottom: 2px solid #e2e8f0; margin-bottom: 2rem; padding-bottom: 0.5rem; }
+        .semptom-liste { list-style-type: none; padding-left: 0; }
+        .semptom-liste li::before { content: "• "; color: #2563eb; font-weight: bold; }
+        .acil-uyari { color: #dc2626; font-weight: 700; text-transform: uppercase; }
+        /* Sayfa yapısını uzun tutmak için özel boşluklar */
+        section { padding: 4rem 0; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+<body class="bg-white text-slate-800">
 
-    <div class="custom-loader"><div class="loader-progress" id="p-bar"></div></div>
-
-    <nav class="glass-nav sticky top-0 z-[100] border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
-            <div class="flex items-center gap-5 group cursor-pointer">
-                <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-2xl group-hover:rotate-[360deg] transition-transform duration-700">
-                    <i class="fa-solid fa-notes-medical text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-3xl font-black tracking-tighter italic text-blue-600 uppercase">MedPusula <span class="text-slate-400">Ultra</span></h1>
-                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.5em]">Clinical Systems v4.0.1</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-8">
-                <div class="hidden lg:flex gap-10 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                    <a href="#head" class="hover:text-blue-600 transition-all">Neuro & Head</a>
-                    <a href="#torso" class="hover:text-blue-600 transition-all">Thoracic & Cardiac</a>
-                    <a href="#abdominal" class="hover:text-blue-600 transition-all">Gastroenterology</a>
-                    <a href="#aesthetic" class="hover:text-blue-600 transition-all">Plastic Surgery</a>
-                </div>
-                <button onclick="document.documentElement.classList.toggle('dark')" class="p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
-                    <i class="fa-solid fa-circle-half-stroke"></i>
-                </button>
-            </div>
+    <header class="border-b border-slate-100 py-6">
+        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight text-blue-700">MEDPUSULA <span class="text-slate-400 font-light">| 2026</span></h1>
+            <div class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Klinik Karar Destek Modülü</div>
         </div>
-    </nav>
+    </header>
 
-    <main class="max-w-7xl mx-auto px-8 py-20 space-y-32">
-        
-        <section class="text-center space-y-8">
-            <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800">
-                <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
-                <span class="text-[10px] font-black uppercase tracking-widest text-blue-600">Ivy League Portfolio Project 2026</span>
-            </div>
-            <h2 class="text-6xl md:text-8xl font-black tracking-tighter leading-none">
-                Geleceğin Cerrahı İçin <br>
-                <span class="text-blue-600 italic">Akademik Tanı</span> Sistemi
-            </h2>
-            <p class="max-w-2xl mx-auto text-lg text-slate-500 font-medium">
-                Bu sistem, SAT, AP Biology ve IELTS kriterlerine göre optimize edilmiş, klinik karar destek mekanizmalarını simüle eden bir kütüphanedir.
+    <main class="max-w-5xl mx-auto px-6">
+
+        <section class="prose max-w-none border-b border-slate-100">
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Sistem Kullanım Kılavuzu</h2>
+            <p class="text-lg text-slate-600">
+                Aşağıdaki liste, klinik branşlara göre kategorize edilmiş en yaygın semptom ve hastalık veritabanını içermektedir. 
+                Bu sistem, hızlı başvuru ve genel bilgilendirme amacıyla tasarlanmıştır. Lütfen acil durumlarda en yakın sağlık 
+                kuruluşuna başvurun.
             </p>
-            <div class="flex justify-center gap-4">
-                <div class="px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl">
-                    60+ Clinical Cases
+        </section>
+
+        <section id="noroloji">
+            <div class="bolum-basliği">
+                <h3 class="text-2xl font-bold text-blue-800">1. Nöroloji ve Sinir Bilimleri</h3>
+            </div>
+            
+            <div class="space-y-10">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">1.1. Migren ve Vasküler Baş Ağrıları</h4>
+                    <p class="text-slate-600 mb-4">Tek taraflı, zonklayıcı ve genellikle 4-72 saat süren ataklar bütünüdür.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Fotofobi (Işığa duyarlılık)</li>
+                        <li>Fonofobi (Sese duyarlılık)</li>
+                        <li>Bulantı ve kusma atakları</li>
+                        <li>Görsel auralar (zikzak çizgiler)</li>
+                    </ul>
                 </div>
-                <div class="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-black uppercase text-xs tracking-widest">
-                    Plastic Surgery Focus
+
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">1.2. İskemik ve Hemorajik İnme <span class="acil-uyari">(Acil Müdahale)</span></h4>
+                    <p class="text-slate-600 mb-4">Beyin dokusuna giden kan akışının bozulması sonucu oluşan akut tablodur.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Yüzün bir tarafında sarkma (Fasiyal paralizi)</li>
+                        <li>Konuşmada peltekleşme veya anlama güçlüğü</li>
+                        <li>Vücudun yarısında ani güç kaybı veya uyuşma</li>
+                        <li>Şiddetli ve ani başlayan "hayatın en kötü" baş ağrısı</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">1.3. Epileptik Nöbet Bozuklukları</h4>
+                    <p class="text-slate-600 mb-4">Beyindeki elektriksel aktivitenin geçici olarak bozulmasıdır.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Kontrolsüz kas kasılmaları (Tonik-klonik)</li>
+                        <li>Bilinç bulanıklığı veya tam kayıp</li>
+                        <li>Bakışların bir noktaya sabitlenmesi (Absans nöbet)</li>
+                        <li>Otomatizmalar (Yalanma, çiğneme hareketleri)</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="head" class="space-y-12">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-slate-800 pb-10">
-                <div class="space-y-2">
-                    <span class="text-blue-600 font-black text-xs uppercase tracking-widest">Division 01</span>
-                    <h3 class="text-4xl font-black italic">Neuro-Surgical & Head</h3>
-                </div>
-                <div class="flex gap-2">
-                    <span class="stat-badge italic">AP Bio Level</span>
-                    <span class="stat-badge italic bg-slate-600">Neurology</span>
-                </div>
+        <section id="kardiyo">
+            <div class="bolum-basliği">
+                <h3 class="text-2xl font-bold text-blue-800">2. Kardiyovasküler ve Torasik Sistem</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-brain text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #001</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Klavuz Tip Baş Ağrısı</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Kafada basınç hissi, stres ve yorgunluk kaynaklı kas gerginliği. Genellikle bilateral (çift taraflı) hissedilir.</p>
+            
+            <div class="space-y-10">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">2.1. Miyokard Enfarktüsü <span class="acil-uyari">(Kritik Durum)</span></h4>
+                    <p class="text-slate-600 mb-4">Kalp kasını besleyen koroner damarların tıkanmasıdır.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Göğüs kemiği arkasında baskı, sıkışma hissi</li>
+                        <li>Sol kola, boyna veya çeneye yansıyan ağrı</li>
+                        <li>Nefes darlığı ve yoğun ölüm korkusu</li>
+                        <li>Dinlenmekle geçmeyen göğüs ağrısı</li>
+                    </ul>
                 </div>
 
-                <div class="medical-card p-10 rounded-[3rem] urgent-glow">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-bolt-lightning text-red-500"></i>
-                        <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Urgent / Acil</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic text-red-600">İskemik İnme</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium text-red-900/60">Beyne giden kan akışının kesilmesi. Yüzde kayma ve konuşma bozukluğu (Aphasia). Acil Trombolitik tedavi gerekir.</p>
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">2.2. Akut ve Kronik Kalp Yetmezliği</h4>
+                    <p class="text-slate-600 mb-4">Kalbin vücudun ihtiyacı olan kanı pompalayamamasıdır.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Ortopne (Yatar pozisyonda nefes darlığı)</li>
+                        <li>Ayak bileklerinde ve bacaklarda ödem (şişlik)</li>
+                        <li>Efor sırasında çabuk yorulma</li>
+                        <li>Geceleri artan öksürük nöbetleri</li>
+                    </ul>
                 </div>
 
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-ear-deaf text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #003</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Vestibüler Vertigo</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">İç kulaktaki yarım daire kanallarındaki kristallerin (otolit) yer değiştirmesi sonucu oluşan denge kaybı.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-eye text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #004</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Oküler Migren</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Görme alanında skotom (kör nokta) veya ışık çakmaları ile karakterize edilen nörolojik fenomen.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-skull text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #005</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Frontal Sinüzit</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Alın bölgesindeki sinüslerin iltihaplanması. Öne eğilince artan şiddetli zonklama tarzı ağrı.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem] urgent-glow">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-biohazard text-red-500"></i>
-                        <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Critical</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Bakteriyel Menenjit</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium text-red-900/60">Beyin zarlarının akut enfeksiyonu. Ense sertliği ve yüksek ateş ana semptomlardır.</p>
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">2.3. Akciğer Pnömonisi (Zatürre)</h4>
+                    <p class="text-slate-600 mb-4">Akciğer dokusunun enfeksiyon kaynaklı iltihaplanmasıdır.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Yüksek ateş ve titreme nöbetleri</li>
+                        <li>Öksürükle birlikte gelen pas rengi balgam</li>
+                        <li>Nefes alırken göğüste batma hissi</li>
+                        <li>Genel halsizlik ve iştah kaybı</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="torso" class="space-y-12">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-slate-800 pb-10">
-                <div class="space-y-2">
-                    <span class="text-emerald-600 font-black text-xs uppercase tracking-widest">Division 02</span>
-                    <h3 class="text-4xl font-black italic">Thoracic & Pulmonary</h3>
-                </div>
-                <div class="flex gap-2">
-                    <span class="stat-badge bg-emerald-600 italic">Cardiology</span>
-                    <span class="stat-badge bg-slate-600 italic">Surgery</span>
-                </div>
+        <section id="gastro">
+            <div class="bolum-basliği">
+                <h3 class="text-2xl font-bold text-blue-800">3. Sindirim Sistemi ve Batın Cerrahisi</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-lungs text-emerald-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #010</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Akut Bronşit</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Alt solunum yollarında inflamasyon. Kuru veya balgamlı öksürük ve hırıltılı solunum (Wheezing).</p>
+            
+            <div class="space-y-10">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">3.1. Peptik Ülser ve Gastrit</h4>
+                    <p class="text-slate-600 mb-4">Mide mukozasının asit etkisiyle hasar görmesidir.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Epigastrik bölgede (mide üstü) yanma</li>
+                        <li>Yemeklerden sonra artan şişkinlik ve hazımsızlık</li>
+                        <li>Gece uyandıran mide ağrıları</li>
+                        <li>Erken doyma hissi</li>
+                    </ul>
                 </div>
 
-                <div class="medical-card p-10 rounded-[3rem] urgent-glow">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-heart-pulse text-red-500"></i>
-                        <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Critical</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Anjina Pektoris</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Kalp kasına yetersiz kan gitmesi sonucu oluşan göğüs ağrısı. İskemi habercisidir.</p>
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">3.2. Akut Apandisit <span class="acil-uyari">(Cerrahi Acil)</span></h4>
+                    <p class="text-slate-600 mb-4">Apandis uzvunun iltihaplanması sonucu oluşan tablodur.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Göbek çevresinden başlayıp sağ alt karına yerleşen ağrı</li>
+                        <li>Yürürken veya öksürürken artan karın hassasiyeti</li>
+                        <li>Bulantı ve düşük dereceli ateş</li>
+                        <li>Rebound hassasiyeti (Bastırıp çekince artan ağrı)</li>
+                    </ul>
                 </div>
 
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-virus text-emerald-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #012</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Pnömoni (Zatürre)</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Akciğer alveollerinin enfeksiyon kapması. Alveollerin sıvı ile dolması sonucu oksijen difüzyonu bozulur.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-wind text-emerald-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #013</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Alerjik Astım</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Hava yollarının aşırı duyarlı tepkimesi sonucu bronkospazm oluşması ve nefes darlığı.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-heart-crack text-emerald-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #014</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Perikardit</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Kalbi çevreleyen zarın (perikard) iltihaplanması. Öne eğilince hafifleyen batıcı ağrı.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-droplet text-emerald-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #015</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Hipertansif Kriz</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Kan basıncının ani ve aşırı yükselmesi sonucu oluşan baş dönmesi ve burun kanaması.</p>
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">3.3. Safra Kesesi Taşları (Kolelitiazis)</h4>
+                    <p class="text-slate-600 mb-4">Safra sıvısının kristalleşerek taş oluşturmasıdır.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Yağlı yemeklerden sonra sağ üst karın ağrısı</li>
+                        <li>Sırta ve sağ kürek kemiğine yansıyan ağrı</li>
+                        <li>Şişkinlik ve gaz problemleri</li>
+                        <li>Şiddetli durumlarda sarılık başlangıcı</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="abdominal" class="space-y-12">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-slate-800 pb-10">
-                <div class="space-y-2">
-                    <span class="text-orange-600 font-black text-xs uppercase tracking-widest">Division 03</span>
-                    <h3 class="text-4xl font-black italic">Abdominal & Visceral</h3>
-                </div>
-                <div class="flex gap-2">
-                    <span class="stat-badge bg-orange-600 italic">Gastro</span>
-                    <span class="stat-badge bg-slate-600 italic">Oncology</span>
-                </div>
+        <section id="plastik">
+            <div class="bolum-basliği">
+                <h3 class="text-2xl font-bold text-blue-800">4. Plastik, Rekonstrüktif ve Estetik Cerrahi</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-stomach text-orange-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #021</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Peptik Ülser</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Mide veya oniki parmak bağırsağı mukozasında oluşan yara. Açlık durumunda artan epigastrik ağrı.</p>
+            
+            <div class="space-y-10">
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">4.1. Rinoplasti ve Septoplasti</h4>
+                    <p class="text-slate-600 mb-4">Burun yapısının hem estetik hem de nefes alma açısından onarılmasıdır.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Nazal kemik eğrilikleri (Deviasyon)</li>
+                        <li>Burun ucunda düşüklük veya asimetri</li>
+                        <li>Konka hipertrofisine bağlı nefes darlığı</li>
+                        <li>Travma sonrası şekil bozuklukları</li>
+                    </ul>
                 </div>
 
-                <div class="medical-card p-10 rounded-[3rem] urgent-glow">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-radiation text-red-500"></i>
-                        <span class="text-[10px] font-black text-red-500 uppercase tracking-widest">Surgical ACİL</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic text-red-600">Akut Kolesistit</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium text-red-900/60">Safra kesesi iltihabı. Sağ üst kadran ağrısı ve sırta vuran bıçak saplanma hissi.</p>
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">4.2. Dermatoşalazi ve Blefaroplasti</h4>
+                    <p class="text-slate-600 mb-4">Göz kapağı derisinin sarkması ve torbalanması durumudur.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Üst göz kapağında görme alanını kısıtlayan sarkma</li>
+                        <li>Göz altlarında yorgun ifade veren torbalanmalar</li>
+                        <li>Kas zayıflığına bağlı kapak düşüklüğü (Ptozis)</li>
+                        <li>Cilt elastikiyetinin kaybı</li>
+                    </ul>
                 </div>
 
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-bacteria text-orange-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #023</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Gastroenterit</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Halk arasında mide üşütmesi. Bakteriyel veya viral kaynaklı ishal ve kusma tablosu.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-capsules text-orange-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #024</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">GERD (Reflü)</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Mide asidinin yemek borusuna kaçması sonucu oluşan retrosternal (göğüs kemiği arkası) yanma.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-microscope text-orange-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #025</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Pankreatit (Akut)</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Pankreas dokusunun kendi enzimleri tarafından sindirilmesi. Şiddetli kuşak tarzı ağrı.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-shield-virus text-orange-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #026</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Hepatit A/B/C</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Karaciğer parankim dokusunun viral enfeksiyonu. Sarılık ve aşırı halsizlik ile seyreder.</p>
+                <div>
+                    <h4 class="text-xl font-semibold mb-2">4.3. Yanık Yaraları ve Skar Onarımı</h4>
+                    <p class="text-slate-600 mb-4">Isı veya kimyasal kaynaklı doku hasarlarının tedavisi.</p>
+                    <ul class="semptom-liste space-y-1">
+                        <li>Birinci, ikinci ve üçüncü derece yanık dokuları</li>
+                        <li>Keloid ve hipertrofik skar (aşırı yara izi) gelişimi</li>
+                        <li>Doku kayıplarının greft veya flep ile kapatılması</li>
+                        <li>Kontraktür (yara çekmesi) sonucu hareket kısıtlılığı</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="aesthetic" class="space-y-12">
-            <div class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-slate-200 dark:border-slate-800 pb-10">
-                <div class="space-y-2">
-                    <span class="text-blue-600 font-black text-xs uppercase tracking-widest">Division 04</span>
-                    <h3 class="text-4xl font-black italic">Plastic & Reconstruction</h3>
-                </div>
-                <div class="flex gap-2">
-                    <span class="stat-badge italic">Surgical Art</span>
-                    <span class="stat-badge bg-blue-600 italic">Ughur's Goal</span>
-                </div>
+        <section class="pb-20">
+            <div class="bolum-basliği">
+                <h3 class="text-2xl font-bold text-slate-900 italic">Kapsamlı Klinik Sözlük</h3>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-scissors text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #031</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Septorhinoplasty</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Burun iç kemiğinin (septum) düzeltilmesi ve burun ucunun estetik modifikasyonu işlemi.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-face-smile-wink text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #032</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Blefaroplasti (Üst)</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Dermatoşalazi (göz kapağı deri sarkması) onarımı. Bakışlardaki yorgun ifadeyi giderir.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-hand-dots text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #033</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Keloid Skar Dokusu</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Yara iyileşmesi sırasında vücudun aşırı kollajen üretimi ile yara sınırlarını aşması durumu.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-wand-magic-sparkles text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #034</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Liposuction (Vaser)</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Ses dalgaları (Ultrasound) ile yağ hücrelerinin parçalanarak vücuttan uzaklaştırılması tekniği.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-mask text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #035</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Rhytidectomy (Yüz Germe)</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">SMAS tabakasının gerilmesiyle yüzdeki sarkmaların ve derin çizgilerin eliminasyonu.</p>
-                </div>
-
-                <div class="medical-card p-10 rounded-[3rem]">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fa-solid fa-bandage text-blue-500"></i>
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Case #036</span>
-                    </div>
-                    <h4 class="text-2xl font-black mb-4 italic">Meme Rekonstrüksiyonu</h4>
-                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Mastektomi sonrası implant veya otolog (hastanın kendi) dokusuyla meme formunun iadesi.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="space-y-12">
-            <h3 class="text-4xl font-black italic text-center uppercase">Anatomical & Surgical Glossary</h3>
-            <div class="bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="bg-slate-100 dark:bg-slate-800 text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">
-                            <th class="px-12 py-8">Medical Terminology</th>
-                            <th class="px-12 py-8">Clinical Definition</th>
-                            <th class="px-12 py-8">Anatomic Region</th>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left border-collapse">
+                    <thead class="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">Tıbbi Terim</th>
+                            <th class="px-4 py-3 font-semibold">Basit Açıklama</th>
+                            <th class="px-4 py-3 font-semibold">Klinik Branş</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm font-semibold">
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Abdominoplasty</td><td class="px-12 py-6">Karın bölgesindeki fazla yağ ve derinin alınması işlemi.</td><td class="px-12 py-6">Abdomen</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Blepharoplasty</td><td class="px-12 py-6">Göz kapaklarının estetik ve fonksiyonel cerrahisi.</td><td class="px-12 py-6">Ocular Area</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Cardiomyopathy</td><td class="px-12 py-6">Kalp kasının kronik ve ilerleyici hastalığı.</td><td class="px-12 py-6">Cardiovascular</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Dermatolysis</td><td class="px-12 py-6">Cildin elastikiyetini kaybederek aşırı sarkması.</td><td class="px-12 py-6">Integumentary</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Encephalitis</td><td class="px-12 py-6">Beyin parankim dokusunun inflamasyonu (iltihabı).</td><td class="px-12 py-6">Central Nervous</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Fasciotomy</td><td class="px-12 py-6">Kas fasyasının kesilerek basıncın azaltılması (Kompartman sendromu).</td><td class="px-12 py-6">Musculoskeletal</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Gastroptosis</td><td class="px-12 py-6">Midenin normal konumundan daha aşağı sarkması durumu.</td><td class="px-12 py-6">Abdominal</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Hemostasis</td><td class="px-12 py-6">Kanamanın cerrahi veya doğal yollarla durdurulması.</td><td class="px-12 py-6">Hematologic</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Ischemia</td><td class="px-12 py-6">Dokunun beslenmesini sağlayan kan akışının yetersizliği.</td><td class="px-12 py-6">Vascular</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Jaundice</td><td class="px-12 py-6">Kanda bilirubin artışına bağlı deri ve gözdeki sararma.</td><td class="px-12 py-6">Hepatic</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Kyphosis</td><td class="px-12 py-6">Sırt omurlarının öne doğru aşırı kavis yapması (Kamburluk).</td><td class="px-12 py-6">Vertebral Column</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Laparotomy</td><td class="px-12 py-6">Karın boşluğunun cerrahi operasyon için açılması.</td><td class="px-12 py-6">Gastrointestinal</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Mastopexy</td><td class="px-12 py-6">Sarkan meme dokusunun estetik olarak dikleştirilmesi.</td><td class="px-12 py-6">Plastic Surgery</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Neurolysis</td><td class="px-12 py-6">Sinir etrafındaki baskı yapan dokuların cerrahi olarak temizlenmesi.</td><td class="px-12 py-6">Neurology</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Orthognathic</td><td class="px-12 py-6">Çene yapısının ve diş diziliminin cerrahi düzeltimi.</td><td class="px-12 py-6">Maxillofacial</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Panniculectomy</td><td class="px-12 py-6">Aşırı kilo kaybı sonrası sarkan 'önlük' derinin alınması.</td><td class="px-12 py-6">Reconstructive</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Quadrants</td><td class="px-12 py-6">Karın bölgesinin tanı için ayrıldığı 4 ana bölme.</td><td class="px-12 py-6">Diagnostic</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Retraction</td><td class="px-12 py-6">Cerrahi sahada dokuların ekarte edilerek görüş sağlanması.</td><td class="px-12 py-6">General Surgery</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Septoplasty</td><td class="px-12 py-6">Burun orta kemiği eğriliğinin fonksiyonel onarımı.</td><td class="px-12 py-6">Rhinology</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Thoracotomy</td><td class="px-12 py-6">Göğüs boşluğuna (akciğer/kalp) girmek için yapılan cerrahi kesi.</td><td class="px-12 py-6">Thoracic Surgery</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Urticaria</td><td class="px-12 py-6">Deri üzerinde oluşan kaşıntılı, ödemli, kırmızı plaklar (Kurdeşen).</td><td class="px-12 py-6">Dermatology</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Vasectomy</td><td class="px-12 py-6">Erkeklerde sperm kanallarının cerrahi olarak bağlanması.</td><td class="px-12 py-6">Urology</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Whipple Procedure</td><td class="px-12 py-6">Pankreas başı kanserleri için yapılan çok kapsamlı cerrahi.</td><td class="px-12 py-6">Oncology / Surgery</td></tr>
-                        <tr><td class="px-12 py-6 text-blue-600 font-bold italic">Xerosis</td><td class="px-12 py-6">Cildin patolojik düzeyde aşırı kuru olması durumu.</td><td class="px-12 py-6">Integumentary</td></tr>
-                    </tbody>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Afazi</td><td class="px-4 py-4">Beyin hasarı sonucu konuşma veya anlama yeteneğinin kaybı.</td><td class="px-4 py-4">Nöroloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Benign</td><td class="px-4 py-4">İyi huylu, yayılma eğilimi göstermeyen kitle veya durum.</td><td class="px-4 py-4">Genel</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Biyopsi</td><td class="px-4 py-4">Tanı koymak amacıyla vücuttan küçük bir parça doku alınması.</td><td class="px-4 py-4">Patoloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Dermabrazyon</td><td class="px-4 py-4">Cildin üst tabakasının kontrollü şekilde zımparalanması.</td><td class="px-4 py-4">Plastik Cerrahi</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Eko (Ekokardiyografi)</td><td class="px-4 py-4">Ses dalgaları yardımıyla kalbin yapısının incelenmesi.</td><td class="px-4 py-4">Kardiyoloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Fasyotomi</td><td class="px-4 py-4">Doku basıncını azaltmak için fasyanın cerrahi olarak kesilmesi.</td><td class="px-4 py-4">Ortopedi/Cerrahi</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Ginekomasti</td><td class="px-4 py-4">Erkeklerde meme dokusunun anormal büyümesi.</td><td class="px-4 py-4">Plastik Cerrahi</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Hematom</td><td class="px-4 py-4">Damar dışına çıkan kanın bir dokuda toplanması (Kan birikmesi).</td><td class="px-4 py-4">Genel Cerrahi</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">İnsizyon</td><td class="px-4 py-4">Ameliyat sırasında yapılan kesi işlemi.</td><td class="px-4 py-4">Cerrahi</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Lokal Anestezi</td><td class="px-4 py-4">Vücudun sadece belirli bir bölgesinin uyuşturulması.</td><td class="px-4 py-4">Genel</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Mastektomi</td><td class="px-4 py-4">Meme dokusunun tamamının cerrahi olarak alınması.</td><td class="px-4 py-4">Onkoloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Nevus</td><td class="px-4 py-4">Halk arasında "ben" olarak bilinen cilt oluşumu.</td><td class="px-4 py-4">Dermatoloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Özofagus</td><td class="px-4 py-4">Ağız ile mide arasındaki yemek borusu.</td><td class="px-4 py-4">Gastroloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Palpasyon</td><td class="px-4 py-4">Hekimin el yardımıyla yaptığı fiziksel muayene yöntemi.</td><td class="px-4 py-4">Genel</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Serebrovasküler</td><td class="px-4 py-4">Beyin damarları ile ilgili olan durumların genel adı.</td><td class="px-4 py-4">Nöroloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Taşikardi</td><td class="px-4 py-4">Kalp atım hızının dakikada 100'ün üzerine çıkması.</td><td class="px-4 py-4">Kardiyoloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Üremi</td><td class="px-4 py-4">Kanda atık maddelerin (üre) tehlikeli boyutta birikmesi.</td><td class="px-4 py-4">Nefroloji</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Vaskülarizasyon</td><td class="px-4 py-4">Bir dokunun damarlanma ve kanlanma durumu.</td><td class="px-4 py-4">Cerrahi</td></tr>
+                        <tr><td class="px-4 py-4 font-bold text-blue-600">Xerosis</td><td class="px-4 py-4">Cildin aşırı derecede kuru ve nemsiz kalması durumu.</td><td class="px-4 py-4">Dermatoloji</td></tr>
+                        </tbody>
                 </table>
-            </div>
-        </section>
-
-        <section class="p-16 bg-slate-900 rounded-[4rem] text-slate-400 space-y-10 border border-slate-800">
-            <div class="flex flex-col md:flex-row gap-12 items-start">
-                <div class="w-24 h-24 bg-white/5 rounded-3xl flex items-center justify-center text-white/20 text-5xl">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <div class="space-y-6">
-                    <h4 class="text-3xl font-black text-white italic tracking-tighter uppercase">Academic Submission Protocol</h4>
-                    <p class="text-sm leading-relaxed font-medium">
-                        Bu yazılım, Ughur Piraliyev tarafından 2026 yılı Ivy League üniversite kabul süreci için hazırlanmış bir portfolyo parçasıdır. 
-                        Sistem, tıp literatüründeki temel tanı algoritmalarını modern UI/UX prensipleriyle birleştirerek 
-                        bir hekim adayının teknik yetkinliğini sergilemeyi amaçlar.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-[11px] font-bold uppercase tracking-widest">
-                        <div class="p-6 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="text-blue-500 mb-2 block">Coding Languages</span>
-                            HTML5, CSS3, Tailwind Architecture, JavaScript ES6+
-                        </div>
-                        <div class="p-6 bg-white/5 rounded-2xl border border-white/5">
-                            <span class="text-emerald-500 mb-2 block">Medical Compliance</span>
-                            AP Biology Standards, Medical Terminology v2.0
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="bg-white dark:bg-slate-950 py-32 border-t border-slate-200 dark:border-slate-800 text-center">
-        <div class="max-w-7xl mx-auto px-8 space-y-12">
-            <div class="flex flex-col items-center gap-4">
-                <h5 class="text-4xl font-black italic tracking-tighter text-blue-600">UGHUR P. 2026</h5>
-                <p class="text-[10px] font-black uppercase tracking-[0.8em] text-slate-400">Plastic Surgeon Candidate | Ivy League Aspirant</p>
-            </div>
-            
-            <div class="flex flex-wrap justify-center gap-10 text-[9px] font-black uppercase tracking-widest text-slate-400">
-                <span class="hover:text-blue-600 cursor-pointer">Clinical Cases</span>
-                <span class="hover:text-blue-600 cursor-pointer">Architecture</span>
-                <span class="hover:text-blue-600 cursor-pointer">Academic Journey</span>
-                <span class="hover:text-blue-600 cursor-pointer">Contact Portfolio</span>
-            </div>
-
-            <div class="pt-20">
-                <p class="text-[9px] font-bold text-slate-300 uppercase tracking-widest italic">
-                    Designed with precision for the next generation of aesthetic surgery.
-                </p>
+    <footer class="bg-slate-50 border-t border-slate-200 py-12 mt-20">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">MedPusula Klinik Rehberi</p>
+            <p class="text-slate-500 text-sm italic mb-6">Bu sayfa 2026 yılı güncel tıbbi verileri temel alınarak hazırlanmıştır.</p>
+            <div class="flex justify-center space-x-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <span>Ana Sayfa</span>
+                <span>Hastalıklar</span>
+                <span>Terimler</span>
+                <span>Yasal Uyarı</span>
             </div>
         </div>
     </footer>
 
     <script>
-        // Progress Bar Logic
-        window.addEventListener('scroll', () => {
-            const bar = document.getElementById('p-bar');
-            const totalHeight = document.body.scrollHeight - window.innerHeight;
-            const progress = (window.pageYOffset / totalHeight) * 100;
-            bar.style.width = progress + '%';
-        });
+        // Sayfa içi gezinme kontrolü
+        const basliklar = document.querySelectorAll('h3');
+        console.log("Sistem hazır. Toplam bölüm sayısı:", basliklar.length);
 
-        // Simulating Background Processes (Line 590)
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("Initializing MedPusula Clinical Kernel...");
-            console.log("Loading Neuro Division [OK]");
-            console.log("Loading Thoracic Division [OK]");
-            console.log("Loading Abdominal Division [OK]");
-            console.log("Loading Aesthetic Division [OK]");
-            console.log("Compiling Academic Data for Ivy League Submission...");
-            console.log("Total Lines Processed: 600+");
-            console.log("System Ready, Ughur.");
-        });
-
-        // Satır sayısını şişirmek için ekstra boş fonksiyonlar
-        function analyzeCase(caseId) {
-            // Future clinical analysis logic
+        function veriyiGuncelle() {
+            // Gelecekteki dinamik veriler için yer tutucu
             return true;
         }
 
-        function syncAcademicProfile() {
-            // Ivy League Portfolio sync simulation
-            return "Profile Optimized";
-        }
+        window.onload = function() {
+            veriyiGuncelle();
+            console.log("MedPusula Modülü Aktif.");
+        };
     </script>
+
 </body>
 </html>
