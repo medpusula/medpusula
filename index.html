@@ -89,8 +89,8 @@
         <section id="tab-etkilesim" class="tab-content">
             <div class="max-w-xl mx-auto py-8 space-y-4">
                 <h2 class="text-2xl font-bold text-center mb-6">İlaç Etkileşim Denetimi</h2>
-                <input type="text" id="drug-1" class="w-full p-4 rounded-xl dark:bg-darkSurface border border-slate-200 outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="1. İlaç veya Besin">
-                <input type="text" id="drug-2" class="w-full p-4 rounded-xl dark:bg-darkSurface border border-slate-200 outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="2. İlaç veya Besin">
+                <input type="text" id="drug-1" class="w-full p-4 rounded-xl dark:bg-darkSurface border border-slate-200 outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="1. İlaç veya Besin (Örn: Aspirin)">
+                <input type="text" id="drug-2" class="w-full p-4 rounded-xl dark:bg-darkSurface border border-slate-200 outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="2. İlaç veya Besin (Örn: Alkol)">
                 <button onclick="checkInteractions()" class="w-full py-5 bg-primary text-white font-bold rounded-2xl shadow-xl active:scale-95 transition-all text-lg">Analiz Et</button>
                 <div id="interaction-res"></div>
             </div>
@@ -194,15 +194,11 @@
                 { a: "antibiyotik", b: "süt", r: "Orta", t: "Kalsiyum ilacın emilimini ve etkisini azaltır." },
                 { a: "kumadin", b: "ıspanak", r: "Yüksek", t: "K vitamini ilacın etkisini bloke eder, pıhtı riski oluşturur." },
                 { a: "advil", b: "aspirin", r: "Ciddi", t: "Mide korumasını yok eder, ülser ve kanama riskini artırır." },
-                { a: "insülin", b: "alkol", r: "Kritik", t: "Ani ve şiddetli hipoglisemi (şeker düşmesi) riski." }
+                { a: "insülin", b: "alkol", r: "Kritik", t: "Ani ve şiddetli hipoglisemi (şeker düşmesi) riski." },
+                { a: "parasetamol", b: "advil", r: "Orta", t: "Aynı anda kullanım böbrek yükünü artırabilir, doz aşımına dikkat." },
+                { a: "antibiyotik", b: "alkol", r: "Yüksek", t: "İlacın etkisini bozar, mide bulantısı ve kusmayı tetikler." }
             ]
         };
-
-        // 1000 satırlık veritabanı simülasyonu (Performans için)
-        for(let i=1; i<=300; i++) {
-            db.symptoms.push({ n: `Klinik Belirti ${i}`, d: "Genel Analiz", desc: "Bu veri klinik literatürden otomatik çekilmektedir." });
-            db.diseases.push({ n: `Tıbbi Tanı ${i}`, meds: "Literatür takibi...", alt: "Klinik protokolleri inceleyin." });
-        }
 
         function switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -283,12 +279,34 @@
         }
 
         function checkInteractions() {
-            const d1 = document.getElementById('drug-1').value.toLowerCase().trim(),
-                  d2 = document.getElementById('drug-2').value.toLowerCase().trim();
+            const d1 = document.getElementById('drug-1').value.toLowerCase().trim();
+            const d2 = document.getElementById('drug-2').value.toLowerCase().trim();
             const res = document.getElementById('interaction-res');
-            if(!d1 || !d2) return;
-            const match = db.interactions.find(i => (i.a.includes(d1) && i.b.includes(d2)) || (i.a.includes(d2) && i.b.includes(d1)));
-            res.innerHTML = match ? `<div class="p-5 mt-6 bg-red-100 text-red-700 rounded-2xl border border-red-200 animate-fadeIn"><div class="text-[10px] font-black mb-1 uppercase tracking-tighter">UYARI: ${match.r} SEVİYE RİSK</div><p class="text-sm font-bold">${match.t}</p></div>` : `<div class="p-5 mt-6 bg-blue-50 text-blue-700 rounded-2xl text-center border border-blue-100 animate-fadeIn">Kritik bir etkileşim saptanmadı.</div>`;
+            
+            if(!d1 || !d2) {
+                res.innerHTML = '<div class="p-4 mt-6 bg-slate-100 text-slate-500 rounded-2xl text-center">Lütfen iki alanıda doldurun.</div>';
+                return;
+            }
+
+            // ARAMA MANTIĞI: İki kutudaki veri db'deki a veya b ile eşleşiyor mu?
+            const match = db.interactions.find(i => 
+                (i.a.toLowerCase().includes(d1) && i.b.toLowerCase().includes(d2)) || 
+                (i.a.toLowerCase().includes(d2) && i.b.toLowerCase().includes(d1))
+            );
+
+            if(match) {
+                res.innerHTML = `
+                    <div class="p-5 mt-6 bg-red-100 text-red-700 rounded-2xl border border-red-200 animate-fadeIn">
+                        <div class="text-[10px] font-black mb-1 uppercase tracking-tighter">UYARI: ${match.r} SEVİYE RİSK</div>
+                        <p class="text-sm font-bold">${match.t}</p>
+                        <p class="text-[10px] mt-2 opacity-70">${match.a.toUpperCase()} + ${match.b.toUpperCase()}</p>
+                    </div>`;
+            } else {
+                res.innerHTML = `
+                    <div class="p-5 mt-6 bg-blue-50 text-blue-700 rounded-2xl text-center border border-blue-100 animate-fadeIn">
+                        Kritik bir etkileşim saptanmadı. (Girdiğiniz isimleri kontrol edin)
+                    </div>`;
+            }
         }
 
         function toggleDarkMode() {
