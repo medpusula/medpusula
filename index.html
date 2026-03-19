@@ -62,16 +62,16 @@
                 <div class="flex flex-col md:flex-row gap-3">
                     <div class="flex-1 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl border border-blue-100 dark:border-blue-800 flex gap-3">
                         <i class="fa-solid fa-magnifying-glass-chart text-blue-500 mt-1"></i>
-                        <p class="text-[11px] text-blue-700 dark:text-blue-300 leading-relaxed font-medium">Semptomlarınızı giriniz; sistem veritabanı üzerinden klinik ön değerlendirme yapacaktır.</p>
+                        <p class="text-[11px] text-blue-700 dark:text-blue-300 leading-relaxed font-medium">Lütfen semptomlarınızı arama motoruna giriniz.</p>
                     </div>
                     <div class="flex-1 bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800 flex gap-3">
                         <i class="fa-solid fa-bolt text-emerald-500 mt-1"></i>
-                        <p class="text-[11px] text-emerald-700 dark:text-emerald-300 leading-relaxed font-medium">Kritik bulgularda vakit kaybetmeden en yakın acil servise başvurulmalıdır.</p>
+                        <p class="text-[11px] text-emerald-700 dark:text-emerald-300 leading-relaxed font-medium">Akut ve şiddetli şikayetlerde acil tıbbi yardım talep edilmelidir.</p>
                     </div>
                 </div>
 
                 <div class="relative">
-                    <input type="text" id="symptom-search" oninput="liveFilter('symptom')" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg transition-all" placeholder="Şikayetinizi belirtiniz (Örn: Mide yanması, Çarpıntı)...">
+                    <input type="text" id="symptom-search" oninput="liveFilter('symptom')" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg transition-all" placeholder="Şikayetinizi belirtiniz (Örn: Karın ağrısı, Çarpıntı)...">
                     <i class="fa-solid fa-stethoscope absolute left-6 top-7 text-slate-300"></i>
                 </div>
                 <div id="symptom-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -82,10 +82,10 @@
             <div class="space-y-6 pt-4">
                 <div class="bg-slate-100 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex gap-3">
                     <i class="fa-solid fa-book-medical text-slate-500 mt-1"></i>
-                    <p class="text-[11px] text-slate-600 dark:text-slate-400 font-medium">Patolojik durumlar, tedavi protokolleri ve genel sağlık bilgileri.</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 font-medium">Hastalıkların klinik tanımı ve tedavi yaklaşımları.</p>
                 </div>
                 <div class="relative">
-                    <input type="text" id="disease-search" oninput="liveFilter('disease')" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg" placeholder="Hastalık aratınız (Örn: Akne, Gastrit, Hipertansiyon)...">
+                    <input type="text" id="disease-search" oninput="liveFilter('disease')" class="w-full p-6 pl-14 rounded-3xl bg-white dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-xl text-lg" placeholder="Hastalık aratınız (Örn: Apandisit, Gastrit)...">
                     <i class="fa-solid fa-virus absolute left-6 top-7 text-slate-300"></i>
                 </div>
                 <div id="disease-list" class="space-y-4"></div>
@@ -97,7 +97,7 @@
                 <h2 class="text-2xl font-black italic tracking-tighter uppercase">Farmakolojik Etkileşim Denetimi</h2>
                 <div class="relative text-left"><input type="text" id="drug-1" oninput="showSuggestions('drug-1')" class="w-full p-5 rounded-2xl dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-lg" placeholder="1. Etken Madde/İlaç"><div id="suggestions-1" class="suggestion-box hidden"></div></div>
                 <div class="relative text-left"><input type="text" id="drug-2" oninput="showSuggestions('drug-2')" class="w-full p-5 rounded-2xl dark:bg-darkSurface border-2 border-slate-100 dark:border-slate-800 outline-none focus:border-primary shadow-lg" placeholder="2. Etken Madde/Besin"><div id="suggestions-2" class="suggestion-box hidden"></div></div>
-                <button onclick="checkInteractions()" class="w-full py-5 bg-slate-900 text-white font-bold rounded-2xl shadow-xl hover:bg-primary transition-all uppercase tracking-widest text-xs">Etkileşimi Analiz Et</button>
+                <button onclick="checkInteractions()" class="w-full py-5 bg-slate-900 text-white font-bold rounded-2xl shadow-xl hover:bg-primary transition-all uppercase tracking-widest text-xs">Analizi Başlat</button>
                 <div id="interaction-res"></div>
             </div>
         </section>
@@ -114,7 +114,7 @@
                     <div class="space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Boy (cm)</label><input type="number" id="h-height" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
                     <div class="col-span-2 space-y-1"><label class="text-[9px] font-black ml-2 uppercase opacity-40">Ağırlık (kg)</label><input type="number" id="h-weight" class="w-full p-4 rounded-xl bg-slate-50 dark:bg-darkBg border-none outline-none focus:ring-2 focus:ring-primary shadow-inner"></div>
                 </div>
-                <button onclick="calcHealth()" class="w-full py-5 bg-primary text-white font-black rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-widest">Hesaplamayı Başlat</button>
+                <button onclick="calcHealth()" class="w-full py-5 bg-primary text-white font-black rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-widest">Hesapla</button>
                 
                 <div id="h-res" class="hidden pt-10 space-y-8 border-t-2 border-slate-50 dark:border-slate-800 animate-fadeIn">
                     <div class="flex justify-around items-center text-center">
@@ -137,8 +137,8 @@
                 <div class="flex gap-4 items-start">
                     <i class="fa-solid fa-shield-halved mt-1 text-slate-500 text-xl"></i>
                     <div class="text-[10px] leading-relaxed">
-                        <strong class="block mb-2 uppercase tracking-widest font-black text-white">Yasal Sorumluluk Beyanı</strong>
-                        MedPusula bir klinik karar destek sistemidir. Sunulan veriler bilgilendirme amaçlı olup uzman tıbbi tavsiye, tanı veya tedavi yerine geçmez. Sağlık sorunlarınız için yetkili bir hekime başvurunuz. Acil durumlarda 112 numaralı hattı arayınız.
+                        <strong class="block mb-2 uppercase tracking-widest font-black text-white">Yasal Uyarı</strong>
+                        MedPusula bir bilgilendirme sistemidir. Teşhis ve tedavi önerisi sunmaz. Acil durumlarda 112 numaralı hattı arayınız.
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                     <i class="fa-solid fa-staff-snake text-primary text-sm"></i>
                     <span class="text-sm font-black tracking-tighter text-white">MedPusula</span>
                 </div>
-                <p class="text-[9px] text-slate-500 font-bold tracking-[0.3em]">© 2026 TIBBİ ANALİZ VE DESTEK SİSTEMİ</p>
+                <p class="text-[9px] text-slate-500 font-bold tracking-[0.3em]">© 2026 TIBBİ ANALİZ SİSTEMLERİ</p>
             </div>
         </div>
     </footer>
@@ -164,33 +164,29 @@
 
         const db = {
             symptoms: [
-                { n: "Akne Vulgaris (Sivilce)", d: "Dermatoloji", desc: "Genellikle pilosebase ünite inflamasyonu ile karakterize, hormonal veya çevresel faktörlere bağlı gelişen cilt durumudur.", urgent: false },
-                { n: "Halsizlik ve Bitkinlik", d: "Dahiliye", desc: "Anemi, vitamin eksikliği, kronik yorgunluk sendromu veya enfeksiyonel süreçlerin belirtisi olabilir.", urgent: false },
-                { n: "Abdominal Şişkinlik", d: "Gastroenteroloji", desc: "Dispepsi, intolerans veya sindirim sistemi disfonksiyonu kaynaklı olabilir.", urgent: false },
-                { n: "Rinit (Burun Akıntısı)", d: "KBB", desc: "Viral üst solunum yolu enfeksiyonu veya alerjik reaksiyon sonucu gelişen mukozal inflamasyondur.", urgent: false },
-                { n: "Mide Yanması (Pirozis)", d: "Gastroenteroloji", desc: " Gastroözofageal Reflü Hastalığı (GÖRH) veya gastrit bulgusu olabilir.", urgent: false },
-                { n: "Vertigo (Baş Dönmesi)", d: "KBB / Nöroloji", desc: "İç kulak kaynaklı kristal oynaması veya vestibüler sistem bozukluğu belirtisidir.", urgent: false },
-                { n: "Palpitasyon (Çarpıntı)", d: "Kardiyoloji", desc: "Kalp ritim bozuklukları, anksiyete veya uyarıcı madde kullanımına bağlı gelişen sübjektif his.", urgent: false },
+                { n: "Karın Ağrısı (Genel)", d: "Genel Cerrahi / Dahiliye", desc: "Abdominal bölgede lokalize olan ağrıdır. Eşlik eden bulgular (bulantı, ateş, hassasiyet) tanıda kritiktir.", urgent: false },
+                { n: "Sağ Alt Kadran Ağrısı", d: "Genel Cerrahi / ACİL", desc: "Akut Apandisit belirtisi olabilir. Dokunulduğunda artan hassasiyet ve rebound bulgusu mevcutsa acil müdahale gerekir.", urgent: true },
+                { n: "Epigastrik Ağrı (Mide)", d: "Gastroenteroloji", desc: "Midenin bulunduğu üst orta bölgedeki ağrıdır. Gastrit, ülser veya reflü kaynaklı olabilir.", urgent: false },
+                { n: "Akne Vulgaris", d: "Dermatoloji", desc: "Ciltte inflamatuar lezyonlar ile karakterize dermatoz.", urgent: false },
+                { n: "Halsizlik", d: "Dahiliye", desc: "Anemi veya enfeksiyonel süreç belirtisi.", urgent: false },
+                { n: "Vertigo", d: "KBB", desc: "Denge kaybı ve baş dönmesi hissi.", urgent: false },
+                { n: "Palpitasyon (Çarpıntı)", d: "Kardiyoloji", desc: "Kalp atışlarının hissedilir şekilde artması.", urgent: false },
                 
-                // --- KRİTİK SEMPTOMLAR ---
-                { n: "Göğüste Sıkışma Hissi", d: "Kardiyoloji / ACİL", desc: "Miyokard Enfarktüsü (Kalp Krizi) belirtisi olabilir; ağrı sol omuz ve çeneye yayılabilir.", urgent: true },
-                { n: "Akut Hemiparezi (Uyuşma)", d: "Nöroloji / ACİL", desc: "Vücudun bir tarafında ani gelişen güç veya his kaybı inme belirtisi olabilir.", urgent: true },
-                { n: "Dispne (Nefes Darlığı)", d: "Göğüs / ACİL", desc: "Akut gelişen solunum güçlüğü; pulmoner emboli veya kalp yetmezliği işareti olabilir.", urgent: true }
+                // --- ACİL DURUMLAR ---
+                { n: "Göğüs Ağrısı (Angina)", d: "Kardiyoloji / ACİL", desc: "Miyokard enfarktüsü riski; baskılayıcı ve yayılan ağrı.", urgent: true },
+                { n: "Akut Hemiparezi", d: "Nöroloji / ACİL", desc: "Ani güç kaybı ve inme bulgusu.", urgent: true }
             ],
             diseases: [
-                { n: "Akne Vulgaris", meds: "Topikal retinoidler, antibiyotikler.", alt: "Cilt temizliği ve düşük glisemik indeksli beslenme önerilir." },
-                { n: "Kronik Gastrit", meds: "Proton pompası inhibitörleri, antiasitler.", alt: "Asitli, baharatlı ve kafeinli gıdalardan kaçınılmalıdır." },
-                { n: "Demir Eksikliği Anemisi", meds: "Oral demir takviyeleri.", alt: "C vitamini ile alım emilimi artırır; çay ve kahve ile alım azaltır." },
-                { n: "Migren", meds: "Triptanlar, analjezikler.", alt: "Tetikleyici faktörlerden (stres, uykusuzluk, ışık) kaçınılmalıdır." },
-                { n: "Hipertansiyon", meds: "Antihipertansif ilaçlar.", alt: "Düşük sodyum tüketimi ve düzenli fiziksel aktivite gereklidir." },
-                { n: "Hipotiroidi", meds: "Levotiroksin sodyum.", alt: "Metabolizma hızını düzenleyen hormon replasman tedavisidir." }
+                { n: "Akut Apandisit", meds: "Cerrahi müdahale gereklidir.", alt: "Tanı konulana kadar oral alım kesilmeli ve ağrı kesici kullanılmamalıdır." },
+                { n: "Kronik Gastrit", meds: "Proton pompası inhibitörleri.", alt: "Diyet düzenlemesi ve asitli gıdalardan kaçınma önerilir." },
+                { n: "Kolesistit (Safra Kesesi İltihabı)", meds: "Cerrahi veya antibiyotik tedavisi.", alt: "Yağlı gıda tüketimi sonrası artan sağ üst kadran ağrısı ile karakterizedir." },
+                { n: "Akne Vulgaris", meds: "Topikal/Oral antibiyotikler.", alt: "Cilt hijyeni sağlanmalıdır." },
+                { n: "Hipotiroidi", meds: "Hormon replasman tedavisi.", alt: "Düzenli TSH takibi gereklidir." }
             ],
             interactions: [
-                { a: "Asetilsalisilik Asit (Aspirin)", b: "Alkol", r: "Yüksek", t: "Gastrointestinal mukozal hasar ve kanama riskinde artış." },
-                { a: "Antibiyotik (Siprofloksasin)", b: "Kalsiyum/Süt", r: "Orta", t: "İlaç emiliminde azalma; dozlar arasında en az 2 saat bulunmalıdır." },
-                { a: "Demir Takviyesi", b: "Kafein", r: "Orta", t: "Demir absorbsiyonunun (emiliminin) inhibe edilmesi." },
-                { a: "Greyfurt Suyu", b: "Statinler", r: "Kritik", t: "İlaç metabolizmasının bozulması sonucu toksikasyon riski." },
-                { a: "Varfarin", b: "K Vitamini", r: "Kritik", t: "İlaç etkinliğinin azalması ve pıhtılaşma kontrolünün bozulması." }
+                { a: "Aspirin", b: "Alkol", r: "Yüksek", t: "Mide mukozasında hasar ve kanama riski." },
+                { a: "Antibiyotik", b: "Süt Ürünleri", r: "Orta", t: "İlacın biyoyararlanımında azalma." },
+                { a: "Greyfurt", b: "Statinler", r: "Kritik", t: "İlaç konsantrasyonunda toksik artış." }
             ]
         };
 
@@ -212,7 +208,7 @@
                     const style = i.urgent ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'bg-white dark:bg-darkSurface border-slate-100 dark:border-slate-800 shadow-lg';
                     list.innerHTML += `<div class="${style} p-5 rounded-3xl border transition-all animate-fadeIn">
                         <div class="flex justify-between mb-2">
-                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-lg font-black uppercase tracking-widest">${i.d || 'Klinik Veri'}</span>
+                            <span class="text-[9px] bg-primary/10 text-primary px-2 py-0.5 rounded-lg font-black uppercase tracking-widest">${i.d || 'Medikal'}</span>
                             ${i.urgent ? '<span class="text-[9px] bg-red-600 text-white px-2 py-0.5 rounded-lg font-black animate-pulse">ACİL DURUM</span>' : ''}
                         </div>
                         <div class="font-bold text-lg">${i.n}</div>
@@ -220,7 +216,7 @@
                     </div>`;
                 });
             } else {
-                list.innerHTML = `<div class="col-span-full p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl text-center text-[11px] font-bold text-slate-400">Aranan kriterlere uygun veri bulunamadı.</div>`;
+                list.innerHTML = `<div class="col-span-full p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl text-center text-[11px] font-bold text-slate-400">Veri tabanında eşleşme saptanmadı.</div>`;
             }
         }
 
@@ -245,21 +241,21 @@
             const d1 = document.getElementById('drug-1').value.toLowerCase();
             const d2 = document.getElementById('drug-2').value.toLowerCase();
             const match = db.interactions.find(i => (i.a.toLowerCase().includes(d1) && i.b.toLowerCase().includes(d2)) || (i.a.toLowerCase().includes(d2) && i.b.toLowerCase().includes(d1)));
-            document.getElementById('interaction-res').innerHTML = match ? `<div class="p-6 mt-6 bg-orange-100 text-orange-800 rounded-2xl font-bold text-[11px] border border-orange-200 animate-fadeIn">⚠️ ETKİLEŞİM UYARISI: ${match.t} (Risk Seviyesi: ${match.r})</div>` : `<div class="p-4 mt-6 bg-slate-100 text-slate-400 rounded-2xl text-[10px] italic">Sistem kayıtlarında girilen bileşenler arasında majör bir etkileşim saptanmadı.</div>`;
+            document.getElementById('interaction-res').innerHTML = match ? `<div class="p-6 mt-6 bg-orange-100 text-orange-800 rounded-2xl font-bold text-[11px] border border-orange-200 animate-fadeIn">⚠️ ETKİLEŞİM UYARISI: ${match.t} (Seviye: ${match.r})</div>` : `<div class="p-4 mt-6 bg-slate-100 text-slate-400 rounded-2xl text-[10px] italic">Majör bir etkileşim bulunamadı.</div>`;
         }
 
         function calcHealth() {
             const age = document.getElementById('h-age').value, h = document.getElementById('h-height').value / 100, w = document.getElementById('h-weight').value;
-            if(!age || !h || !w || !selectedGender) return alert('Lütfen tüm parametreleri doldurunuz.');
+            if(!age || !h || !w || !selectedGender) return alert('Parametreleri eksiksiz doldurunuz.');
             const bmi = (w / (h*h)).toFixed(1);
             document.getElementById('h-res').classList.remove('hidden');
             document.getElementById('bmi-val').innerText = bmi;
             document.getElementById('ideal-val').innerText = `${(18.5*h*h).toFixed(0)}-${(24.9*h*h).toFixed(0)} kg`;
             let pointerPos = ((bmi - 15) / (45 - 15)) * 100;
             document.getElementById('bmi-pointer').style.left = `${Math.min(Math.max(pointerPos, 0), 100)}%`;
-            let status = bmi < 18.5 ? "Düşük Kilolu" : bmi < 25 ? "Normal Kilolu" : bmi < 30 ? "Fazla Kilolu" : "Obezite Sınıfı";
+            let status = bmi < 18.5 ? "Zayıf" : bmi < 25 ? "Normal" : bmi < 30 ? "Kilolu" : "Obez";
             document.getElementById('bmi-status-box').className = `p-6 rounded-2xl text-[11px] border ${bmi < 25 && bmi >= 18.5 ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-red-50 text-red-800 border-red-100'}`;
-            document.getElementById('bmi-status-box').innerHTML = `Analiz Sonucu: <strong>${status}</strong>. Belirtilen yaş ve cinsiyet için ideal ağırlık aralığı ${document.getElementById('ideal-val').innerText} olarak saptanmıştır.`;
+            document.getElementById('bmi-status-box').innerHTML = `Değerlendirme: <strong>${status}</strong>. Boyunuza uygun ideal ağırlık aralığı ${document.getElementById('ideal-val').innerText} olarak saptanmıştır.`;
         }
     </script>
 </body>
