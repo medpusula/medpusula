@@ -1,18 +1,18 @@
 /**
- * Quietloop waitlist backend.
+ * Halleder bekleme listesi arka ucu.
  *
- * Paste this into a Google Sheet's Apps Script editor and deploy it as a
- * Web app. The landing page POSTs signups here and they land as rows in the
- * "Waitlist" tab. See README.md for the steps.
+ * Bunu bir Google Tablosu'nun Apps Script düzenleyicisine yapıştır ve Web
+ * uygulaması olarak yayınla. Sayfadaki form kayıtları buraya gönderir ve
+ * "Bekleme listesi" sekmesine satır olarak eklenir. Adımlar için README.md'ye bak.
  */
 
-var SHEET_NAME = 'Waitlist';
-var HEADERS = ['Signed up', 'Email', 'First thing to hand off', 'Form'];
+var SHEET_NAME = 'Bekleme listesi';
+var HEADERS = ['Kayıt zamanı', 'E-posta', 'İlk devretmek istediği iş', 'Form'];
 
 function doPost(e) {
   var p = (e && e.parameter) || {};
 
-  // Bots fill the hidden "company" field. Ignore them without an error.
+  // Botlar gizli "company" alanını doldurur. Onları hata vermeden yok say.
   if (p.company) return reply_({ ok: true });
 
   var email = String(p.email || '').trim().toLowerCase();
@@ -44,13 +44,13 @@ function doPost(e) {
   return reply_({ ok: true });
 }
 
-// Opening the Web app URL in a browser shows this, which is a quick way to
-// check that the deployment works.
+// Web uygulaması URL'sini tarayıcıda açınca bu görünür. Yayının çalıştığını
+// kontrol etmenin hızlı yolu.
 function doGet() {
-  return ContentService.createTextOutput('Quietloop waitlist is running.');
+  return ContentService.createTextOutput('Halleder bekleme listesi çalışıyor.');
 }
 
-// Stops a value like "=HYPERLINK(...)" from being run as a spreadsheet formula.
+// "=HYPERLINK(...)" gibi bir değerin tabloda formül olarak çalışmasını engeller.
 function safe_(value) {
   var text = String(value || '').slice(0, 200);
   return /^[=+\-@]/.test(text) ? "'" + text : text;

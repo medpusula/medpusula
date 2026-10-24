@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Quietloop · AI automation for small teams</title>
-<meta name="description" content="Quietloop designs, builds and looks after AI automations for small teams. Hand off the repetitive work and get it back finished. Join the waitlist.">
+<title>Halleder · Küçük işletmeler için yapay zekâ otomasyonu</title>
+<meta name="description" content="Halleder, küçük işletmeler için yapay zekâ otomasyonları kurar ve çalışır halde tutar. Tekrar eden işi devret, bitmiş olarak geri al. Bekleme listesine katıl.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Quietloop · Busywork that quietly finishes itself">
-<meta property="og:description" content="AI automations built and looked after for you. Join the waitlist.">
+<meta property="og:title" content="Halleder · Sıkıcı işler kendi kendine halledilir">
+<meta property="og:description" content="Senin için kurulan ve izlenen yapay zekâ otomasyonları. Bekleme listesine katıl.">
 <meta name="theme-color" content="#EDF0EE">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%2313252A' stroke-width='3' stroke-dasharray='56 13.1' stroke-linecap='round'/%3E%3Ccircle cx='25.1' cy='9.85' r='2.6' fill='%231F9D63'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%2313252A' stroke-width='3'/%3E%3Cpath d='M10.5 16.5l4 4 7.5-8.5' fill='none' stroke='%231F9D63' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
 <style>
-/* Layout: left-weighted. Hero copy on the left, an example run log on the right.
-   Content sections use a narrow heading column and a wide reading column.
-   The only saturated colour is the "running" green, used for status dots. */
+/* Düzen: sola yaslı. Solda tanıtım metni, sağda örnek bir çalışma kaydı.
+   İçerik bölümleri dar bir başlık sütunu ve geniş bir okuma sütunu kullanır.
+   Tek canlı renk, tik işareti ve durum noktalarında kullanılan "çalışıyor" yeşilidir. */
 :root{
   --bg:#EDF0EE;
   --surface:#F7F9F8;
@@ -80,13 +80,13 @@ h2{font-size:clamp(1.75rem,3.6vw,2.5rem);line-height:1.08;letter-spacing:-.025em
 h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 .lede{color:var(--muted);max-width:34rem}
 
-/* header */
+/* üst bölüm */
 .site-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1.5rem}
 .brand{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:1.375rem;letter-spacing:-.02em}
 .brand svg{width:1.75rem;height:1.75rem;color:var(--ink)}
 .nav-link{font-weight:600;font-size:.95rem;text-decoration:none;border-bottom:1.5px solid var(--ink);padding-bottom:1px}
 
-/* hero */
+/* giriş */
 .hero{
   display:grid;
   grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
@@ -103,7 +103,7 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 .hero h1 span{display:block;color:var(--muted)}
 .hero .lede{margin-top:1.5rem;font-size:1.125rem}
 
-/* waitlist form */
+/* bekleme listesi formu */
 .waitlist-form{margin-top:2rem;max-width:34rem}
 .form-row{display:flex;flex-wrap:wrap;gap:.75rem}
 .field{display:flex;flex-direction:column;gap:.35rem;min-width:0}
@@ -141,7 +141,7 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 .form-status[data-state="ok"]{color:var(--run-ink)}
 .form-status[data-state="error"]{color:var(--err)}
 
-/* run log */
+/* çalışma kaydı */
 .log{
   background:var(--surface);
   border:1px solid var(--line);
@@ -182,7 +182,7 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
   70%,100%{box-shadow:0 0 0 .5rem transparent}
 }
 
-/* content sections */
+/* içerik bölümleri */
 .section{
   display:grid;
   grid-template-columns:minmax(0,17rem) minmax(0,1fr);
@@ -227,7 +227,7 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 .faq details[open] summary::after{content:"\2212"}
 .faq details p{color:var(--muted);margin-top:.6rem;max-width:36rem}
 
-/* join band */
+/* katılım bandı */
 .join{
   background:var(--surface);
   border:1px solid var(--line);
@@ -270,181 +270,181 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 <div class="wrap">
 
 <header class="site-header">
-  <a class="brand" href="#top" id="top" aria-label="Quietloop home">
+  <a class="brand" href="#top" id="top" aria-label="Halleder ana sayfa">
     <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-      <circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="56 13.1" stroke-linecap="round"/>
-      <circle cx="25.1" cy="9.85" r="2.6" fill="var(--run)"/>
+      <circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M10.5 16.5l4 4 7.5-8.5" fill="none" stroke="var(--run)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    Quietloop
+    Halleder
   </a>
-  <a class="nav-link" href="#join">Join the waitlist</a>
+  <a class="nav-link" href="#join">Bekleme listesine katıl</a>
 </header>
 
 <main>
   <section class="hero" aria-labelledby="hero-title">
     <div>
-      <p class="eyebrow">AI automation for small teams</p>
-      <h1 id="hero-title">Busywork that <span>quietly finishes itself.</span></h1>
-      <p class="lede">Quietloop designs, builds and looks after AI automations for you. Tell us the task you repeat every week. We turn it into something that runs on its own, and we keep it running.</p>
+      <p class="eyebrow">Küçük işletmeler için yapay zekâ otomasyonu</p>
+      <h1 id="hero-title">Sıkıcı işler <span>kendi kendine halledilir.</span></h1>
+      <p class="lede">Halleder, senin için yapay zekâ otomasyonları tasarlar, kurar ve çalışır halde tutar. Her hafta tekrarladığın işi söyle. Biz onu kendi kendine çalışan bir sisteme çevirelim ve çalışmaya devam etsin.</p>
 
       <form class="waitlist-form" novalidate>
         <div class="form-row">
           <div class="field grow">
-            <label class="visually-hidden" for="email-hero">Email address</label>
-            <input id="email-hero" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
+            <label class="visually-hidden" for="email-hero">E-posta adresi</label>
+            <input id="email-hero" name="email" type="email" inputmode="email" autocomplete="email" placeholder="sen@sirket.com" required>
           </div>
-          <button class="btn" type="submit">Join the waitlist</button>
+          <button class="btn" type="submit">Bekleme listesine katıl</button>
         </div>
-        <div class="hp" aria-hidden="true"><label>Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label></div>
+        <div class="hp" aria-hidden="true"><label>Burayı boş bırak<input name="company" tabindex="-1" autocomplete="off"></label></div>
         <input type="hidden" name="source" value="hero">
         <p class="form-status" role="status" aria-live="polite"></p>
-        <p class="fine">One email when your spot opens. No spam.</p>
+        <p class="fine">Yerin açılınca tek bir e-posta atarız. Spam yok.</p>
       </form>
     </div>
 
-    <aside class="log" aria-label="Example run log">
+    <aside class="log" aria-label="Örnek çalışma kaydı">
       <div class="log-head">
-        <span>EXAMPLE RUN LOG</span>
-        <span class="status"><span class="dot"></span>All loops closed</span>
+        <span>ÖRNEK ÇALIŞMA KAYDI</span>
+        <span class="status"><span class="dot"></span>Tüm işler tamam</span>
       </div>
       <ol>
         <li style="--i:0">
           <time>06:02</time>
-          <p><strong>Inbox</strong><span class="tag">needs you</span><br>38 emails sorted. 5 drafted replies are waiting for your OK.</p>
+          <p><strong>Gelen kutusu</strong><span class="tag">onayın lazım</span><br>38 e-posta ayrıldı. 5 cevap taslağı onayını bekliyor.</p>
         </li>
         <li style="--i:1">
           <time>06:15</time>
-          <p><strong>Invoices</strong><span class="tag">needs you</span><br>7 matched to orders. 1 amount mismatch held back for review.</p>
+          <p><strong>Faturalar</strong><span class="tag">onayın lazım</span><br>7 fatura siparişlerle eşleşti. Tutarı uyuşmayan 1 fatura incelemen için ayrıldı.</p>
         </li>
         <li style="--i:2">
           <time>06:40</time>
-          <p><strong>Leads</strong><br>3 enquiries answered. 1 call booked for Thursday.</p>
+          <p><strong>Müşteri talepleri</strong><br>3 talebe cevap verildi. Perşembe için 1 randevu alındı.</p>
         </li>
         <li style="--i:3">
           <time>07:30</time>
-          <p><strong>Weekly report</strong><br>Sales summary written and sent to the team.</p>
+          <p><strong>Haftalık rapor</strong><br>Satış özeti yazıldı ve ekibe gönderildi.</p>
         </li>
       </ol>
-      <p class="log-foot">Illustrative example, not real customer data.</p>
+      <p class="log-foot">Örnek amaçlıdır, gerçek müşteri verisi değildir.</p>
     </aside>
   </section>
 
   <section class="section" id="what" aria-labelledby="what-title">
     <div>
-      <p class="eyebrow">What we handle</p>
-      <h2 id="what-title">The work we take off your plate.</h2>
+      <p class="eyebrow">Neleri üstleniyoruz</p>
+      <h2 id="what-title">Sırtından alacağımız işler.</h2>
     </div>
     <div>
       <dl class="handled">
-        <div><dt>Inbox and support</dt><dd>Sort incoming mail, tag it, draft replies in your voice and flag what needs a person.</dd></div>
-        <div><dt>Documents and invoices</dt><dd>Pull the numbers out of PDFs, emails and forms and put them where they belong.</dd></div>
-        <div><dt>Leads and follow-ups</dt><dd>Answer enquiries fast, chase the quiet ones and book the call.</dd></div>
-        <div><dt>Reports and admin</dt><dd>Weekly summaries, reminders, data entry and the spreadsheet nobody wants to update.</dd></div>
+        <div><dt>Gelen kutusu ve destek</dt><dd>Gelen e-postaları ayırır, etiketler, senin üslubunla cevap taslağı yazar ve bir insanın bakması gerekenleri sana işaretler.</dd></div>
+        <div><dt>Belgeler ve faturalar</dt><dd>PDF, e-posta ve formlardaki rakamları çekip olması gereken yere koyar.</dd></div>
+        <div><dt>Müşteri talepleri ve takip</dt><dd>Gelen taleplere hızlı cevap verir, geri dönmeyenleri takip eder ve randevuyu ayarlar.</dd></div>
+        <div><dt>Rapor ve idari işler</dt><dd>Haftalık özetler, hatırlatmalar, veri girişi ve kimsenin güncellemek istemediği tablo.</dd></div>
       </dl>
-      <p class="handled-note lede">Something else? Tell us when you join. We choose the first workflows to build from what the waitlist asks for.</p>
+      <p class="handled-note lede">Başka bir iş mi var? Katılırken yaz. İlk kuracağımız otomasyonları bekleme listesinin isteklerine göre seçiyoruz.</p>
     </div>
   </section>
 
   <section class="section" id="how" aria-labelledby="how-title">
     <div>
-      <p class="eyebrow">How it works</p>
-      <h2 id="how-title">From repeated task to quiet routine.</h2>
+      <p class="eyebrow">Nasıl çalışır</p>
+      <h2 id="how-title">Tekrar eden işten sessiz bir düzene.</h2>
     </div>
     <ol class="steps">
       <li>
         <span class="step-n" aria-hidden="true">1</span>
-        <div><h3>Describe the task</h3><p>A short call or form. You show us what you do today, step by step.</p></div>
+        <div><h3>İşi anlat</h3><p>Kısa bir form ya da mesaj. O işi bugün adım adım nasıl yaptığını anlatırsın.</p></div>
       </li>
       <li>
         <span class="step-n" aria-hidden="true">2</span>
-        <div><h3>We build and test it</h3><p>We build the automation around the tools you already use and try it on real examples before it touches anything live.</p></div>
+        <div><h3>Kuruyoruz ve deniyoruz</h3><p>Otomasyonu zaten kullandığın araçların etrafında kuruyoruz. Canlıya almadan önce gerçek örneklerle deniyoruz.</p></div>
       </li>
       <li>
         <span class="step-n" aria-hidden="true">3</span>
-        <div><h3>It runs. We keep watch.</h3><p>You get a run log of everything it did. If something breaks or changes, we fix it.</p></div>
+        <div><h3>Çalışır, biz izleriz</h3><p>Yaptığı her şeyin kaydını görürsün. Bir şey bozulursa ya da değişirse biz düzeltiriz.</p></div>
       </li>
     </ol>
   </section>
 
   <section class="section" id="trust" aria-labelledby="trust-title">
     <div>
-      <p class="eyebrow">Trust</p>
-      <h2 id="trust-title">Built so you can leave it alone.</h2>
+      <p class="eyebrow">Güven</p>
+      <h2 id="trust-title">Rahatça bırakabil diye.</h2>
     </div>
     <div class="trust">
-      <div><h3>You set the limits</h3><p>Choose what it may do on its own and what it must ask you about first.</p></div>
-      <div><h3>Everything is logged</h3><p>Every run leaves a record you can read in plain language.</p></div>
-      <div><h3>Your tools, not ours</h3><p>It works with the apps you already use, so there is no new system to learn.</p></div>
+      <div><h3>Sınırları sen belirlersin</h3><p>Neyi kendi başına yapabileceğini, neyi önce sana soracağını sen seçersin.</p></div>
+      <div><h3>Her şey kayıt altında</h3><p>Her çalışma, sade bir dille okuyabileceğin bir kayıt bırakır.</p></div>
+      <div><h3>Senin araçların, bizim değil</h3><p>Zaten kullandığın uygulamalarla çalışır. Öğrenmen gereken yeni bir sistem yok.</p></div>
     </div>
   </section>
 
   <section class="section faq" id="faq" aria-labelledby="faq-title">
     <div>
-      <p class="eyebrow">Questions</p>
-      <h2 id="faq-title">Before you join.</h2>
+      <p class="eyebrow">Sorular</p>
+      <h2 id="faq-title">Katılmadan önce.</h2>
     </div>
     <div>
       <details>
-        <summary>Who is Quietloop for?</summary>
-        <p>Small teams and solo businesses that lose hours each week to repetitive work and don't have a developer to fix it.</p>
+        <summary>Halleder kimler için?</summary>
+        <p>Haftada saatlerini tekrar eden işlere veren ve bunu çözecek bir yazılımcısı olmayan küçük işletmeler ve tek kişilik işler için.</p>
       </details>
       <details>
-        <summary>Do I need to know anything about AI?</summary>
-        <p>No. You describe the task in your own words and we handle the rest.</p>
+        <summary>Yapay zekâdan anlamam gerekir mi?</summary>
+        <p>Hayır. İşi kendi sözlerinle anlatman yeterli, gerisini biz hallederiz.</p>
       </details>
       <details>
-        <summary>What will it cost?</summary>
-        <p>Pricing isn't set yet. People on the waitlist will see it first.</p>
+        <summary>Ne kadar tutacak?</summary>
+        <p>Fiyat henüz belli değil. Bekleme listesindekiler fiyatı ilk görenler olacak.</p>
       </details>
       <details>
-        <summary>When does it open?</summary>
-        <p>We are opening in small groups, starting with the waitlist. You'll get one email when it's your turn.</p>
+        <summary>Ne zaman açılıyor?</summary>
+        <p>Küçük gruplar halinde açıyoruz, önce bekleme listesinden başlıyoruz. Sıra sana geldiğinde tek bir e-posta alırsın.</p>
       </details>
     </div>
   </section>
 
   <section class="join" id="join" aria-labelledby="join-title">
     <div>
-      <p class="eyebrow">Waitlist</p>
-      <h2 id="join-title">Get on the list.</h2>
-      <p class="lede">Tell us where your time goes and we'll let you know when we can take it on.</p>
+      <p class="eyebrow">Bekleme listesi</p>
+      <h2 id="join-title">Listeye katıl.</h2>
+      <p class="lede">Zamanının nereye gittiğini yaz. Yer açılınca sana haber verelim.</p>
     </div>
     <form class="waitlist-form" novalidate>
       <div class="stack">
         <div class="field">
-          <label for="email-join">Email address</label>
-          <input id="email-join" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
+          <label for="email-join">E-posta adresi</label>
+          <input id="email-join" name="email" type="email" inputmode="email" autocomplete="email" placeholder="sen@sirket.com" required>
         </div>
         <div class="field">
-          <label for="interest-join">First thing you'd hand off (optional)</label>
+          <label for="interest-join">İlk devretmek istediğin iş (isteğe bağlı)</label>
           <select id="interest-join" name="interest">
-            <option value="">Choose one</option>
-            <option>Inbox and support</option>
-            <option>Documents and invoices</option>
-            <option>Leads and follow-ups</option>
-            <option>Reports and admin</option>
-            <option>Something else</option>
+            <option value="">Birini seç</option>
+            <option>Gelen kutusu ve destek</option>
+            <option>Belgeler ve faturalar</option>
+            <option>Müşteri talepleri ve takip</option>
+            <option>Rapor ve idari işler</option>
+            <option>Başka bir şey</option>
           </select>
         </div>
-        <button class="btn" type="submit">Join the waitlist</button>
+        <button class="btn" type="submit">Bekleme listesine katıl</button>
       </div>
-      <div class="hp" aria-hidden="true"><label>Leave this empty<input name="company" tabindex="-1" autocomplete="off"></label></div>
+      <div class="hp" aria-hidden="true"><label>Burayı boş bırak<input name="company" tabindex="-1" autocomplete="off"></label></div>
       <input type="hidden" name="source" value="join">
       <p class="form-status" role="status" aria-live="polite"></p>
-      <p class="fine">We use your email only to tell you about Quietloop. Reply "stop" to any message and we'll remove you.</p>
+      <p class="fine">E-postanı yalnızca Halleder hakkında haber vermek için kullanırız. Herhangi bir mesajımıza "dur" yazman yeterli, seni listeden çıkarırız.</p>
     </form>
   </section>
 </main>
 
 <footer class="site-footer">
-  <span>&copy; 2026 Quietloop</span>
-  <span>AI automation for small teams</span>
+  <span>&copy; 2026 Halleder</span>
+  <span>Küçük işletmeler için yapay zekâ otomasyonu</span>
 </footer>
 
 </div>
 
 <script>
-// Paste the Web app URL from quietloop/waitlist-apps-script.gs here (see README.md).
+// waitlist-apps-script.gs dosyasını yayınlayınca aldığın Web uygulaması URL'sini buraya yapıştır (README.md'ye bak).
 const WAITLIST_ENDPOINT = "";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -464,20 +464,20 @@ document.querySelectorAll('.waitlist-form').forEach(function (form) {
     const email = form.elements.email.value.trim();
 
     if (!EMAIL_RE.test(email) || email.length > 254) {
-      say('error', 'Enter a valid email address, like you@company.com.');
+      say('error', 'Geçerli bir e-posta adresi gir, örneğin sen@sirket.com.');
       form.elements.email.focus();
       return;
     }
 
-    // Bots fill the hidden field. Show them a success message and send nothing.
+    // Botlar gizli alanı doldurur. Onlara başarılı mesajı gösterip hiçbir şey göndermiyoruz.
     if (form.elements.company.value) {
-      say('ok', "You're on the list.");
+      say('ok', 'Listedesin.');
       return;
     }
 
     if (!WAITLIST_ENDPOINT) {
-      console.warn('Quietloop: WAITLIST_ENDPOINT is empty, so nothing was saved. See README.md.');
-      say('error', "The waitlist isn't connected yet. Please check back soon.");
+      console.warn('Halleder: WAITLIST_ENDPOINT boş, bu yüzden hiçbir şey kaydedilmedi. README.md dosyasına bak.');
+      say('error', 'Bekleme listesi henüz bağlı değil. Lütfen daha sonra tekrar dene.');
       return;
     }
 
@@ -488,18 +488,18 @@ document.querySelectorAll('.waitlist-form').forEach(function (form) {
     });
 
     button.disabled = true;
-    button.textContent = 'Joining…';
+    button.textContent = 'Gönderiliyor…';
     say('', '');
 
     try {
-      // Google Apps Script does not send CORS headers for this request, so the
-      // response can't be read. A resolved fetch means the request was sent.
+      // Google Apps Script bu istek için CORS başlığı göndermez, yani cevap okunamaz.
+      // fetch'in tamamlanması, isteğin gönderildiği anlamına gelir.
       await fetch(WAITLIST_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body });
-      say('ok', "You're on the list. We'll email you when your spot opens.");
+      say('ok', 'Listedesin. Yerin açılınca sana e-posta atacağız.');
       form.querySelectorAll('input, select').forEach(function (el) { el.disabled = true; });
-      button.textContent = 'Joined';
+      button.textContent = 'Katıldın';
     } catch (err) {
-      say('error', "We couldn't reach the server. Check your connection and try again.");
+      say('error', 'Sunucuya ulaşamadık. Bağlantını kontrol edip tekrar dene.');
       button.disabled = false;
       button.textContent = label;
     }

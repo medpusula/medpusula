@@ -1,48 +1,51 @@
-# Quietloop
+# Halleder
 
-Landing page and waitlist for Quietloop, an AI automation service for small teams.
+Halleder'in tanıtım sayfası ve bekleme listesi. Halleder, küçük işletmeler için yapay zekâ otomasyonu hizmeti.
 
-| File | What it is |
+| Dosya | Ne işe yarar |
 | --- | --- |
-| `index.html` | The landing page. One file, no build step. |
-| `waitlist-apps-script.gs` | Backend that saves signups into a Google Sheet. |
+| `index.html` | Tanıtım sayfası. Tek dosya, derleme adımı yok. |
+| `waitlist-apps-script.gs` | Kayıtları Google Tablosu'na yazan arka uç. |
 
-## Connect the waitlist
+## Bekleme listesini bağla
 
-The page is static, so it needs somewhere to send signups. Until you do the
-steps below, the form tells visitors the waitlist isn't connected and saves
-nothing.
+Sayfa statik olduğu için kayıtları gönderecek bir yer lazım. Aşağıdaki adımları
+yapana kadar form, ziyaretçiye "Bekleme listesi henüz bağlı değil" der ve hiçbir
+şey kaydetmez.
 
-1. Create a new Google Sheet. Name it "Quietloop waitlist".
-2. Open **Extensions → Apps Script** and replace the contents with `waitlist-apps-script.gs`.
-3. Click **Deploy → New deployment → Web app**.
-   - Execute as: **Me**
-   - Who has access: **Anyone**
-4. Approve the permissions Google asks for, then copy the **Web app URL**.
-5. Open that URL in a browser. It should say "Quietloop waitlist is running."
-6. In `index.html`, paste the URL into `const WAITLIST_ENDPOINT = "";` and commit.
-7. Submit the form once with your own email. A "Waitlist" tab appears in the Sheet with one row.
+1. Yeni bir Google Tablosu aç ve adını "Halleder bekleme listesi" yap.
+2. **Uzantılar → Apps Script**'i aç ve içindekileri `waitlist-apps-script.gs` ile değiştir.
+3. **Dağıt → Yeni dağıtım → Web uygulaması**'na tıkla.
+   - Şu kullanıcı olarak çalıştır: **Ben**
+   - Erişimi olanlar: **Herkes**
+4. Google'ın istediği izinleri onayla ve **Web uygulaması URL'sini** kopyala.
+5. URL'yi tarayıcıda aç. "Halleder bekleme listesi çalışıyor." yazmalı.
+6. `index.html` içinde `const WAITLIST_ENDPOINT = "";` satırına URL'yi yapıştır ve kaydet (commit).
+7. Formu kendi e-postanla bir kez doldur. Tabloda "Bekleme listesi" sekmesi ve bir satır görünmeli.
 
-If you change the script later, use **Deploy → Manage deployments → Edit → New version**
-so the URL stays the same.
+Scripti sonra değiştirirsen **Dağıt → Dağıtımları yönet → Düzenle → Yeni sürüm**'ü
+kullan, böylece URL aynı kalır.
 
-The browser can't read Google's reply, so the page shows "You're on the list" once
-the request is sent. Duplicate emails are ignored by the script.
+Tarayıcı Google'ın cevabını okuyamaz. Bu yüzden sayfa, istek gönderilir gönderilmez
+"Listedesin" der. Aynı e-posta ikinci kez gelirse script onu yok sayar.
 
-## Put it online
+## Yayına al
 
-The page works on any static host. Easiest options:
+Sayfa herhangi bir statik barındırmada çalışır. En kolay seçenekler:
 
-- **GitHub Pages**: Settings → Pages → deploy from a branch. The page is then at `/quietloop/`.
-  For a standalone site, move this folder into its own repository and put `index.html` at the root.
-- **Cloudflare Pages** or **Netlify**: drag the folder in.
+- **GitHub Pages:** Settings → Pages → bir daldan yayınla. Sayfa `/halleder/` adresinde olur.
+  Ayrı bir site istersen bu klasörü kendi deposuna taşı ve `index.html`'i kök dizine koy.
+- **Cloudflare Pages** veya **Netlify:** klasörü sürükleyip bırak.
 
-Then buy a domain and point it at the host.
+Sonra bir alan adı (domain) alıp barındırmaya yönlendir.
 
-## Edit the page
+## Sayfayı düzenle
 
-- Copy lives in `index.html`. Search for the text and change it.
-- Colours and fonts are the variables at the top of the `<style>` block.
-- The run log in the hero is an illustrative example and is labelled as one. Keep that label
-  unless you replace it with a real customer's data and their permission.
-- The privacy line under the form promises that people can opt out. Only keep it if you will do that.
+- Yazılar `index.html` içinde. Değiştirmek istediğin cümleyi arayıp düzelt.
+- Renkler ve yazı tipleri, `<style>` bloğunun en üstündeki değişkenler.
+- Giriş bölümündeki çalışma kaydı örnek amaçlıdır ve öyle etiketlenmiştir. Gerçek bir
+  müşterinin verisiyle ve izniyle değiştirmedikçe bu etiketi silme.
+- Formun altındaki gizlilik cümlesi, insanların listeden çıkabileceğini vaat ediyor.
+  Sadece bunu gerçekten yapacaksan bırak.
+- Türkiye'de e-posta adresi toplamak kişisel veri toplamak sayılır (KVKK). Gerçek
+  kayıt almaya başlamadan önce bir büyükle birlikte bir aydınlatma metni hazırlamak iyi olur.
