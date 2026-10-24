@@ -27,7 +27,6 @@
   --run-ink:#136B42;
   --btn-bg:#13252A;
   --btn-fg:#F7F9F8;
-  --err:#B3261E;
   --font-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
   --font-body:'Instrument Sans','Segoe UI',system-ui,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
@@ -44,7 +43,6 @@
     --run-ink:#4FD08E;
     --btn-bg:#E4EEEB;
     --btn-fg:#0E1A1D;
-    --err:#FF8A80;
     color-scheme:dark;
   }
 }
@@ -103,43 +101,21 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 .hero h1 span{display:block;color:var(--muted)}
 .hero .lede{margin-top:1.5rem;font-size:1.125rem}
 
-/* bekleme listesi formu */
-.waitlist-form{margin-top:2rem;max-width:34rem}
-.form-row{display:flex;flex-wrap:wrap;gap:.75rem}
-.field{display:flex;flex-direction:column;gap:.35rem;min-width:0}
-.field label{font-size:.875rem;font-weight:600}
-.field input,.field select{
-  font:inherit;
-  color:var(--ink);
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:.8rem .95rem;
-  width:100%;
-  min-width:0;
-}
-.field input::placeholder{color:var(--muted)}
-.field input:focus,.field select:focus{border-color:var(--ink)}
-.form-row .field.grow{flex:1 1 15rem}
-.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* bekleme listesi bağlantısı */
+.cta{margin-top:2rem}
 .btn{
+  display:inline-block;
   font:inherit;
   font-weight:600;
   color:var(--btn-fg);
   background:var(--btn-bg);
-  border:0;
   border-radius:10px;
-  padding:.85rem 1.35rem;
-  cursor:pointer;
-  align-self:flex-end;
+  padding:.9rem 1.5rem;
+  text-align:center;
+  text-decoration:none;
 }
 .btn:hover{opacity:.9}
-.btn:disabled{opacity:.55;cursor:default}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.fine{font-size:.875rem;color:var(--muted);margin-top:.85rem}
-.form-status{min-height:1.5em;margin-top:.6rem;font-size:.95rem;font-weight:500}
-.form-status[data-state="ok"]{color:var(--run-ink)}
-.form-status[data-state="error"]{color:var(--err)}
+.fine{font-size:.875rem;color:var(--muted);margin-top:.85rem;max-width:34rem}
 
 /* çalışma kaydı */
 .log{
@@ -241,9 +217,7 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 }
 .join h2{margin-top:.75rem}
 .join .lede{margin-top:1rem}
-.join .waitlist-form{margin-top:0;max-width:none}
-.join .stack{display:grid;gap:1rem}
-.join .btn{align-self:flex-start}
+.join .cta{margin-top:0}
 
 .site-footer{
   display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem 1.5rem;
@@ -287,19 +261,10 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
       <h1 id="hero-title">Sıkıcı işler <span>kendi kendine halledilir.</span></h1>
       <p class="lede">Halleder, senin için yapay zekâ otomasyonları tasarlar, kurar ve çalışır halde tutar. Her hafta tekrarladığın işi söyle. Biz onu kendi kendine çalışan bir sisteme çevirelim ve çalışmaya devam etsin.</p>
 
-      <form class="waitlist-form" novalidate>
-        <div class="form-row">
-          <div class="field grow">
-            <label class="visually-hidden" for="email-hero">E-posta adresi</label>
-            <input id="email-hero" name="email" type="email" inputmode="email" autocomplete="email" placeholder="sen@sirket.com" required>
-          </div>
-          <button class="btn" type="submit">Bekleme listesine katıl</button>
-        </div>
-        <div class="hp" aria-hidden="true"><label>Burayı boş bırak<input name="company" tabindex="-1" autocomplete="off"></label></div>
-        <input type="hidden" name="source" value="hero">
-        <p class="form-status" role="status" aria-live="polite"></p>
-        <p class="fine">Yerin açılınca tek bir e-posta atarız. Spam yok.</p>
-      </form>
+      <div class="cta">
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfVsTHMgzpW29zrNud9MWFuBcs7_XvIJAxoajQ8Z7QEtYlTNA/viewform" target="_blank" rel="noopener">Bekleme listesine katıl</a>
+        <p class="fine">Kısa bir Google formuna yönlendirilirsin. Yerin açılınca tek bir e-posta atarız. Spam yok.</p>
+      </div>
     </div>
 
     <aside class="log" aria-label="Örnek çalışma kaydı">
@@ -409,30 +374,10 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
       <h2 id="join-title">Listeye katıl.</h2>
       <p class="lede">Zamanının nereye gittiğini yaz. Yer açılınca sana haber verelim.</p>
     </div>
-    <form class="waitlist-form" novalidate>
-      <div class="stack">
-        <div class="field">
-          <label for="email-join">E-posta adresi</label>
-          <input id="email-join" name="email" type="email" inputmode="email" autocomplete="email" placeholder="sen@sirket.com" required>
-        </div>
-        <div class="field">
-          <label for="interest-join">İlk devretmek istediğin iş (isteğe bağlı)</label>
-          <select id="interest-join" name="interest">
-            <option value="">Birini seç</option>
-            <option>Gelen kutusu ve destek</option>
-            <option>Belgeler ve faturalar</option>
-            <option>Müşteri talepleri ve takip</option>
-            <option>Rapor ve idari işler</option>
-            <option>Başka bir şey</option>
-          </select>
-        </div>
-        <button class="btn" type="submit">Bekleme listesine katıl</button>
-      </div>
-      <div class="hp" aria-hidden="true"><label>Burayı boş bırak<input name="company" tabindex="-1" autocomplete="off"></label></div>
-      <input type="hidden" name="source" value="join">
-      <p class="form-status" role="status" aria-live="polite"></p>
-      <p class="fine">E-postanı yalnızca Halleder hakkında haber vermek için kullanırız. Herhangi bir mesajımıza "dur" yazman yeterli, seni listeden çıkarırız.</p>
-    </form>
+    <div class="cta">
+      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSfVsTHMgzpW29zrNud9MWFuBcs7_XvIJAxoajQ8Z7QEtYlTNA/viewform" target="_blank" rel="noopener">Bekleme listesine katıl</a>
+      <p class="fine">Bir Google formu açılır. E-posta adresini ve istersen ilk devretmek istediğin işi yazarsın. E-postanı yalnızca Halleder hakkında haber vermek için kullanırız. Herhangi bir mesajımıza "dur" yazman yeterli, seni listeden çıkarırız.</p>
+    </div>
   </section>
 </main>
 
@@ -443,68 +388,5 @@ h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.01em}
 
 </div>
 
-<script>
-// waitlist-apps-script.gs dosyasını yayınlayınca aldığın Web uygulaması URL'sini buraya yapıştır (README.md'ye bak).
-const WAITLIST_ENDPOINT = "";
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-document.querySelectorAll('.waitlist-form').forEach(function (form) {
-  const status = form.querySelector('.form-status');
-  const button = form.querySelector('button[type="submit"]');
-  const label = button.textContent;
-
-  function say(state, text) {
-    status.dataset.state = state;
-    status.textContent = text;
-  }
-
-  form.addEventListener('submit', async function (event) {
-    event.preventDefault();
-    const email = form.elements.email.value.trim();
-
-    if (!EMAIL_RE.test(email) || email.length > 254) {
-      say('error', 'Geçerli bir e-posta adresi gir, örneğin sen@sirket.com.');
-      form.elements.email.focus();
-      return;
-    }
-
-    // Botlar gizli alanı doldurur. Onlara başarılı mesajı gösterip hiçbir şey göndermiyoruz.
-    if (form.elements.company.value) {
-      say('ok', 'Listedesin.');
-      return;
-    }
-
-    if (!WAITLIST_ENDPOINT) {
-      console.warn('Halleder: WAITLIST_ENDPOINT boş, bu yüzden hiçbir şey kaydedilmedi. README.md dosyasına bak.');
-      say('error', 'Bekleme listesi henüz bağlı değil. Lütfen daha sonra tekrar dene.');
-      return;
-    }
-
-    const body = new URLSearchParams({
-      email: email,
-      interest: form.elements.interest ? form.elements.interest.value : '',
-      source: form.elements.source.value
-    });
-
-    button.disabled = true;
-    button.textContent = 'Gönderiliyor…';
-    say('', '');
-
-    try {
-      // Google Apps Script bu istek için CORS başlığı göndermez, yani cevap okunamaz.
-      // fetch'in tamamlanması, isteğin gönderildiği anlamına gelir.
-      await fetch(WAITLIST_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body });
-      say('ok', 'Listedesin. Yerin açılınca sana e-posta atacağız.');
-      form.querySelectorAll('input, select').forEach(function (el) { el.disabled = true; });
-      button.textContent = 'Katıldın';
-    } catch (err) {
-      say('error', 'Sunucuya ulaşamadık. Bağlantını kontrol edip tekrar dene.');
-      button.disabled = false;
-      button.textContent = label;
-    }
-  });
-});
-</script>
 </body>
 </html>
